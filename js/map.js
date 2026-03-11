@@ -2,7 +2,10 @@ window.initSeaPlotsMap = function () {
   const mapEl = document.getElementById("map");
   if (!mapEl) return;
 
-  const map = L.map("map", { zoomControl: true });
+  const map = L.map("map", {
+  zoomControl: true,
+  scrollWheelZoom: false
+});
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
