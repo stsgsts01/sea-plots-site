@@ -112,6 +112,7 @@
       font-size:14px;
       font-weight:700;
       transition:.2s ease;
+      cursor:pointer;
     }
     .btn:hover{transform:translateY(-1px)}
     .btn.dark{
@@ -288,66 +289,6 @@
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-    }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .panel{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:26px;
-    }
-    .panel.dark{
-      background:linear-gradient(180deg,#102430 0%,#143446 100%);
-      color:#fff;
-      border-color:transparent;
-    }
-    .panel-cap{
-      font-size:11px;
-      letter-spacing:.24em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    .panel.dark .panel-cap{color:rgba(255,255,255,.72)}
-    .panel h2{
-      margin:10px 0 0;
-      font-size:48px;
-      line-height:1;
-      letter-spacing:-.05em;
-    }
-    .panel p{
-      margin:14px 0 0;
-      font-size:15px;
-      line-height:1.8;
-      color:var(--muted);
-    }
-    .panel.dark p{color:rgba(255,255,255,.90)}
-
-    .story-list{
-      margin:18px 0 0;
-      padding:0;
-      list-style:none;
-      display:grid;
-      gap:12px;
-    }
-    .story-list li{
-      padding:14px 16px;
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:var(--paper);
-      color:var(--ink);
-      line-height:1.65;
-    }
-    .panel.dark .story-list li{
-      background:rgba(255,255,255,.08);
-      border-color:rgba(255,255,255,.12);
-      color:#fff;
     }
 
     .gallery-wrap{
@@ -693,6 +634,20 @@
       margin-top:6px;
     }
 
+    .reveal-box{
+      margin-top:18px;
+      padding:16px;
+      border:1px dashed rgba(16,32,45,.18);
+      border-radius:18px;
+      background:var(--paper);
+    }
+    .reveal-note{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
     .footer{
       max-width:var(--max);
       margin:0 auto;
@@ -763,8 +718,7 @@
       .gallery-grid,
       .specs,
       .map-grid,
-      .contact,
-      .grid-2{
+      .contact{
         grid-template-columns:1fr;
       }
       .project-grid{grid-template-columns:repeat(2,1fr)}
@@ -782,7 +736,6 @@
       .hero h1{font-size:46px}
       .hero-lead{font-size:16px;line-height:1.65}
       .price{font-size:34px}
-      .panel h2,
       .gallery-head h2,
       .spec-card h2,
       .map-top h2,
@@ -812,44 +765,24 @@
     1. Цена:
        найдите строку:
        <div class="price">По запросу</div>
-       и замените текст.
 
     2. Статус участка:
-       доступные варианты:
-       В продаже
-       Продано
-       Резерв
-       Снято с продажи
-
-       меняется в блоке:
-       <div class="badge status">В продаже</div>
-
-       если нужно показать "Продано", замените:
-       class="badge status"
-       на
-       class="badge status sold"
-
-       если нужно показать "Резерв", замените:
-       class="badge status"
-       на
-       class="badge status reserve"
+       class="badge status"          = В продаже
+       class="badge status sold"     = Продано
+       class="badge status reserve"  = Резерв
 
     3. Фото:
-       загрузите изображения в папку:
-       img/plots/320/
-
-       и меняйте имена в галерее ниже.
+       папка img/plots/320/
 
     4. Кадастровый номер:
-       сейчас: 90:11:240801:1990
-       меняется в таблице характеристик.
+       90:11:240801:1990
 
     5. Контакты:
-       замените телефон, e-mail и Telegram в блоке контактов и в верхних кнопках.
+       меняются внизу файла в блоке:
+       const contactConfig = { ... }
 
-    6. Если участок снят с продажи:
-       страницу НЕ удаляем,
-       только меняем статус и убираем карточку с главной позже.
+    6. Документы:
+       ссылки на PDF и видео меняются в карточках документов.
   -->
 
   <header class="topbar">
@@ -869,9 +802,9 @@
       </nav>
 
       <div class="actions">
-        <a class="btn" href="https://t.me/username" target="_blank" rel="noopener">Telegram</a>
-        <a class="btn" href="mailto:info@example.com">E-mail</a>
-        <a class="btn dark" href="tel:+79990000000">Позвонить</a>
+        <button class="btn" type="button" id="topTelegramBtn">Telegram</button>
+        <button class="btn" type="button" id="topEmailBtn">E-mail</button>
+        <button class="btn dark" type="button" id="topPhoneBtn">Позвонить</button>
       </div>
     </div>
   </header>
@@ -887,7 +820,6 @@
             <div class="badge">Евпатория • Крым</div>
           </div>
 
-          <!-- СТАТУС УЧАСТКА -->
           <div class="badge status">В продаже</div>
         </div>
 
@@ -904,15 +836,13 @@
             <div class="hero-pills">
               <span class="hero-pill">Первая линия</span>
               <span class="hero-pill">~100 м до моря</span>
-              <span class="hero-pill">Под гостиницу / апарт-отель</span>
+              <span class="hero-pill">Непосредственный выход на пляж</span>
               <span class="hero-pill">Кадастровый № 90:11:240801:1990</span>
             </div>
           </div>
 
           <aside class="hero-panel">
             <div class="hero-panel-cap">основные параметры</div>
-
-            <!-- ЦЕНА -->
             <div class="price">По запросу</div>
             <div class="price-note">
               Цена, презентация, кадастровые материалы и актуальный статус участка
@@ -945,41 +875,6 @@
           </aside>
         </div>
       </div>
-    </section>
-
-    <section class="section grid-2">
-      <article class="panel dark">
-        <div class="panel-cap">позиционирование участка</div>
-        <h2>Участок для курортного проекта у моря</h2>
-        <p>
-          Этот лот должен продаваться не как обычная земля, а как площадка для инвестиционного сценария:
-          гостиница, апарт-отель, база отдыха, семейный курортный кластер или клубный комплекс на побережье.
-        </p>
-
-        <ul class="story-list">
-          <li><strong>Первая линия.</strong> Это главный аргумент в коммуникации и визуальной подаче проекта.</li>
-          <li><strong>Крупная площадь.</strong> 320 соток позволяют говорить не о частной даче, а о полноценной концепции застройки.</li>
-          <li><strong>Море рядом.</strong> Близость береговой линии даёт сильный рекламный и инвестиционный потенциал.</li>
-          <li><strong>Понятный формат упаковки.</strong> Фото с дрона, схема, кадастровые данные, видео и презентация легко собираются в убедительное предложение для инвестора.</li>
-        </ul>
-      </article>
-
-      <article class="panel">
-        <div class="panel-cap">что получает инвестор</div>
-        <h2>Понятный актив у моря</h2>
-        <p>
-          Для переговоров важно сразу показывать сильные стороны участка: близость к морю,
-          масштаб территории, визуальную читаемость границ и потенциал под туристическую
-          недвижимость. Эта страница как раз и должна решать эту задачу.
-        </p>
-
-        <ul class="story-list">
-          <li>Подходит для гостиницы, апарт-отеля, базы отдыха или курортного комплекса.</li>
-          <li>Имеет сильную презентационную картинку благодаря съёмке с дрона.</li>
-          <li>Может быть быстро дополнен видео, презентацией и схемой развития проекта.</li>
-          <li>Страница сохраняется даже после продажи — со статусом “Продано” без удаления из индекса.</li>
-        </ul>
-      </article>
     </section>
 
     <section class="section gallery-wrap" id="gallery">
@@ -1061,6 +956,10 @@
           <tr>
             <th>Расстояние до моря</th>
             <td>Около 100 метров</td>
+          </tr>
+          <tr>
+            <th>Расстояние до пляжа</th>
+            <td>Непосредственный выход на пляж</td>
           </tr>
           <tr>
             <th>Локация</th>
@@ -1149,9 +1048,8 @@
           <h2>Документы и презентация</h2>
         </div>
         <p>
-          В этом блоке можно размещать кадастровые материалы, презентацию проекта, PDF-файлы,
-          видео с дрона и дополнительные документы. Если файла ещё нет, кнопку можно временно
-          оставить неактивной или заменить на “Запросить”.
+          В этом блоке размещаются кадастровые материалы, презентация проекта и видео с дрона.
+          Все основные запросы лучше направлять через форму обратной связи внизу страницы.
         </p>
       </div>
 
@@ -1160,11 +1058,12 @@
           <div class="doc-type">кадастровые данные</div>
           <h3>Документы по участку</h3>
           <p>
-            Кадастровая информация, схема участка, материалы для проверки и базового due diligence.
+            Кадастровая информация, схема участка, выписка из реестра и другие материалы
+            для проверки и базового due diligence.
           </p>
           <div class="doc-actions">
-            <a class="btn dark" href="#">Открыть</a>
-            <a class="btn" href="#">Скачать PDF</a>
+            <a class="btn dark" href="docs/plot-320/kadastr/index.html">Открыть</a>
+            <a class="btn" href="docs/plot-320/kadastr/vypiska.pdf">Скачать PDF</a>
           </div>
         </article>
 
@@ -1172,12 +1071,11 @@
           <div class="doc-type">презентация</div>
           <h3>Презентация лота</h3>
           <p>
-            Короткий презентационный материал для инвестора: фото, параметры, сценарии застройки,
-            расположение и ключевые преимущества.
+            Материалы для инвестора: фото, параметры, сценарии застройки,
+            расположение и ключевые преимущества участка.
           </p>
           <div class="doc-actions">
-            <a class="btn dark" href="#">Открыть</a>
-            <a class="btn" href="#">Запросить</a>
+            <a class="btn dark" href="docs/plot-320/presentation/index.html">Открыть</a>
           </div>
         </article>
 
@@ -1185,12 +1083,11 @@
           <div class="doc-type">видео</div>
           <h3>Видео с дрона</h3>
           <p>
-            Сюда можно добавить отдельную страницу, файл или ссылку на видеообзор участка
-            и побережья для удалённых клиентов и инвесторов.
+            Видеообзор участка и побережья для удалённых клиентов, инвесторов
+            и предварительного знакомства с локацией.
           </p>
           <div class="doc-actions">
-            <a class="btn dark" href="#">Смотреть</a>
-            <a class="btn" href="#">Получить ссылку</a>
+            <a class="btn dark" href="video/plot-320/index.html">Смотреть</a>
           </div>
         </article>
       </div>
@@ -1199,7 +1096,7 @@
     <section class="section contact" id="contact">
       <div>
         <div class="panel-cap">обратная связь</div>
-        <h2>Получить цену и материалы по участку</h2>
+        <h2>Свяжитесь с нами</h2>
         <p>
           Если нужен полный пакет по участку 320 соток, отправьте заявку. В ответ можно
           высылать цену, кадастровые материалы, презентацию, видео с дрона и комментарии
@@ -1211,14 +1108,16 @@
             <strong>Участок:</strong>&nbsp;320 соток, первая линия, кадастровый номер 90:11:240801:1990
           </div>
           <div class="contact-point">
-            <strong>Telegram:</strong>&nbsp;<a href="https://t.me/username" target="_blank" rel="noopener">@username</a>
+            <strong>Статус:</strong>&nbsp;В продаже
           </div>
-          <div class="contact-point">
-            <strong>E-mail:</strong>&nbsp;<a href="mailto:info@example.com">info@example.com</a>
+        </div>
+
+        <div class="reveal-box">
+          <button class="btn dark" type="button" id="revealContactsBtn">Показать контакты</button>
+          <div class="reveal-note">
+            Контактные данные скрыты от обычного автоматического сбора. Нажмите кнопку, чтобы отобразить способы связи.
           </div>
-          <div class="contact-point">
-            <strong>Телефон:</strong>&nbsp;<a href="tel:+79990000000">+7 (999) 000-00-00</a>
-          </div>
+          <div class="contact-points" id="revealedContacts" style="display:none;"></div>
         </div>
       </div>
 
@@ -1229,8 +1128,8 @@
         <textarea class="textarea" name="message" placeholder="Комментарий или запрос по участку 320 соток"></textarea>
 
         <div class="form-actions">
-          <a class="btn dark" href="https://t.me/username" target="_blank" rel="noopener">Получить цену</a>
-          <a class="btn" href="mailto:info@example.com?subject=Запрос%20по%20участку%20320%20соток">Получить презентацию</a>
+          <a class="btn dark" href="#contact">Получить цену</a>
+          <a class="btn" href="#contact">Отправить запрос</a>
         </div>
       </form>
     </section>
@@ -1257,9 +1156,6 @@
     // --------------------------------------------
     // КАРТА
     // --------------------------------------------
-    // Сейчас здесь обзорная точка побережья.
-    // Когда будут координаты поворотных точек, сюда легко добавить polygon.
-
     const map = L.map('plotMap', {
       scrollWheelZoom: false
     }).setView([45.230, 33.040], 14);
@@ -1270,11 +1166,10 @@
     }).addTo(map);
 
     const approxPoint = [45.230, 33.040];
-
     const marker = L.marker(approxPoint).addTo(map);
     marker.bindPopup('Участок 320 соток<br>Первая линия моря').openPopup();
 
-    const circle = L.circle(approxPoint, {
+    L.circle(approxPoint, {
       radius: 180,
       color: '#102430',
       weight: 2,
@@ -1346,6 +1241,61 @@
       if(e.key === 'Escape') closeLightbox();
       if(e.key === 'ArrowLeft') showPrev();
       if(e.key === 'ArrowRight') showNext();
+    });
+
+    // --------------------------------------------
+    // КОНТАКТЫ С ПРОСТОЙ ЗАЩИТОЙ ОТ БОТОВ
+    // --------------------------------------------
+    // МЕНЯЙТЕ ДАННЫЕ ТОЛЬКО ЗДЕСЬ
+    const contactConfig = {
+      phoneDisplay: '+7 (999) 000-00-00',
+      phoneLink: '+79990000000',
+      emailUser: 'info',
+      emailDomain: 'example.com',
+      telegramHandle: 'username'
+    };
+
+    function buildEmail(){
+      return contactConfig.emailUser + '@' + contactConfig.emailDomain;
+    }
+
+    function revealContacts(){
+      const container = document.getElementById('revealedContacts');
+      if(container.dataset.loaded === '1'){
+        container.style.display = 'grid';
+        return;
+      }
+
+      const email = buildEmail();
+      const telegramUrl = 'https://t.me/' + contactConfig.telegramHandle;
+
+      container.innerHTML = `
+        <div class="contact-point">
+          <strong>Telegram:</strong>&nbsp;<a href="${telegramUrl}" target="_blank" rel="noopener">@${contactConfig.telegramHandle}</a>
+        </div>
+        <div class="contact-point">
+          <strong>E-mail:</strong>&nbsp;<a href="mailto:${email}">${email}</a>
+        </div>
+        <div class="contact-point">
+          <strong>Телефон:</strong>&nbsp;<a href="tel:${contactConfig.phoneLink}">${contactConfig.phoneDisplay}</a>
+        </div>
+      `;
+      container.dataset.loaded = '1';
+      container.style.display = 'grid';
+    }
+
+    document.getElementById('revealContactsBtn').addEventListener('click', revealContacts);
+
+    document.getElementById('topTelegramBtn').addEventListener('click', () => {
+      window.location.href = 'https://t.me/' + contactConfig.telegramHandle;
+    });
+
+    document.getElementById('topEmailBtn').addEventListener('click', () => {
+      window.location.href = 'mailto:' + buildEmail();
+    });
+
+    document.getElementById('topPhoneBtn').addEventListener('click', () => {
+      window.location.href = 'tel:' + contactConfig.phoneLink;
     });
   </script>
 </body>
