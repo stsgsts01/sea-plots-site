@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Участок 320 соток у моря — Евпатория, Крым</title>
+
+<meta name="description" content="Земельный участок 320 соток у моря возле Евпатории. Первая линия, около 100 метров до моря.">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+margin:0;
+background:#f3efe6;
+color:#333;
+}
+
+header{
+background:#e6dccb;
+padding:20px;
+text-align:center;
+font-size:24px;
+}
+
+.hero{
+height:70vh;
+background:#c9b79c;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:48px;
+color:white;
+}
+
+.section{
+max-width:1100px;
+margin:auto;
+padding:60px 20px;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+}
+
+.gallery img{
+width:100%;
+border-radius:8px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #ddd;
+}
+
+.map{
+height:500px;
+margin-top:40px;
+}
+
+button{
+background:#2b7a78;
+color:white;
+border:none;
+padding:14px 28px;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+Земельный участок у моря — Евпатория
+</header>
+
+<div class="hero">
+320 СОТОК • ПЕРВАЯ ЛИНИЯ
+</div>
+
+<div class="section">
+
+<h2>Фотографии участка</h2>
+
+<div class="gallery">
+
+<img src="img/plots/320-1.jpg">
+<img src="img/plots/320-2.jpg">
+<img src="img/plots/320-3.jpg">
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Характеристики</h2>
+
+<table>
+
+<tr>
+<td>Площадь</td>
+<td>320 соток</td>
+</tr>
+
+<tr>
+<td>Линия</td>
+<td>Первая линия моря</td>
+</tr>
+
+<tr>
+<td>Расстояние до моря</td>
+<td>~100 м</td>
+</tr>
+
+<tr>
+<td>Назначение</td>
+<td>Гостиница / турбаза / апарт-отель</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>Расположение</h2>
+
+<div id="map" class="map"></div>
+
+</div>
+
+<div class="section">
+
+<button>Получить цену участка</button>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([45.2,33.0],13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+</script>
+
+</body>
+</html>
