@@ -80,11 +80,11 @@ window.initSeaPlotsMap = function () {
     });
   }
 
-  const bounds = L.latLngBounds(
-    [[45.20948056,33.09303056],[45.25665833,33.17045000]]
-  );
+  const group = L.featureGroup([p320, p220, p140, p67, p9]);
 
-  map.fitBounds(bounds, { padding: [20, 20] });
-  map.on("zoomend", updateLabels);
-  map.whenReady(updateLabels);
-};
+map.fitBounds(group.getBounds(), {
+  padding: [45, 45]
+});
+
+map.on("zoomend", updateLabels);
+map.whenReady(updateLabels);
