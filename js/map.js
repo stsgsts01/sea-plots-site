@@ -83,7 +83,7 @@ window.initSeaPlotsMap = function () {
   const group = L.featureGroup([p320, p220, p140, p67, p9]);
 
 map.fitBounds(group.getBounds(), {
-  padding: [30, 30]
+  padding: [45, 45]
 });
 
 map.on("zoomend", updateLabels);
