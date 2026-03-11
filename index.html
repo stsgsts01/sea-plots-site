@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Главная страница — участки у моря в районе Евпатории</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
 <style>
 :root {
   --bg:#f3ede3;
@@ -41,108 +42,199 @@ a { text-decoration:none; color:inherit; }
 .nav {
   display:flex; justify-content:center; gap:18px; flex-wrap:wrap; font-size:14px; color:var(--muted);
 }
-.actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+.actions {
+  display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
+}
 .btn {
   display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px;
   border-radius:999px; border:1px solid var(--line); background:#fff;
-  box-shadow:0 6px 18px rgba(16,32,45,.06); font-size:14px; font-weight:700;
+  box-shadow:0 6px 18px rgba(16,32,45,.06); font-size:14px; font-weight:600;
 }
 .btn.dark { background:var(--dark); color:#fff; border-color:transparent; }
-.page { max-width:1420px; margin:0 auto; padding:18px 24px 48px; }
-.section { margin-top:18px; }
-.map-wrap {
-  background:#fff; border:1px solid var(--line); border-radius:30px; box-shadow:var(--shadow); padding:16px;
+
+.page {
+  max-width:1420px; margin:0 auto; padding:18px 24px 42px;
 }
-#map { height:620px; width:100%; border-radius:26px; overflow:hidden; }
+.section { margin-top:18px; }
+
+.map-wrap {
+  background:var(--paper); border:1px solid var(--line); border-radius:28px; padding:16px; box-shadow:var(--shadow);
+}
+.map-shell {
+  position:relative; border:1px solid var(--line); border-radius:24px; overflow:hidden; background:#ddd;
+}
+#map { height:640px; width:100%; }
+.zoom-label {
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(16,32,45,.14);
+  border-radius:999px; padding:4px 8px;
+  font-weight:700; font-size:12px; box-shadow:0 2px 8px rgba(0,0,0,.16); white-space:nowrap;
+}
+.leaflet-tooltip.zoom-label {
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(16,32,45,.14);
+  color:#10202d;
+}
+
 .cards {
   display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
 }
 .card {
-  background:#fff; border:1px solid var(--line); border-radius:24px; overflow:hidden; box-shadow:var(--shadow);
+  background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden;
 }
-.card-media { position:relative; }
-.card-media img { display:block; width:100%; height:auto; }
+
 .card-grad {
-  position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.00) 25%,rgba(0,0,0,.58) 100%);
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(16,36,48,.06),rgba(16,36,48,.05) 42%,rgba(16,36,48,.60) 100%);
 }
 .card-badge {
-  position:absolute; top:12px; left:12px; background:rgba(255,250,243,.94); color:var(--ink);
-  border:1px solid rgba(255,255,255,.72); border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700;
-}
-.card-badge.right { left:auto; right:12px; }
-.card-caption {
-  position:absolute; left:18px; right:18px; bottom:18px; display:flex; justify-content:space-between; gap:16px; align-items:end;
-}
-.card-title { margin:0; color:#fff; font-size:34px; line-height:1; letter-spacing:-.05em; }
-.card-sub { margin-top:8px; color:rgba(255,255,255,.90); font-size:14px; line-height:1.6; max-width:460px; }
-.card-stats { display:grid; gap:8px; justify-items:end; }
-.card-stat {
-  background:rgba(255,250,243,.92); color:var(--ink); border:1px solid rgba(255,255,255,.72);
+  position:absolute; left:16px; top:16px;
+  background:rgba(255,250,243,.94); border:1px solid rgba(255,255,255,.7);
   border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700;
 }
-.card-body { padding:18px; }
-.pills { display:flex; flex-wrap:wrap; gap:8px; }
+.card-badge.right { left:auto; right:16px; }
+.card-caption {
+  position:absolute; left:16px; right:16px; bottom:16px;
+  display:flex; justify-content:space-between; gap:12px; align-items:end;
+}
+.card-title {
+  color:#fff; font-size:32px; font-weight:700; letter-spacing:-.04em; line-height:1; margin:0;
+}
+.card-sub {
+  margin-top:8px; color:rgba(255,255,255,.90); font-size:14px; line-height:1.55;
+}
+.card-stats {
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
+}
+.card-stat {
+  background:rgba(255,250,243,.92); border:1px solid rgba(255,255,255,.72); border-radius:999px;
+  padding:8px 11px; font-size:12px; font-weight:700; color:var(--ink);
+}
+.card-body { padding:20px; }
+.pills {
+  display:flex; gap:8px; flex-wrap:wrap;
+}
 .pill {
-  display:inline-flex; align-items:center; min-height:34px; padding:0 12px; border-radius:999px;
-  background:#faf5ec; border:1px solid var(--line); font-size:12px; color:var(--muted);
+  display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 11px;
+  border-radius:999px; background:var(--paper); border:1px solid var(--line); font-size:12px; color:var(--muted);
 }
-.card-desc { margin:14px 0 0; font-size:14px; line-height:1.75; color:var(--muted); min-height:74px; }
-.card-actions { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+.card-desc {
+  margin:14px 0 0; color:var(--muted); font-size:14px; line-height:1.72; min-height:96px;
+}
+.card-actions {
+  display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;
+}
 .card-btn {
-  display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:0 14px;
-  border-radius:999px; background:#fff; border:1px solid var(--line); font-size:12px; font-weight:700;
+  display:inline-flex; align-items:center; justify-content:center; min-height:40px; padding:0 14px;
+  border-radius:999px; border:1px solid var(--line); background:var(--paper); font-size:14px; font-weight:700;
 }
-.card-btn.dark { background:#102430; color:#fff; border-color:transparent; }
-.panel-row { display:grid; grid-template-columns:1.15fr .85fr; gap:18px; }
+.card-btn.dark { background:var(--dark); color:#fff; border-color:transparent; }
+
+.duo {
+  display:grid; grid-template-columns:.95fr 1.05fr; gap:18px;
+}
 .panel {
-  background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden;
+  background:#fff; border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); padding:26px;
 }
-.panel.dark { background:linear-gradient(180deg,#102430 0%,#12384d 100%); color:#fff; border-color:transparent; }
-.panel .inner { padding:24px; }
-.kicker { font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
-.panel.dark .kicker { color:rgba(255,255,255,.72); }
-.panel h3 { margin:10px 0 0; font-size:46px; line-height:1; letter-spacing:-.05em; }
-.panel p { margin:14px 0 0; font-size:15px; line-height:1.8; color:var(--muted); }
-.panel.dark p { color:rgba(255,255,255,.90); }
-.video-main {
-  background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden;
+.panel.dark {
+  background:linear-gradient(180deg,#102430 0%,#143446 100%); color:#fff; border-color:transparent;
 }
-.video-main .thumb { position:relative; aspect-ratio:16/9; background:linear-gradient(135deg,#bfe3f1,#ead7a8); }
+.panel .cap {
+  font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:inherit; opacity:.75;
+}
+.panel h3 {
+  margin:10px 0 0; font-size:44px; letter-spacing:-.05em; line-height:1.02;
+}
+.panel p {
+  margin:14px 0 0; color:inherit; opacity:.92; font-size:15px; line-height:1.8;
+}
+.panel ul {
+  margin:14px 0 0; padding-left:18px; color:inherit; opacity:.92;
+}
+.panel li { margin:6px 0; }
+.render-box {
+  height:100%; min-height:340px; border-radius:22px;
+  background:linear-gradient(180deg,#a6dcf2 0%,#e4d3aa 52%,#d2c19d 100%);
+  position:relative; overflow:hidden;
+}
+.render-box:before,.render-box:after {
+  content:""; position:absolute; background:rgba(255,255,255,.55); backdrop-filter:blur(6px);
+  border-radius:14px; box-shadow:0 10px 24px rgba(16,32,45,.10);
+}
+.render-box:before { width:120px; height:56px; left:76px; top:88px; }
+.render-box:after { width:84px; height:44px; left:196px; top:102px; }
+.render-tag {
+  position:absolute; left:16px; bottom:16px; background:rgba(255,250,243,.92);
+  border:1px solid rgba(255,255,255,.75); border-radius:999px; padding:8px 12px;
+  font-size:12px; color:var(--muted);
+}
+
+.video-grid {
+  display:grid; grid-template-columns:1.15fr .85fr; gap:18px;
+}
+.video-main,.video-side {
+  background:#fff; border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); padding:18px;
+}
+.video-main h3,.video-side h3 {
+  margin:0; font-size:42px; letter-spacing:-.05em;
+}
+.video-main-top,.video-side-top {
+  display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:16px;
+}
+.tag {
+  display:inline-flex; align-items:center; justify-content:center; min-height:30px; padding:0 10px;
+  border-radius:999px; background:var(--paper); border:1px solid var(--line); font-size:12px; color:var(--muted);
+}
+.video-frame {
+  position:relative; height:320px; border-radius:22px; overflow:hidden;
+  background:linear-gradient(135deg,#a9ddf4 0%,#e9e3cf 48%,#d8c39b 100%);
+  box-shadow:inset 0 -10px 0 rgba(155,192,145,.35);
+}
 .play {
-  position:absolute; inset:auto auto 18px 18px; width:68px; height:68px; border-radius:999px; background:rgba(255,255,255,.88);
-  display:flex; align-items:center; justify-content:center; font-size:28px; color:#102430; box-shadow:var(--shadow);
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:82px; height:82px; border-radius:999px; background:rgba(255,255,255,.88); display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 24px rgba(16,32,45,.12); font-size:28px; color:var(--dark);
 }
-.video-side { display:grid; gap:14px; }
-.mini-video {
-  background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow); overflow:hidden;
+.video-caption {
+  position:absolute; left:14px; right:14px; bottom:12px; background:rgba(255,250,243,.92); border-radius:14px; padding:8px 10px;
+  font-size:12px; color:var(--muted); border:1px solid rgba(255,255,255,.75);
 }
-.mini-video .thumb { aspect-ratio:16/9; background:linear-gradient(135deg,#bfe3f1,#ead7a8); }
+.side-stack {
+  display:grid; grid-template-rows:repeat(3,1fr); gap:14px;
+}
+.side-item {
+  border-radius:18px; min-height:90px; background:linear-gradient(135deg,#a9ddf4 0%,#e9e3cf 48%,#d8c39b 100%); border:1px solid var(--line);
+}
+
 .contact {
-  background:#fff; border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); padding:24px;
-  display:grid; grid-template-columns:1fr .95fr; gap:24px;
+  background:#fff; border:1px solid var(--line); border-radius:30px; box-shadow:var(--shadow); padding:24px;
+  display:grid; grid-template-columns:1fr .95fr; gap:26px;
 }
-.contact h3 { margin:10px 0 0; font-size:44px; line-height:1; letter-spacing:-.05em; }
-.contact p { margin:14px 0 0; color:var(--muted); font-size:15px; line-height:1.8; }
-.contact-points { margin-top:16px; display:grid; gap:10px; }
-.contact-point { padding:14px 16px; border:1px solid var(--line); border-radius:18px; background:#faf5ec; font-size:14px; line-height:1.7; }
-.form { display:grid; gap:12px; }
+.contact h3 {
+  margin:0; font-size:38px; letter-spacing:-.05em;
+}
+.contact p {
+  margin:12px 0 0; color:var(--muted); font-size:15px; line-height:1.8;
+}
+.form {
+  display:grid; gap:12px;
+}
 .input,.textarea {
-  width:100%; padding:14px 16px; border-radius:16px; border:1px solid var(--line); background:#faf5ec; font-size:14px;
+  width:100%; border:1px solid var(--line); background:var(--paper); border-radius:16px; padding:14px 16px; font-size:14px; color:var(--ink);
 }
-.textarea { min-height:150px; resize:vertical; }
-.footer { max-width:1420px; margin:0 auto; padding:0 24px 36px; color:var(--muted); font-size:13px; }
-.footer-box { border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-.zoom-label {
-  background:rgba(255,250,243,.92); border:1px solid rgba(16,32,45,.10); border-radius:999px; box-shadow:0 8px 18px rgba(16,32,45,.10);
-  color:#102430; font-weight:700; padding:4px 10px;
+.textarea { min-height:120px; resize:vertical; }
+.form-actions {
+  display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;
 }
+
 @media (max-width:1200px) {
   .topbar-inner { grid-template-columns:1fr auto; }
   .nav,.actions { display:none; }
   .cards { grid-template-columns:repeat(2,1fr); }
-  .panel-row,.contact { grid-template-columns:1fr; }
+  .duo,.video-grid,.contact { grid-template-columns:1fr; }
 }
-@media (max-width:820px) {
+@media (max-width:760px) {
+  .topbar-inner { padding:12px 16px; }
   .brand .title { font-size:16px; }
   .brand .sub { font-size:9px; letter-spacing:.16em; }
   .page { padding:12px 12px 30px; }
@@ -156,286 +248,277 @@ a { text-decoration:none; color:inherit; }
 </head>
 <body>
 <header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="title">Земельные участки у моря в районе Евпатории</div>
-      <div class="sub">крым • черное море • первая линия • туристические и частные участки</div>
-    </div>
-    <nav class="nav">
-      <a href="#mapBlock">Карта участков</a>
-      <a href="#plots">Участки</a>
-      <a href="#concept">3D-концепция</a>
-      <a href="#video">Видео</a>
-      <a href="#contact">Контакты</a>
-    </nav>
-    <div class="actions">
-      <span class="btn">Telegram</span>
-      <span class="btn">E-mail</span>
-      <span class="btn dark">Позвонить</span>
-    </div>
-  </div>
+<div class="topbar-inner">
+<div class="brand">
+<div class="title">Земельные участки у моря в районе Евпатории</div>
+<div class="sub">крым • черное море • первая линия • туристические и частные участки</div>
+</div>
+<nav class="nav">
+<a href="#mapBlock">Карта участков</a>
+<a href="#plots">Участки</a>
+<a href="#invest">3D-концепция</a>
+<a href="#contact">Контакты</a>
+</nav>
+<div class="actions">
+<span class="btn">Telegram</span>
+<span class="btn">E-mail</span>
+<span class="btn dark">Позвонить</span>
+</div>
+</div>
 </header>
-
 <main class="page">
-  <section class="section map-wrap" id="mapBlock">
-    <div id="map"></div>
-  </section>
-
-  <section class="section cards" id="plots">
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 320 соток" src="img/plots/320/1.jpg"/>
+<section class="section map-wrap" id="mapBlock">
+<div class="map-shell">
+<div id="map"></div>
+</div>
+</section>
+<section class="section cards" id="plots">
+<article class="card">
+<div class="card-media">
+<img alt="Участок 320 соток" src="img/plots/320/1.jpg"/>
+<div class="card-grad"></div>
+<div class="card-badge">Главная карточка лота</div>
+<div class="card-badge right">Первая линия</div>
+<div class="card-caption">
+<div>
+<h2 class="card-title">320 соток</h2>
+<div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
+</div>
+<div class="card-stats">
+<div class="card-stat">Коммуникации рядом</div>
+<div class="card-stat">Дорога есть</div>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div class="pills">
+<span class="pill">Крупный инвесторский участок</span>
+<span class="pill">Побережье Черного моря</span>
+<span class="pill">Евпатория / Витино</span>
+</div>
+<p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
+<div class="card-actions">
+<span class="card-btn dark">Подробнее</span>
+<span class="card-btn">Видео с дрона</span>
+<span class="card-btn">На карте</span>
+</div>
+</div>
+</article>
+<article class="card">
+<div class="card-media">
+<img src="img/plots/220/1.jpg"/>" alt="Участок 220 соток"/&gt;
         <div class="card-grad"></div>
-        <div class="card-badge">Главная карточка лота</div>
-        <div class="card-badge right">Первая линия</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">320 соток</h2>
-            <div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat">Коммуникации рядом</div>
-            <div class="card-stat">Дорога есть</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Крупный инвесторский участок</span>
-          <span class="pill">Побережье Черного моря</span>
-          <span class="pill">Евпатория / Витино</span>
-        </div>
-        <p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">Подробнее</span>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 220 соток" src="img/plots/220/1.jpg"/>
+<div class="card-badge">Главная карточка лота</div>
+<div class="card-badge right">Первая линия</div>
+<div class="card-caption">
+<div>
+<h2 class="card-title">220 соток</h2>
+<div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
+</div>
+<div class="card-stats">
+<div class="card-stat">Инвесторский лот</div>
+<div class="card-stat">Черное море</div>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div class="pills">
+<span class="pill">Первая линия</span>
+<span class="pill">Евпатория / Витино</span>
+<span class="pill">Курортный формат</span>
+</div>
+<p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
+<div class="card-actions">
+<span class="card-btn dark">Подробнее</span>
+<span class="card-btn">Видео с дрона</span>
+<span class="card-btn">На карте</span>
+</div>
+</div>
+</article>
+<article class="card">
+<div class="card-media">
+<img src="img/plots/140/1.jpg"/>" alt="Участок 140 соток"/&gt;
         <div class="card-grad"></div>
-        <div class="card-badge">Главная карточка лота</div>
-        <div class="card-badge right">Первая линия</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">220 соток</h2>
-            <div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat">Инвесторский лот</div>
-            <div class="card-stat">Черное море</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Первая линия</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Курортный формат</span>
-        </div>
-        <p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">Подробнее</span>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 140 соток" src="img/plots/140/1.jpg"/>
+<div class="card-badge">Главная карточка лота</div>
+<div class="card-badge right">Первая линия</div>
+<div class="card-caption">
+<div>
+<h2 class="card-title">140 соток</h2>
+<div class="card-sub">первая линия • участок у моря • под гостиницу / турбазу / дом отдыха</div>
+</div>
+<div class="card-stats">
+<div class="card-stat">Черное море</div>
+<div class="card-stat">Инвесторский участок</div>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div class="pills">
+<span class="pill">Первая линия</span>
+<span class="pill">Евпатория / Витино</span>
+<span class="pill">Под гостиницу</span>
+</div>
+<p class="card-desc">Для главной страницы этот участок подается так же, как и крупные лоты: одно сильное дрон-фото с контуром, крупная площадь, короткая польза и одна главная кнопка перехода на страницу участка.</p>
+<div class="card-actions">
+<span class="card-btn dark">Подробнее</span>
+<span class="card-btn">Видео с дрона</span>
+<span class="card-btn">На карте</span>
+</div>
+</div>
+</article>
+<article class="card">
+<div class="card-media">
+<img src="img/plots/6-7/1.jpg"/>" alt="Участки 6–7 соток"/&gt;
         <div class="card-grad"></div>
-        <div class="card-badge">Главная карточка лота</div>
-        <div class="card-badge right">Первая линия</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">140 соток</h2>
-            <div class="card-sub">первая линия • участок у моря • под гостиницу / турбазу / дом отдыха</div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat">Черное море</div>
-            <div class="card-stat">Инвесторский участок</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Первая линия</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Под гостиницу</span>
-        </div>
-        <p class="card-desc">Для главной страницы этот участок подается так же, как и крупные лоты: одно сильное дрон-фото с контуром, крупная площадь, короткая польза и одна главная кнопка перехода на страницу участка.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">Подробнее</span>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участки 6–7 соток" src="img/plots/6-7/1.jpg"/>
+<div class="card-badge">Главная карточка лота</div>
+<div class="card-badge right">Частные участки</div>
+<div class="card-caption">
+<div>
+<h2 class="card-title">6–7 соток</h2>
+<div class="card-sub">850 метров до моря • участки под дачу, домики отдыха, садовый дом</div>
+</div>
+<div class="card-stats">
+<div class="card-stat">Массив участков</div>
+<div class="card-stat">Дорога есть</div>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div class="pills">
+<span class="pill">Частный формат</span>
+<span class="pill">Побережье Черного моря</span>
+<span class="pill">Евпатория / Витино</span>
+</div>
+<p class="card-desc">Единый массив небольших участков с нанесенной разбивкой. Подходит для дачи, садового дома или домиков отдыха. Такой формат понятнее частному покупателю, чем сухая схема.</p>
+<div class="card-actions">
+<span class="card-btn dark">Подробнее</span>
+<span class="card-btn">Видео с дрона</span>
+<span class="card-btn">На карте</span>
+</div>
+</div>
+</article>
+<article class="card">
+<div class="card-media">
+<img src="img/plots/9/1.jpg"/>" alt="Участок 9 соток ИЖС"/&gt;
         <div class="card-grad"></div>
-        <div class="card-badge">Главная карточка лота</div>
-        <div class="card-badge right">Частные участки</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">6–7 соток</h2>
-            <div class="card-sub">850 метров до моря • участки под дачу, домики отдыха, садовый дом</div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat">Массив участков</div>
-            <div class="card-stat">Дорога есть</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Частный формат</span>
-          <span class="pill">Побережье Черного моря</span>
-          <span class="pill">Евпатория / Витино</span>
-        </div>
-        <p class="card-desc">Единый массив небольших участков с нанесенной разбивкой. Подходит для дачи, садового дома или домиков отдыха. Такой формат понятнее частному покупателю, чем сухая схема.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">Подробнее</span>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 9 соток ИЖС" src="img/plots/9/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge">Главная карточка лота</div>
-        <div class="card-badge right">ИЖС</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">9 соток</h2>
-            <div class="card-sub">800 метров до пляжа • участок под индивидуальный жилой дом</div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat">Газ по улице</div>
-            <div class="card-stat">Дорога есть</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">ИЖС</span>
-          <span class="pill">Витино / Айрчинская</span>
-          <span class="pill">Частный формат</span>
-        </div>
-        <p class="card-desc">Частный жилой лот у моря. Для карточки важен акцент на ИЖС, расстоянии до пляжа и преимуществах для строительства жилого дома, а не туристическая подача как у крупных участков.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">Подробнее</span>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Все участки проекта" src="img/plots/320/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge">Сравнение участков</div>
-        <div class="card-badge right">Все лоты</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">Все участки</h2>
-            <div class="card-sub">Подборка всех лотов проекта в одной витрине</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Инвестиции</span>
-          <span class="pill">Море</span>
-          <span class="pill">Курорт</span>
-        </div>
-        <p class="card-desc">Общий вход в витрину участка с более крупной логикой, сравнением форматов и входом на карту всех лотов.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">На карту</span>
-        </div>
-      </div>
-    </article>
-  </section>
-
-  <section class="section panel-row" id="concept">
-    <article class="panel dark">
-      <div class="inner">
-        <div class="kicker">план для девелопера</div>
-        <h3>3D-концепция освоения территории</h3>
-        <p>Для презентации инвесторам сюда позже можно встроить схему мастер-плана, карту очередей, модели корпусов и общий сценарий развития территории. Этот блок важен для крупных лотов: он помогает продавать не просто землю, а проект.</p>
-        <div class="card-actions"><span class="btn dark">Смотреть</span></div>
-      </div>
-    </article>
-    <article class="panel">
-      <div class="inner">
-        <div class="video-main">
-          <div class="thumb"></div>
-          <div class="inner">
-            <div class="kicker">видео и визуализация</div>
-            <p>В эту зону позже можно добавить рендеры, пролёт дрона и презентационное видео.</p>
-          </div>
-        </div>
-      </div>
-    </article>
-  </section>
-
-  <section class="section panel-row" id="video">
-    <article class="video-main">
-      <div class="thumb"><div class="play">▶</div></div>
-      <div class="inner">
-        <div class="kicker">материалы</div>
-        <h3>Побережье, пляж, подъезды и сами участки</h3>
-        <p>Сюда позже можно вывести видеообзоры по направлениям: общий берег, подъезды, массив 6–7 соток, ИЖС и крупные лоты.</p>
-      </div>
-    </article>
-    <aside class="video-side">
-      <article class="mini-video"><div class="thumb"></div></article>
-      <article class="mini-video"><div class="thumb"></div></article>
-      <article class="mini-video"><div class="thumb"></div></article>
-    </aside>
-  </section>
-
-  <section class="section contact" id="contact">
-    <div>
-      <div class="kicker">обратная связь</div>
-      <h3>Запросить цену и материалы</h3>
-      <p>Здесь позже можно подключить контакты из общего файла сайта и сделать единый блок связи для всех страниц проекта.</p>
-      <div class="contact-points">
-        <div class="contact-point">Телефон, Telegram, E-mail будут подключены централизованно.</div>
-        <div class="contact-point">На этом этапе главный приоритет — сохранить работающий макет главной страницы и облегчить HTML.</div>
-      </div>
-    </div>
-    <form class="form">
-      <input class="input" placeholder="Имя" type="text"/>
-      <input class="input" placeholder="Телефон" type="text"/>
-      <input class="input" placeholder="Telegram" type="text"/>
-      <textarea class="textarea" placeholder="Комментарий"></textarea>
-      <div class="card-actions"><span class="btn dark">Отправить</span></div>
-    </form>
-  </section>
+<div class="card-badge">Главная карточка лота</div>
+<div class="card-badge right">ИЖС</div>
+<div class="card-caption">
+<div>
+<h2 class="card-title">9 соток</h2>
+<div class="card-sub">800 метров до пляжа • участок под индивидуальный жилой дом</div>
+</div>
+<div class="card-stats">
+<div class="card-stat">Газ по улице</div>
+<div class="card-stat">Дорога есть</div>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div class="pills">
+<span class="pill">ИЖС</span>
+<span class="pill">Витино / Айрчинская</span>
+<span class="pill">Частный формат</span>
+</div>
+<p class="card-desc">Частный жилой лот у моря. Для карточки важен акцент на ИЖС, расстоянии до пляжа и преимуществах для строительства жилого дома, а не туристическая подача как у крупных участков.</p>
+<div class="card-actions">
+<span class="card-btn dark">Подробнее</span>
+<span class="card-btn">Видео с дрона</span>
+<span class="card-btn">На карте</span>
+</div>
+</div>
+</article>
+<article class="card">
+<div class="card-media">
+<img alt="Все участки проекта" src="img/plots/320/1.jpg">
+<div class="card-grad"></div>
+<div class="card-badge">Сравнение предложений</div>
+<div class="card-badge right">Все лоты</div>
+<div class="card-caption">
+<div>
+<h2 class="card-title">Все участки</h2>
+<div class="card-sub">одна локация • разные сценарии покупки • единый каталог</div>
+</div>
+</div>
+</img></div>
+<div class="card-body">
+<div class="pills">
+<span class="pill">Инвесторские</span>
+<span class="pill">Частные</span>
+<span class="pill">Карта проекта</span>
+</div>
+<p class="card-desc">Общий вход в подбор участка: сравнение предложений, сценариев использования и переход на карту проекта или к конкретным лотам.</p>
+<div class="card-actions">
+<span class="card-btn dark">На карте</span>
+</div>
+</div>
+</article>
+</section>
+<section class="section duo" id="invest">
+<div class="panel dark">
+<div class="cap">Режим для инвестора</div>
+<h3>3D-концепция освоения территории</h3>
+<p>Для крупных участков возможны сценарии как отельного, так и курортно-туристического освоения: гостиница, апарт-формат, база отдыха или дом отдыха.</p>
+<ul>
+<li>сценарный проект первой линии по побережью</li>
+<li>переключение концепции по участкам</li>
+<li>подача «получить презентацию для инвестора»</li>
+<li>документы, коммуникации и видеотур в одном интерфейсе</li>
+</ul>
+<div class="card-actions" style="margin-top:20px">
+<span class="card-btn">Презентация</span>
+<span class="card-btn dark">Контакты</span>
+</div>
+</div>
+<div class="panel">
+<div class="render-box">
+<div class="render-tag">3D-концепт: гостиница • база отдыха • апарт-формат</div>
+</div>
+</div>
+</section>
+<section class="section video-grid">
+<div class="video-main">
+<div class="video-main-top">
+<div>
+<div class="cap" style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)">Видео с дрона</div>
+<h3>Побережье, пляж, подъезды и сами участки</h3>
+</div>
+<span class="tag">Общая карта-контур • быстрый просмотр главной</span>
+</div>
+<div class="video-frame">
+<div class="play">▶</div>
+<div class="video-caption">Большой видеоблок покажет вид на море, вид сверху, контуры участков, расстояние до пляжа.</div>
+</div>
+</div>
+<div class="video-side">
+<div class="side-stack">
+<div class="side-item"></div>
+<div class="side-item"></div>
+<div class="side-item"></div>
+</div>
+</div>
+</section>
+<section class="section contact" id="contact">
+<div>
+<div class="cap" style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)">Контакты и лид-форма</div>
+<h3>Запросить цену и материалы</h3>
+<p>В финальной разработке здесь будут реальные контакты: Telegram, e-mail и звонок, а также выбор участка, формы обратной связи и ссылка на инвесторскую презентацию.</p>
+</div>
+<div class="form">
+<input class="input" placeholder="Имя"/>
+<input class="input" placeholder="Телефон / Telegram"/>
+<input class="input" placeholder="Какой участок интересует"/>
+<textarea class="textarea" placeholder="Сообщение"></textarea>
+<div class="form-actions">
+<span class="btn">Telegram</span>
+<span class="btn">E-mail</span>
+<span class="btn dark">Позвонить</span>
+</div>
+</div>
+</section>
 </main>
-
-<footer class="footer">
-  <div class="footer-box">
-    <div>Участки у моря — район Евпатории, Крым</div>
-    <div>Главная страница проекта</div>
-  </div>
-</footer>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="js/map.js?v=2"></script>
+<script src="js/map.js"></script>
 <script>
   window.initSeaPlotsMap();
 </script>
