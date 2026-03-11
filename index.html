@@ -541,7 +541,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, 
 function makePlot(coords, label, href, color='red') {
   const poly = L.polygon(coords, { color:color, weight:3, fillColor:'yellow', fillOpacity:0.45 }).addTo(map);
   poly.bindTooltip(label, { permanent:true, direction:'center', className:'zoom-label', offset:[0,0], interactive:false });
-  poly.on('click', function() { window.location.hash = href; });
+  poly.on('click', function() { window.location.href = href; });
   return poly;
 }
 
