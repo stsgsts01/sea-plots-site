@@ -1,168 +1,1352 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Участок 320 соток у моря — Евпатория, Крым | Первая линия</title>
+  <meta name="description" content="Земельный участок 320 соток у моря в районе Евпатории, Крым. Первая линия, около 100 метров до пляжа. Под гостиницу, апарт-отель, турбазу или курортный комплекс."/>
+  <meta name="keywords" content="земельный участок у моря Крым, участок у моря Евпатория, земля у моря Крым, участок первая линия море, земля под гостиницу у моря, участок 320 соток Крым"/>
+  <meta name="theme-color" content="#f3ede3"/>
 
-<title>Участок 320 соток у моря — Евпатория, Крым</title>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Участок 320 соток у моря — Евпатория, Крым"/>
+  <meta property="og:description" content="Первая линия моря, около 100 метров до пляжа. Крупный инвестиционный участок под гостиницу, апарт-отель или курортный проект."/>
+  <meta property="og:image" content="img/plots/320/1990-6.jpg"/>
 
-<meta name="description" content="Земельный участок 320 соток у моря возле Евпатории. Первая линия, около 100 метров до моря.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    :root{
+      --bg:#f3ede3;
+      --paper:#fffaf3;
+      --paper-2:#f8f1e6;
+      --ink:#10202d;
+      --muted:#68757f;
+      --line:rgba(16,32,45,.10);
+      --shadow:0 20px 44px rgba(16,32,45,.10);
+      --dark:#102430;
+      --dark-2:#17384b;
+      --accent:#d8c39b;
+      --sea:#8fc7d8;
+      --ok:#2f6b5f;
+      --warn:#b86a2f;
+      --danger:#8f3b32;
+      --radius-xl:30px;
+      --radius-lg:24px;
+      --radius-md:18px;
+      --radius-pill:999px;
+      --max:1420px;
+    }
 
-<style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
 
-body{
-font-family:Arial, sans-serif;
-margin:0;
-background:#f3efe6;
-color:#333;
-}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:80;
+      background:rgba(243,237,227,.92);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 24px;
+      display:grid;
+      grid-template-columns:1.15fr 1fr auto;
+      gap:18px;
+      align-items:center;
+    }
+    .brand-title{
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:-.03em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brand-sub{
+      margin-top:4px;
+      font-size:11px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .nav{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 16px;
+      border-radius:var(--radius-pill);
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:0 6px 18px rgba(16,32,45,.06);
+      font-size:14px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn.dark{
+      background:var(--dark);
+      color:#fff;
+      border-color:transparent;
+    }
 
-header{
-background:#e6dccb;
-padding:20px;
-text-align:center;
-font-size:24px;
-}
+    .page{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:18px 24px 48px;
+    }
+    .section{margin-top:18px}
 
-.hero{
-height:70vh;
-background:#c9b79c;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:48px;
-color:white;
-}
+    .hero{
+      position:relative;
+      min-height:720px;
+      border-radius:34px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      background:
+        linear-gradient(180deg,rgba(16,36,48,.12) 0%,rgba(16,36,48,.14) 26%,rgba(16,36,48,.55) 100%),
+        url("img/plots/320/1990-6.jpg") center center / cover no-repeat;
+    }
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      min-height:720px;
+      padding:32px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .hero-badges{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:38px;
+      padding:0 14px;
+      border-radius:var(--radius-pill);
+      background:rgba(255,250,243,.94);
+      border:1px solid rgba(255,255,255,.75);
+      color:var(--ink);
+      font-size:13px;
+      font-weight:700;
+      box-shadow:0 8px 20px rgba(16,32,45,.10);
+    }
+    .badge.status{
+      background:rgba(47,107,95,.94);
+      color:#fff;
+      border-color:transparent;
+    }
+    .badge.status.sold{
+      background:rgba(143,59,50,.95);
+    }
+    .badge.status.reserve{
+      background:rgba(184,106,47,.95);
+    }
 
-.section{
-max-width:1100px;
-margin:auto;
-padding:60px 20px;
-}
+    .hero-bottom{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
+      align-items:end;
+    }
+    .hero-copy{
+      max-width:820px;
+    }
+    .eyebrow{
+      color:rgba(255,255,255,.92);
+      font-size:12px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+    }
+    .hero h1{
+      margin:14px 0 0;
+      font-size:82px;
+      line-height:.95;
+      letter-spacing:-.06em;
+      color:#fff;
+    }
+    .hero-lead{
+      margin:18px 0 0;
+      max-width:760px;
+      color:rgba(255,255,255,.92);
+      font-size:18px;
+      line-height:1.75;
+    }
+    .hero-pills{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .hero-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:36px;
+      padding:0 12px;
+      border-radius:var(--radius-pill);
+      background:rgba(255,250,243,.14);
+      border:1px solid rgba(255,255,255,.22);
+      color:#fff;
+      font-size:13px;
+      backdrop-filter:blur(10px);
+    }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:20px;
-}
+    .hero-panel{
+      background:rgba(255,250,243,.92);
+      border:1px solid rgba(255,255,255,.72);
+      border-radius:28px;
+      padding:22px;
+      box-shadow:0 14px 34px rgba(16,32,45,.12);
+      color:var(--ink);
+    }
+    .hero-panel-cap{
+      font-size:11px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .price{
+      margin-top:10px;
+      font-size:42px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:700;
+    }
+    .price-note{
+      margin-top:8px;
+      font-size:14px;
+      line-height:1.7;
+      color:var(--muted);
+    }
+    .mini-stats{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    .mini-stat{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+    }
+    .mini-stat-label{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .mini-stat-value{
+      margin-top:6px;
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:-.03em;
+    }
+    .hero-actions{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-.gallery img{
-width:100%;
-border-radius:8px;
-}
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
+    .panel{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:26px;
+    }
+    .panel.dark{
+      background:linear-gradient(180deg,#102430 0%,#143446 100%);
+      color:#fff;
+      border-color:transparent;
+    }
+    .panel-cap{
+      font-size:11px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .panel.dark .panel-cap{color:rgba(255,255,255,.72)}
+    .panel h2{
+      margin:10px 0 0;
+      font-size:48px;
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+    .panel p{
+      margin:14px 0 0;
+      font-size:15px;
+      line-height:1.8;
+      color:var(--muted);
+    }
+    .panel.dark p{color:rgba(255,255,255,.90)}
 
-td{
-padding:12px;
-border-bottom:1px solid #ddd;
-}
+    .story-list{
+      margin:18px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:12px;
+    }
+    .story-list li{
+      padding:14px 16px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:var(--paper);
+      color:var(--ink);
+      line-height:1.65;
+    }
+    .panel.dark .story-list li{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.12);
+      color:#fff;
+    }
 
-.map{
-height:500px;
-margin-top:40px;
-}
+    .gallery-wrap{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .gallery-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+      padding:6px 8px 0;
+    }
+    .gallery-head h2{
+      margin:8px 0 0;
+      font-size:44px;
+      letter-spacing:-.05em;
+      line-height:1;
+    }
+    .gallery-head p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.8;
+      max-width:740px;
+    }
 
-button{
-background:#2b7a78;
-color:white;
-border:none;
-padding:14px 28px;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:1.35fr .85fr;
+      gap:14px;
+    }
+    .gallery-main{
+      position:relative;
+      min-height:540px;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#ddd;
+      cursor:pointer;
+    }
+    .gallery-main img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .gallery-side{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .thumb{
+      position:relative;
+      min-height:262px;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#ddd;
+      cursor:pointer;
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .35s ease;
+    }
+    .thumb:hover img,
+    .gallery-main:hover img{
+      transform:scale(1.03);
+    }
+    .thumb-caption,
+    .main-caption{
+      position:absolute;
+      left:12px;
+      right:12px;
+      bottom:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      background:rgba(255,250,243,.92);
+      border:1px solid rgba(255,255,255,.74);
+      border-radius:14px;
+      padding:8px 10px;
+      color:var(--ink);
+      font-size:12px;
+      font-weight:700;
+    }
 
-</style>
+    .specs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .spec-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:24px;
+    }
+    .spec-card h2{
+      margin:10px 0 0;
+      font-size:44px;
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+    .spec-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+    }
+    .spec-table tr{border-bottom:1px solid var(--line)}
+    .spec-table th,
+    .spec-table td{
+      text-align:left;
+      padding:14px 0;
+      vertical-align:top;
+      font-size:15px;
+      line-height:1.65;
+    }
+    .spec-table th{
+      width:42%;
+      color:var(--muted);
+      font-weight:500;
+    }
+    .spec-table td{
+      font-weight:700;
+      color:var(--ink);
+    }
 
+    .project-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .project-card{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      min-height:170px;
+    }
+    .project-card-num{
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      background:var(--dark);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:13px;
+    }
+    .project-card h3{
+      margin:16px 0 0;
+      font-size:22px;
+      line-height:1.05;
+      letter-spacing:-.04em;
+    }
+    .project-card p{
+      margin:10px 0 0;
+      font-size:14px;
+      line-height:1.75;
+      color:var(--muted);
+    }
+
+    .map-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .map-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+      padding:6px 8px 0;
+    }
+    .map-top h2{
+      margin:8px 0 0;
+      font-size:44px;
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+    .map-top p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.8;
+      max-width:760px;
+    }
+    .map-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:14px;
+    }
+    .plot-map,
+    .scheme-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      background:var(--paper);
+    }
+    #plotMap{
+      height:520px;
+      width:100%;
+    }
+    .scheme-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      min-height:520px;
+    }
+    .scheme-note{
+      padding:16px 18px 20px;
+      font-size:14px;
+      line-height:1.75;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+      background:#fff;
+    }
+
+    .docs-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .doc-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      min-height:220px;
+    }
+    .doc-type{
+      font-size:11px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .doc-card h3{
+      margin:12px 0 0;
+      font-size:28px;
+      line-height:1.02;
+      letter-spacing:-.04em;
+    }
+    .doc-card p{
+      margin:12px 0 0;
+      font-size:14px;
+      line-height:1.75;
+      color:var(--muted);
+      flex:1;
+    }
+    .doc-actions{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .contact{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:30px;
+      box-shadow:var(--shadow);
+      padding:24px;
+      display:grid;
+      grid-template-columns:1fr .95fr;
+      gap:26px;
+    }
+    .contact h2{
+      margin:10px 0 0;
+      font-size:48px;
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+    .contact p{
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.8;
+    }
+    .contact-points{
+      margin-top:18px;
+      display:grid;
+      gap:10px;
+    }
+    .contact-point{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:14px 16px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:18px;
+      font-size:14px;
+      line-height:1.7;
+    }
+    .form{
+      display:grid;
+      gap:12px;
+    }
+    .input,
+    .textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:var(--paper);
+      border-radius:16px;
+      padding:14px 16px;
+      font-size:14px;
+      color:var(--ink);
+      outline:none;
+    }
+    .input:focus,
+    .textarea:focus{
+      border-color:rgba(16,32,45,.28);
+      box-shadow:0 0 0 4px rgba(16,32,45,.06);
+    }
+    .textarea{
+      min-height:140px;
+      resize:vertical;
+    }
+    .form-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+
+    .footer{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 24px 40px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-box{
+      border-top:1px solid var(--line);
+      padding-top:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .lightbox{
+      position:fixed;
+      inset:0;
+      background:rgba(7,14,18,.78);
+      backdrop-filter:blur(8px);
+      z-index:120;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .lightbox.open{display:flex}
+    .lightbox-inner{
+      position:relative;
+      width:min(1200px,100%);
+      max-height:90vh;
+      border-radius:24px;
+      overflow:hidden;
+      background:#000;
+      box-shadow:0 30px 60px rgba(0,0,0,.32);
+    }
+    .lightbox img{
+      width:100%;
+      max-height:90vh;
+      object-fit:contain;
+      background:#000;
+    }
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next{
+      position:absolute;
+      z-index:2;
+      width:48px;
+      height:48px;
+      border:none;
+      border-radius:999px;
+      cursor:pointer;
+      background:rgba(255,255,255,.9);
+      color:var(--dark);
+      font-size:22px;
+      font-weight:700;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+    }
+    .lightbox-close{top:16px;right:16px}
+    .lightbox-prev{left:16px;top:50%;transform:translateY(-50%)}
+    .lightbox-next{right:16px;top:50%;transform:translateY(-50%)}
+
+    @media (max-width:1200px){
+      .topbar-inner{grid-template-columns:1fr auto}
+      .nav,.actions{display:none}
+      .hero-bottom,
+      .gallery-grid,
+      .specs,
+      .map-grid,
+      .contact,
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+      .project-grid{grid-template-columns:repeat(2,1fr)}
+      .docs-grid{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width:820px){
+      .page{padding:12px 12px 30px}
+      .topbar-inner{padding:12px 16px}
+      .brand-title{font-size:16px}
+      .brand-sub{font-size:9px;letter-spacing:.16em}
+      .hero,
+      .hero-inner{min-height:auto}
+      .hero-inner{padding:18px}
+      .hero h1{font-size:46px}
+      .hero-lead{font-size:16px;line-height:1.65}
+      .price{font-size:34px}
+      .panel h2,
+      .gallery-head h2,
+      .spec-card h2,
+      .map-top h2,
+      .contact h2{font-size:34px}
+      .gallery-main{min-height:320px}
+      .gallery-side{grid-template-columns:1fr}
+      .thumb{min-height:220px}
+      .project-grid,
+      .docs-grid,
+      .mini-stats{
+        grid-template-columns:1fr;
+      }
+      #plotMap,
+      .scheme-card img{min-height:360px;height:360px}
+      .hero-actions,.form-actions{flex-direction:column}
+      .hero-actions .btn,.form-actions .btn{width:100%}
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-Земельный участок у моря — Евпатория
-</header>
+  <!--
+    ============================================
+    БЫСТРЫЕ ПРАВКИ ДЛЯ НЕСПЕЦИАЛИСТА
+    ============================================
 
-<div class="hero">
-320 СОТОК • ПЕРВАЯ ЛИНИЯ
-</div>
+    1. Цена:
+       найдите строку:
+       <div class="price">По запросу</div>
+       и замените текст.
 
-<div class="section">
+    2. Статус участка:
+       доступные варианты:
+       В продаже
+       Продано
+       Резерв
+       Снято с продажи
 
-<h2>Фотографии участка</h2>
+       меняется в блоке:
+       <div class="badge status">В продаже</div>
 
-<div class="gallery">
+       если нужно показать "Продано", замените:
+       class="badge status"
+       на
+       class="badge status sold"
 
-<img src="img/plots/320-1.jpg">
-<img src="img/plots/320-2.jpg">
-<img src="img/plots/320-3.jpg">
+       если нужно показать "Резерв", замените:
+       class="badge status"
+       на
+       class="badge status reserve"
 
-</div>
+    3. Фото:
+       загрузите изображения в папку:
+       img/plots/320/
 
-</div>
+       и меняйте имена в галерее ниже.
 
-<div class="section">
+    4. Кадастровый номер:
+       сейчас: 90:11:240801:1990
+       меняется в таблице характеристик.
 
-<h2>Характеристики</h2>
+    5. Контакты:
+       замените телефон, e-mail и Telegram в блоке контактов и в верхних кнопках.
 
-<table>
+    6. Если участок снят с продажи:
+       страницу НЕ удаляем,
+       только меняем статус и убираем карточку с главной позже.
+  -->
 
-<tr>
-<td>Площадь</td>
-<td>320 соток</td>
-</tr>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <div class="brand-title">Земельные участки у моря в районе Евпатории</div>
+        <div class="brand-sub">крым • черное море • первая линия • инвестиционные лоты</div>
+      </div>
 
-<tr>
-<td>Линия</td>
-<td>Первая линия моря</td>
-</tr>
+      <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#specs">Характеристики</a>
+        <a href="#location">Карта участка</a>
+        <a href="#docs">Документы</a>
+        <a href="#contact">Контакты</a>
+      </nav>
 
-<tr>
-<td>Расстояние до моря</td>
-<td>~100 м</td>
-</tr>
+      <div class="actions">
+        <a class="btn" href="https://t.me/username" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn" href="mailto:info@example.com">E-mail</a>
+        <a class="btn dark" href="tel:+79990000000">Позвонить</a>
+      </div>
+    </div>
+  </header>
 
-<tr>
-<td>Назначение</td>
-<td>Гостиница / турбаза / апарт-отель</td>
-</tr>
+  <main class="page">
 
-</table>
+    <section class="section hero">
+      <div class="hero-inner">
+        <div class="hero-top">
+          <div class="hero-badges">
+            <div class="badge">Участок 320 соток</div>
+            <div class="badge">Первая линия моря</div>
+            <div class="badge">Евпатория • Крым</div>
+          </div>
 
-</div>
+          <!-- СТАТУС УЧАСТКА -->
+          <div class="badge status">В продаже</div>
+        </div>
 
-<div class="section">
+        <div class="hero-bottom">
+          <div class="hero-copy">
+            <div class="eyebrow">инвестиционный земельный участок у моря</div>
+            <h1>320 соток</h1>
+            <p class="hero-lead">
+              Крупный участок у моря в районе Евпатории. Первая линия, около 100 метров до пляжа,
+              высокий визуальный контакт с побережьем и формат, подходящий для гостиничного,
+              туристического или курортного проекта.
+            </p>
 
-<h2>Расположение</h2>
+            <div class="hero-pills">
+              <span class="hero-pill">Первая линия</span>
+              <span class="hero-pill">~100 м до моря</span>
+              <span class="hero-pill">Под гостиницу / апарт-отель</span>
+              <span class="hero-pill">Кадастровый № 90:11:240801:1990</span>
+            </div>
+          </div>
 
-<div id="map" class="map"></div>
+          <aside class="hero-panel">
+            <div class="hero-panel-cap">основные параметры</div>
 
-</div>
+            <!-- ЦЕНА -->
+            <div class="price">По запросу</div>
+            <div class="price-note">
+              Цена, презентация, кадастровые материалы и актуальный статус участка
+              предоставляются по запросу.
+            </div>
 
-<div class="section">
+            <div class="mini-stats">
+              <div class="mini-stat">
+                <div class="mini-stat-label">Площадь</div>
+                <div class="mini-stat-value">320 соток</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Удалённость от моря</div>
+                <div class="mini-stat-value">~100 м</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Формат</div>
+                <div class="mini-stat-value">Инвесторский лот</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-label">Назначение</div>
+                <div class="mini-stat-value">Туристический проект</div>
+              </div>
+            </div>
 
-<button>Получить цену участка</button>
+            <div class="hero-actions">
+              <a class="btn dark" href="#contact">Получить цену</a>
+              <a class="btn" href="#docs">Запросить документы</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-</div>
+    <section class="section grid-2">
+      <article class="panel dark">
+        <div class="panel-cap">позиционирование участка</div>
+        <h2>Участок для курортного проекта у моря</h2>
+        <p>
+          Этот лот должен продаваться не как обычная земля, а как площадка для инвестиционного сценария:
+          гостиница, апарт-отель, база отдыха, семейный курортный кластер или клубный комплекс на побережье.
+        </p>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <ul class="story-list">
+          <li><strong>Первая линия.</strong> Это главный аргумент в коммуникации и визуальной подаче проекта.</li>
+          <li><strong>Крупная площадь.</strong> 320 соток позволяют говорить не о частной даче, а о полноценной концепции застройки.</li>
+          <li><strong>Море рядом.</strong> Близость береговой линии даёт сильный рекламный и инвестиционный потенциал.</li>
+          <li><strong>Понятный формат упаковки.</strong> Фото с дрона, схема, кадастровые данные, видео и презентация легко собираются в убедительное предложение для инвестора.</li>
+        </ul>
+      </article>
 
-<script>
+      <article class="panel">
+        <div class="panel-cap">что получает инвестор</div>
+        <h2>Понятный актив у моря</h2>
+        <p>
+          Для переговоров важно сразу показывать сильные стороны участка: близость к морю,
+          масштаб территории, визуальную читаемость границ и потенциал под туристическую
+          недвижимость. Эта страница как раз и должна решать эту задачу.
+        </p>
 
-var map = L.map('map').setView([45.2,33.0],13);
+        <ul class="story-list">
+          <li>Подходит для гостиницы, апарт-отеля, базы отдыха или курортного комплекса.</li>
+          <li>Имеет сильную презентационную картинку благодаря съёмке с дрона.</li>
+          <li>Может быть быстро дополнен видео, презентацией и схемой развития проекта.</li>
+          <li>Страница сохраняется даже после продажи — со статусом “Продано” без удаления из индекса.</li>
+        </ul>
+      </article>
+    </section>
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-maxZoom:19
-}).addTo(map);
+    <section class="section gallery-wrap" id="gallery">
+      <div class="gallery-head">
+        <div>
+          <div class="panel-cap">фотогалерея участка</div>
+          <h2>Фото с дрона и схема границ</h2>
+        </div>
+        <p>
+          Для этого участка используются фотографии с дрона, показывающие фактическое расположение,
+          близость моря, конфигурацию контура и окружающую застройку. Фото легко менять:
+          достаточно заменить файлы в папке или обновить пути в блоке галереи.
+        </p>
+      </div>
 
-</script>
+      <div class="gallery-grid">
+        <div class="gallery-main" data-index="0">
+          <img src="img/plots/320/1990-6.jpg" alt="Участок 320 соток у моря, общий вид с дрона"/>
+          <div class="main-caption">
+            <span>Участок 320 соток • общий вид</span>
+            <span>Открыть фото</span>
+          </div>
+        </div>
 
+        <div class="gallery-side">
+          <div class="thumb" data-index="1">
+            <img src="img/plots/320/1990-3.jpg" alt="Участок 320 соток с выделенными границами"/>
+            <div class="thumb-caption">
+              <span>Фото 1</span>
+              <span>Границы участка</span>
+            </div>
+          </div>
+
+          <div class="thumb" data-index="2">
+            <img src="img/plots/320/1990-4.jpg" alt="Участок 320 соток с видом вдоль моря"/>
+            <div class="thumb-caption">
+              <span>Фото 2</span>
+              <span>Вид вдоль берега</span>
+            </div>
+          </div>
+
+          <div class="thumb" data-index="3">
+            <img src="img/plots/320/1990-5.jpg" alt="Участок 320 соток, вид с побережья"/>
+            <div class="thumb-caption">
+              <span>Фото 3</span>
+              <span>Контур и побережье</span>
+            </div>
+          </div>
+
+          <div class="thumb" data-index="4">
+            <img src="img/plots/320/1990-7.jpg" alt="Участок 320 соток, схема сверху"/>
+            <div class="thumb-caption">
+              <span>Фото 4</span>
+              <span>Схема сверху</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section specs" id="specs">
+      <article class="spec-card">
+        <div class="panel-cap">карточка характеристик</div>
+        <h2>Характеристики участка</h2>
+
+        <table class="spec-table">
+          <tr>
+            <th>Площадь</th>
+            <td>320 соток</td>
+          </tr>
+          <tr>
+            <th>Кадастровый номер</th>
+            <td>90:11:240801:1990</td>
+          </tr>
+          <tr>
+            <th>Линия моря</th>
+            <td>Первая линия</td>
+          </tr>
+          <tr>
+            <th>Расстояние до моря</th>
+            <td>Около 100 метров</td>
+          </tr>
+          <tr>
+            <th>Локация</th>
+            <td>Крым, район Евпатории, побережье Чёрного моря</td>
+          </tr>
+          <tr>
+            <th>Подходит для</th>
+            <td>Гостиницы, апарт-отеля, базы отдыха, дома отдыха, курортного комплекса</td>
+          </tr>
+          <tr>
+            <th>Подъезд</th>
+            <td>Подъезд по существующей дороге</td>
+          </tr>
+          <tr>
+            <th>Статус</th>
+            <td>В продаже</td>
+          </tr>
+        </table>
+      </article>
+
+      <article class="spec-card">
+        <div class="panel-cap">варианты развития</div>
+        <h2>Потенциал проекта</h2>
+
+        <div class="project-grid">
+          <div class="project-card">
+            <div class="project-card-num">01</div>
+            <h3>Гостиница у моря</h3>
+            <p>Формат классического курортного размещения с акцентом на первую линию и пешую доступность пляжа.</p>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-num">02</div>
+            <h3>Апарт-отель</h3>
+            <p>Инвестиционная модель с продажей или долгосрочным управлением апартаментами в туристическом формате.</p>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-num">03</div>
+            <h3>База отдыха</h3>
+            <p>Более лёгкий и гибкий сценарий сезонного размещения с домиками, корпусами и общественными зонами.</p>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-num">04</div>
+            <h3>Курортный комплекс</h3>
+            <p>Клубный проект с единой концепцией, приватной территорией и сильной визуальной упаковкой для рынка.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section map-box" id="location">
+      <div class="map-top">
+        <div>
+          <div class="panel-cap">расположение и схема</div>
+          <h2>Карта участка</h2>
+        </div>
+        <p>
+          Слева — обзорная карта побережья. Справа — кадастровая схема участка.
+          Когда будут подготовлены точные координаты поворотных точек, сюда можно будет
+          добавить реальный полигон участка на Leaflet без изменения всей страницы.
+        </p>
+      </div>
+
+      <div class="map-grid">
+        <div class="plot-map">
+          <div id="plotMap"></div>
+        </div>
+
+        <div class="scheme-card">
+          <img src="img/plots/320/1990-1.jpg" alt="Кадастровая схема участка 320 соток"/>
+          <div class="scheme-note">
+            Кадастровая схема и расположение относительно береговой линии.
+            Этот блок можно позже заменить на более точную карту, презентационную схему
+            или рендер посадки проекта.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section docs" id="docs">
+      <div class="gallery-head" style="padding:0; margin-bottom:0;">
+        <div>
+          <div class="panel-cap">материалы по участку</div>
+          <h2>Документы и презентация</h2>
+        </div>
+        <p>
+          В этом блоке можно размещать кадастровые материалы, презентацию проекта, PDF-файлы,
+          видео с дрона и дополнительные документы. Если файла ещё нет, кнопку можно временно
+          оставить неактивной или заменить на “Запросить”.
+        </p>
+      </div>
+
+      <div class="docs-grid">
+        <article class="doc-card">
+          <div class="doc-type">кадастровые данные</div>
+          <h3>Документы по участку</h3>
+          <p>
+            Кадастровая информация, схема участка, материалы для проверки и базового due diligence.
+          </p>
+          <div class="doc-actions">
+            <a class="btn dark" href="#">Открыть</a>
+            <a class="btn" href="#">Скачать PDF</a>
+          </div>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-type">презентация</div>
+          <h3>Презентация лота</h3>
+          <p>
+            Короткий презентационный материал для инвестора: фото, параметры, сценарии застройки,
+            расположение и ключевые преимущества.
+          </p>
+          <div class="doc-actions">
+            <a class="btn dark" href="#">Открыть</a>
+            <a class="btn" href="#">Запросить</a>
+          </div>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-type">видео</div>
+          <h3>Видео с дрона</h3>
+          <p>
+            Сюда можно добавить отдельную страницу, файл или ссылку на видеообзор участка
+            и побережья для удалённых клиентов и инвесторов.
+          </p>
+          <div class="doc-actions">
+            <a class="btn dark" href="#">Смотреть</a>
+            <a class="btn" href="#">Получить ссылку</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div>
+        <div class="panel-cap">обратная связь</div>
+        <h2>Получить цену и материалы по участку</h2>
+        <p>
+          Если нужен полный пакет по участку 320 соток, отправьте заявку. В ответ можно
+          высылать цену, кадастровые материалы, презентацию, видео с дрона и комментарии
+          по возможному формату застройки.
+        </p>
+
+        <div class="contact-points">
+          <div class="contact-point">
+            <strong>Участок:</strong>&nbsp;320 соток, первая линия, кадастровый номер 90:11:240801:1990
+          </div>
+          <div class="contact-point">
+            <strong>Telegram:</strong>&nbsp;<a href="https://t.me/username" target="_blank" rel="noopener">@username</a>
+          </div>
+          <div class="contact-point">
+            <strong>E-mail:</strong>&nbsp;<a href="mailto:info@example.com">info@example.com</a>
+          </div>
+          <div class="contact-point">
+            <strong>Телефон:</strong>&nbsp;<a href="tel:+79990000000">+7 (999) 000-00-00</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="form" action="#" method="post">
+        <input class="input" type="text" name="name" placeholder="Ваше имя"/>
+        <input class="input" type="text" name="phone" placeholder="Телефон"/>
+        <input class="input" type="text" name="telegram" placeholder="Telegram"/>
+        <textarea class="textarea" name="message" placeholder="Комментарий или запрос по участку 320 соток"></textarea>
+
+        <div class="form-actions">
+          <a class="btn dark" href="https://t.me/username" target="_blank" rel="noopener">Получить цену</a>
+          <a class="btn" href="mailto:info@example.com?subject=Запрос%20по%20участку%20320%20соток">Получить презентацию</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-box">
+      <div>Участки у моря — район Евпатории, Крым</div>
+      <div>Страница участка 320 соток • эталонный шаблон для остальных лотов</div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Закрыть">×</button>
+      <button class="lightbox-prev" type="button" aria-label="Предыдущее фото">‹</button>
+      <img id="lightboxImage" src="" alt=""/>
+      <button class="lightbox-next" type="button" aria-label="Следующее фото">›</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // --------------------------------------------
+    // КАРТА
+    // --------------------------------------------
+    // Сейчас здесь обзорная точка побережья.
+    // Когда будут координаты поворотных точек, сюда легко добавить polygon.
+
+    const map = L.map('plotMap', {
+      scrollWheelZoom: false
+    }).setView([45.230, 33.040], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    const approxPoint = [45.230, 33.040];
+
+    const marker = L.marker(approxPoint).addTo(map);
+    marker.bindPopup('Участок 320 соток<br>Первая линия моря').openPopup();
+
+    const circle = L.circle(approxPoint, {
+      radius: 180,
+      color: '#102430',
+      weight: 2,
+      fillColor: '#8fc7d8',
+      fillOpacity: 0.22
+    }).addTo(map);
+
+    // --------------------------------------------
+    // ГАЛЕРЕЯ
+    // --------------------------------------------
+    const images = [
+      { src: 'img/plots/320/1990-6.jpg', alt: 'Участок 320 соток — общий вид с дрона' },
+      { src: 'img/plots/320/1990-3.jpg', alt: 'Участок 320 соток — границы участка' },
+      { src: 'img/plots/320/1990-4.jpg', alt: 'Участок 320 соток — вид вдоль побережья' },
+      { src: 'img/plots/320/1990-5.jpg', alt: 'Участок 320 соток — участок и береговая линия' },
+      { src: 'img/plots/320/1990-7.jpg', alt: 'Участок 320 соток — схема сверху' }
+    ];
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const openers = document.querySelectorAll('[data-index]');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
+
+    let currentIndex = 0;
+
+    function openLightbox(index){
+      currentIndex = index;
+      lightboxImage.src = images[currentIndex].src;
+      lightboxImage.alt = images[currentIndex].alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showPrev(){
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImage.src = images[currentIndex].src;
+      lightboxImage.alt = images[currentIndex].alt;
+    }
+
+    function showNext(){
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImage.src = images[currentIndex].src;
+      lightboxImage.alt = images[currentIndex].alt;
+    }
+
+    openers.forEach(item => {
+      item.addEventListener('click', () => {
+        openLightbox(Number(item.dataset.index));
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrev);
+    nextBtn.addEventListener('click', showNext);
+
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(!lightbox.classList.contains('open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowLeft') showPrev();
+      if(e.key === 'ArrowRight') showNext();
+    });
+  </script>
 </body>
 </html>
