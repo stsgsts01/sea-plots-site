@@ -2,115 +2,86 @@ window.initSeaPlotsMap = function () {
   const mapEl = document.getElementById("map");
   if (!mapEl) return;
 
-  const map = L.map("map", {
-    zoomControl: true,
-    scrollWheelZoom: true
-  });
+  const map = L.map("map", { zoomControl: true });
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "&copy; OpenStreetMap"
   }).addTo(map);
 
-  const plots = [
-    {
-      name: "320 соток",
-      href: "plot-320.html",
-      coords: [
-        [45.23085278, 33.11580556],
-        [45.23195278, 33.11410556],
-        [45.23161944, 33.11373611],
-        [45.23188056, 33.11332500],
-        [45.23220278, 33.11366944],
-        [45.23260556, 33.11303056],
-        [45.23335556, 33.11382778],
-        [45.23151389, 33.11666111]
-      ]
-    },
-    {
-      name: "220 соток",
-      href: "plot-220.html",
-      coords: [
-        [45.23335556, 33.11382778],
-        [45.23260556, 33.11303056],
-        [45.23335000, 33.11187778],
-        [45.23409444, 33.11266944]
-      ]
-    },
-    {
-      name: "140 соток",
-      href: "plot-140.html",
-      coords: [
-        [45.23409444, 33.11266944],
-        [45.23335000, 33.11187778],
-        [45.23395278, 33.11093611],
-        [45.23471389, 33.11174444]
-      ]
-    },
-    {
-      name: "6–7 соток",
-      href: "plots-6-7.html",
-      coords: [
-        [45.22978056, 33.11753056],
-        [45.23085278, 33.11580556],
-        [45.23151389, 33.11666111],
-        [45.23045833, 33.11829167]
-      ]
-    },
-    {
-      name: "9 соток",
-      href: "plot-9.html",
-      coords: [
-        [45.22933056, 33.11815000],
-        [45.22978056, 33.11753056],
-        [45.23045833, 33.11829167],
-        [45.22998611, 33.11893056]
-      ]
-    }
-  ];
+  function makePlot(coords, label, href, color = "red") {
+    const poly = L.polygon(coords, {
+      color: color,
+      weight: 3,
+      fillColor: "yellow",
+      fillOpacity: 0.45
+    }).addTo(map);
 
-  const defaultStyle = {
-    color: "#102430",
-    weight: 2,
-    fillColor: "#d8c39b",
-    fillOpacity: 0.28
-  };
-
-  const hoverStyle = {
-    color: "#102430",
-    weight: 3,
-    fillColor: "#d8c39b",
-    fillOpacity: 0.48
-  };
-
-  const allLayers = [];
-
-  plots.forEach((plot) => {
-    const polygon = L.polygon(plot.coords, defaultStyle).addTo(map);
-
-    polygon.bindTooltip(plot.name, {
-      permanent: false,
+    poly.bindTooltip(label, {
+      permanent: true,
       direction: "center",
-      className: "plot-tooltip"
+      className: "zoom-label",
+      offset: [0, 0],
+      interactive: false
     });
 
-    polygon.on("mouseover", () => {
-      polygon.setStyle(hoverStyle);
+    poly.on("mouseover", function () {
+      poly.setStyle({
+        weight: 4,
+        fillOpacity: 0.60
+      });
     });
 
-    polygon.on("mouseout", () => {
-      polygon.setStyle(defaultStyle);
+    poly.on("mouseout", function () {
+      poly.setStyle({
+        weight: 3,
+        fillOpacity: 0.45
+      });
     });
 
-    polygon.on("click", () => {
-      window.location.href = plot.href;
+    poly.on("click", function () {
+      window.location.href = href;
     });
 
-    allLayers.push(polygon);
-  });
+    return poly;
+  }
 
-  const group = L.featureGroup(allLayers);
-  map.fitBounds(group.getBounds(), {
-    padding: [30, 30]
-  });
+  const p320 = makePlot([
+    [45.23085278,33.11580556],[45.23195278,33.11410556],[45.23161944,33.11373611],[45.23188056,33.11332500],
+    [45.23220278,33.11366944],[45.23260556,33.11303056],[45.23335556,33.11382778],[45.23151389,33.11666111]
+  ], "320 соток", "plot-320.html");
+
+  const p220 = makePlot([
+    [45.22615556,33.13086111],[45.22684444,33.12986944],[45.22571667,33.12814722],[45.22506389,33.12930000]
+  ], "220 соток", "plot-220.html");
+
+  const p140 = makePlot([
+    [45.23142778,33.11681111],[45.23091389,33.11759444],[45.23201667,33.11906111],[45.23251111,33.11831944]
+  ], "140 соток", "plot-140.html");
+
+  const p67 = makePlot([
+    [45.24486667,33.12538333],[45.24665833,33.12366111],[45.24623333,33.12284722],[45.24445000,33.12457778]
+  ], "6–7 соток", "plots-6-7.html");
+
+  const p9 = makePlot([
+    [45.21951667,33.14992778],[45.21948056,33.15043611],[45.21965833,33.15045000],[45.21969722,33.14993889]
+  ], "9 соток ИЖС", "plot-9.html");
+
+  const allPolys = [p320, p220, p140, p67, p9];
+
+  function updateLabels() {
+    const z = map.getZoom();
+    allPolys.forEach(poly => {
+      if (z >= 15) poly.openTooltip();
+      else poly.closeTooltip();
+    });
+  }
+
+  const bounds = L.latLngBounds(
+    [[45.20948056,33.09303056],[45.25665833,33.17045000]]
+  );
+
+  map.fitBounds(bounds, { padding: [20, 20] });
+  map.on("zoomend", updateLabels);
+  map.whenReady(updateLabels);
 };
