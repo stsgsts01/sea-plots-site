@@ -576,10 +576,9 @@ function updateLabels(){
   });
 }
 
-const bounds = L.latLngBounds([[45.20948056,33.09303056],[45.25665833,33.17045000]]);
-map.fitBounds(bounds, {padding:[20,20]});
-map.on('zoomend', updateLabels);
-map.whenReady(updateLabels);
+<script src="js/map.js"></script>
+<script>
+  window.initSeaPlotsMap();
 </script>
 </body>
 </html>
