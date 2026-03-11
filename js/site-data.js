@@ -3,8 +3,16 @@ window.SITE_DATA = {
   projectTagline: "Крым • Черное море • инвестиционные лоты",
 
   contacts: {
-    phoneDisplay: "+7 (978) 123-45-67",
-    phoneLink: "+79781234567",
+
+    phone1: {
+      display: "+7 (978) 123-45-67",
+      link: "+79781234567"
+    },
+
+    phone2: {
+      display: "+7 (978) 987-65-43",
+      link: "+79789876543"
+    },
 
     emailUser: "info",
     emailDomain: "example.com",
