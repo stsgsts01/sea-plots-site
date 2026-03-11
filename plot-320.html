@@ -134,7 +134,14 @@
   animation:heroZoom 36s ease-out forwards;
   animation-delay:0.4s;
 }
-
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:0.08;
+}
 @keyframes heroZoom {
   from {
     background-size:100% 100%, 100% auto;
