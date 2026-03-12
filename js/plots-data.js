@@ -215,7 +215,7 @@ window.PLOTS_DATA = {
     price: "4 000 000 ₽",
     priceNote: "Техническая цена-заглушка. Позже можно заменить на актуальную стоимость без изменения HTML-страницы.",
     area: "9 соток",
-    cadastralNumber: "уточняется",
+    cadastralNumber: "90:11:150301:63",
     seaLine: "ИЖС",
     distanceToSea: "Около 800 метров до пляжа",
     distanceToBeach: "Пешая доступность пляжа",
