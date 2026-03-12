@@ -37,7 +37,7 @@ window.PLOTS_DATA = {
         captionRight: "Открыть фото"
       },
       {
-        src: "img/plots/320/1990-2.jpg",
+        src: "img/plots/320/1990-7.jpg",
         alt: "Границы участка 320 соток на схеме",
         captionLeft: "Фото 1",
         captionRight: "Границы участка"
