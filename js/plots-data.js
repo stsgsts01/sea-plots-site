@@ -29,7 +29,6 @@ window.PLOTS_DATA = {
       presentationOpen: "docs/plot-320/presentation/index.html",
       videoFile: "video/320/drone320.mp4"
     },
-    video: { src: "video/320/drone320.mp4" },
     gallery: [
       {
         src: "img/plots/320/1990-6.jpg",
@@ -38,7 +37,7 @@ window.PLOTS_DATA = {
         captionRight: "Открыть фото"
       },
       {
-        src: "img/plots/320/1990-2.jpg",
+        src: "img/plots/320/1990-1.jpg",
         alt: "Границы участка 320 соток на схеме",
         captionLeft: "Фото 1",
         captionRight: "Границы участка"
@@ -94,13 +93,34 @@ window.PLOTS_DATA = {
       presentationOpen: "docs/plot-220/presentation/index.html",
       videoFile: "video/220/drone220.mp4"
     },
-    video: { src: "video/220/drone220.mp4" },
+    schemeImage: {
+      src: "img/plots/220/4.jpg",
+      alt: "Фото участка 220 соток рядом с интерактивной картой"
+    },
     gallery: [
       {
         src: "img/plots/220/1.jpg",
-        alt: "Участок 220 соток, вид с дрона",
-        captionLeft: "Участок 220 соток",
+        alt: "Участок 220 соток, фото 1",
+        captionLeft: "Участок 220 соток — фото 1",
         captionRight: "Основной вид"
+      },
+      {
+        src: "img/plots/220/2.jpg",
+        alt: "Участок 220 соток, фото 2",
+        captionLeft: "Фото 1",
+        captionRight: "Вид участка сверху"
+      },
+      {
+        src: "img/plots/220/3.jpg",
+        alt: "Участок 220 соток, фото 3",
+        captionLeft: "Фото 2",
+        captionRight: "Контур и побережье"
+      },
+      {
+        src: "img/plots/220/4.jpg",
+        alt: "Участок 220 соток, фото 4",
+        captionLeft: "Фото 3",
+        captionRight: "Схема контура"
       }
     ]
   },
@@ -135,7 +155,6 @@ window.PLOTS_DATA = {
       presentationOpen: "docs/plot-140/presentation/index.html",
       videoFile: "video/140/drone140.mp4"
     },
-    video: { src: "video/140/drone140.mp4" },
     gallery: [
       {
         src: "img/plots/140/1.jpg",
@@ -176,7 +195,6 @@ window.PLOTS_DATA = {
       presentationOpen: "docs/plot-67/presentation/index.html",
       videoFile: "video/67/drone67.mp4"
     },
-    video: { src: "video/67/drone67.mp4" },
     gallery: [
       {
         src: "img/plots/6-7/1.jpg",
@@ -217,7 +235,6 @@ window.PLOTS_DATA = {
       presentationOpen: "docs/plot-9/presentation/index.html",
       videoFile: "video/9/drone9.mp4"
     },
-    video: { src: "video/9/drone9.mp4" },
     gallery: [
       {
         src: "img/plots/9/1.jpg",
