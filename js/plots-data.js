@@ -25,6 +25,12 @@ window.PLOTS_DATA = {
       "Кадастровый № 90:11:240801:1990"
     ],
     docs: {
+      },
+    schemeImage: {
+      src: "img/plots/220/4.jpg",
+      alt: "Схема участка 220 соток"
+    },
+    docs: {
       cadastralOpen: "docs/plot-320/kadastr/index.html",
       presentationOpen: "docs/plot-320/presentation/index.html",
       videoFile: "video/320/drone320.mp4"
@@ -37,7 +43,7 @@ window.PLOTS_DATA = {
         captionRight: "Открыть фото"
       },
       {
-        src: "img/plots/320/1990-7.jpg",
+        src: "img/plots/320/1990-2.jpg",
         alt: "Границы участка 320 соток на схеме",
         captionLeft: "Фото 1",
         captionRight: "Границы участка"
