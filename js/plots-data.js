@@ -31,31 +31,31 @@ window.PLOTS_DATA = {
     },
     gallery: [
       {
-        src: "img/plots/320/1990-6.jpg",
+        src: "img/plots/320/1.jpg",
         alt: "Участок 320 соток, вид сверху с дроном",
         captionLeft: "Участок 320 соток — общий вид",
         captionRight: "Открыть фото"
       },
       {
-        src: "img/plots/320/1990-2.jpg",
+        src: "img/plots/320/2.jpg",
         alt: "Границы участка 320 соток на схеме",
         captionLeft: "Фото 1",
         captionRight: "Границы участка"
       },
       {
-        src: "img/plots/320/1990-3.jpg",
+        src: "img/plots/320/3.jpg",
         alt: "Вид участка 320 соток с дрона",
         captionLeft: "Фото 2",
         captionRight: "Вид участка сверху"
       },
       {
-        src: "img/plots/320/1990-4.jpg",
+        src: "img/plots/320/4.jpg",
         alt: "Участок 320 соток и окружающая территория",
         captionLeft: "Фото 3",
         captionRight: "Контур и побережье"
       },
       {
-        src: "img/plots/320/1990-5.jpg",
+        src: "img/plots/320/5.jpg",
         alt: "Схема участка 320 соток",
         captionLeft: "Фото 4",
         captionRight: "Схема контура"
