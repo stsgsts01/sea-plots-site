@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Главная страница — участки у моря в районе Евпатории</title>
+<title>Земельные участки у моря в районе Евпатории</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root {
@@ -16,11 +16,13 @@
   --dark:#102430;
 }
 * { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 html,body {
   margin:0; padding:0; background:var(--bg); color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 a { text-decoration:none; color:inherit; }
+button { font:inherit; }
 .topbar {
   position:sticky; top:0; z-index:60;
   background:rgba(243,237,227,.92);
@@ -38,9 +40,7 @@ a { text-decoration:none; color:inherit; }
   margin-top:4px; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.nav {
-  display:flex; justify-content:center; gap:18px; flex-wrap:wrap; font-size:14px; color:var(--muted);
-}
+.nav { display:flex; justify-content:center; gap:18px; flex-wrap:wrap; font-size:14px; color:var(--muted); }
 .actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
 .btn {
   display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px;
@@ -48,437 +48,89 @@ a { text-decoration:none; color:inherit; }
   box-shadow:0 6px 18px rgba(16,32,45,.06); font-size:14px; font-weight:700;
 }
 .btn.dark { background:var(--dark); color:#fff; border-color:transparent; }
-.page {
-  max-width: 1420px;
-  margin: 0 auto;
-  padding: 18px 24px 48px;
-}
-
-.section {
-  margin-top: 18px;
-}
-
+.page { max-width:1420px; margin:0 auto; padding:18px 24px 48px; }
+.section { margin-top:18px; }
 .map-wrap {
-  position: relative;
-  z-index: 1;
-  isolation: isolate;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 30px;
-  box-shadow: var(--shadow);
-  padding: 16px;
-  overflow: hidden;
+  position:relative; z-index:1; isolation:isolate; background:#fff; border:1px solid var(--line);
+  border-radius:30px; box-shadow:var(--shadow); padding:16px; overflow:hidden;
 }
-
-#map {
-  position: relative;
-  z-index: 1;
-  height: 620px;
-  width: 100%;
-  border-radius: 26px;
-  overflow: hidden;
-}
-
-.leaflet-container {
-  z-index: 1;
-}
-
-.leaflet-pane,
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 1 !important;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.card-media {
-  position: relative;
-}
-
-.card-media img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.card-grad {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 25%, rgba(0,0,0,.58) 100%);
-}
-
+#map { position:relative; z-index:1; height:620px; width:100%; border-radius:26px; overflow:hidden; }
+.leaflet-container { z-index:1; }
+.leaflet-pane, .leaflet-top, .leaflet-bottom { z-index:1 !important; }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.card { background:#fff; border:1px solid var(--line); border-radius:24px; overflow:hidden; box-shadow:var(--shadow); }
+.card-media { position:relative; }
+.card-media img { display:block; width:100%; height:auto; }
+.card-grad { position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.58) 100%); }
 .card-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: rgba(255,250,243,.94);
-  color: var(--ink);
-  border: 1px solid rgba(255,255,255,.72);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 700;
+  position:absolute; top:12px; left:12px; background:rgba(255,250,243,.94); color:var(--ink);
+  border:1px solid rgba(255,255,255,.72); border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700;
 }
-
-.card-badge.right {
-  left: auto;
-  right: 12px;
-}
-
+.card-badge.right { left:auto; right:12px; }
 .card-caption {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 18px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: end;
+  position:absolute; left:18px; right:18px; bottom:18px; display:flex; justify-content:space-between; gap:16px; align-items:end;
 }
-
-.card-title {
-  margin: 0;
-  color: #fff;
-  font-size: 34px;
-  line-height: 1;
-  letter-spacing: -.05em;
-}
-
-.card-sub {
-  margin-top: 8px;
-  color: rgba(255,255,255,.90);
-  font-size: 14px;
-  line-height: 1.6;
-  max-width: 460px;
-}
-
-.card-stats {
-  display: grid;
-  gap: 8px;
-  justify-items: end;
-}
-
+.card-title { margin:0; color:#fff; font-size:34px; line-height:1; letter-spacing:-.05em; }
+.card-sub { margin-top:8px; color:rgba(255,255,255,.90); font-size:14px; line-height:1.6; max-width:460px; }
+.card-stats { display:grid; gap:8px; justify-items:end; }
 .card-stat {
-  background: rgba(255,250,243,.92);
-  color: var(--ink);
-  border: 1px solid rgba(255,255,255,.72);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 700;
+  background:rgba(255,250,243,.92); color:var(--ink); border:1px solid rgba(255,255,255,.72);
+  border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700;
 }
-
-.card-body {
-  padding: 18px;
-}
-
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
+.card-body { padding:18px; }
+.pills { display:flex; flex-wrap:wrap; gap:8px; }
 .pill {
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: #faf5ec;
-  border: 1px solid var(--line);
-  font-size: 12px;
-  color: var(--muted);
+  display:inline-flex; align-items:center; min-height:34px; padding:0 12px; border-radius:999px;
+  background:#faf5ec; border:1px solid var(--line); font-size:12px; color:var(--muted);
 }
-
-.card-desc {
-  margin: 14px 0 0;
-  font-size: 14px;
-  line-height: 1.75;
-  color: var(--muted);
-  min-height: 74px;
+.card-desc { margin:14px 0 0; font-size:14px; line-height:1.75; color:var(--muted); min-height:74px; }
+.card-actions { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+.card-btn, .card-btn-link {
+  display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:0 14px;
+  border-radius:999px; background:#fff; border:1px solid var(--line); font-size:12px; font-weight:700; cursor:pointer;
 }
-
-.card-actions {
-  margin-top: 16px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.card-btn.dark, .card-btn-link.dark { background:#102430; color:#fff; border-color:transparent; }
+.panel-row { display:grid; grid-template-columns:1.15fr .85fr; gap:18px; }
+.panel { background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden; }
+.panel.dark { background:linear-gradient(180deg,#102430 0%,#12384d 100%); color:#fff; border-color:transparent; }
+.panel .inner { padding:24px; }
+.kicker { font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+.panel.dark .kicker { color:rgba(255,255,255,.72); }
+.panel h3 { margin:10px 0 0; font-size:46px; line-height:1; letter-spacing:-.05em; }
+.panel p { margin:14px 0 0; font-size:15px; line-height:1.8; color:var(--muted); }
+.panel.dark p { color:rgba(255,255,255,.90); }
+.video-main { background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden; }
+.video-main .thumb { position:relative; aspect-ratio:16/9; background:linear-gradient(135deg,#bfe3f1,#ead7a8); }
+.play { position:absolute; inset:auto auto 18px 18px; width:68px; height:68px; border-radius:999px; background:rgba(255,255,255,.88); display:flex; align-items:center; justify-content:center; font-size:28px; color:#102430; box-shadow:var(--shadow); }
+.video-side { display:grid; gap:14px; }
+.mini-video { background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow); overflow:hidden; }
+.mini-video .thumb { aspect-ratio:16/9; background:linear-gradient(135deg,#bfe3f1,#ead7a8); }
+.contact { background:#fff; border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); padding:24px; display:grid; grid-template-columns:1fr .95fr; gap:24px; }
+.contact h3 { margin:10px 0 0; font-size:44px; line-height:1; letter-spacing:-.05em; }
+.contact p { margin:14px 0 0; color:var(--muted); font-size:15px; line-height:1.8; }
+.contact-points { margin-top:16px; display:grid; gap:10px; }
+.contact-point { padding:14px 16px; border:1px solid var(--line); border-radius:18px; background:#faf5ec; font-size:14px; line-height:1.7; }
+.form { display:grid; gap:12px; }
+.input,.textarea { width:100%; padding:14px 16px; border-radius:16px; border:1px solid var(--line); background:#faf5ec; font-size:14px; }
+.textarea { min-height:150px; resize:vertical; }
+.footer { max-width:1420px; margin:0 auto; padding:0 24px 36px; color:var(--muted); font-size:13px; }
+.footer-box { border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.zoom-label { background:rgba(255,250,243,.92); border:1px solid rgba(16,32,45,.10); border-radius:999px; box-shadow:0 8px 18px rgba(16,32,45,.10); color:#102430; font-weight:700; padding:4px 10px; }
+@media (max-width:1200px) {
+  .topbar-inner { grid-template-columns:1fr auto; }
+  .nav,.actions { display:none; }
+  .cards { grid-template-columns:repeat(2,1fr); }
+  .panel-row,.contact { grid-template-columns:1fr; }
 }
-
-.card-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 38px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid var(--line);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.card-btn.dark {
-  background: #102430;
-  color: #fff;
-  border-color: transparent;
-}
-
-.panel-row {
-  display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  gap: 18px;
-}
-
-.panel {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.panel.dark {
-  background: linear-gradient(180deg, #102430 0%, #12384d 100%);
-  color: #fff;
-  border-color: transparent;
-}
-
-.panel .inner {
-  padding: 24px;
-}
-
-.kicker {
-  font-size: 11px;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.panel.dark .kicker {
-  color: rgba(255,255,255,.72);
-}
-
-.panel h3 {
-  margin: 10px 0 0;
-  font-size: 46px;
-  line-height: 1;
-  letter-spacing: -.05em;
-}
-
-.panel p {
-  margin: 14px 0 0;
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--muted);
-}
-
-.panel.dark p {
-  color: rgba(255,255,255,.90);
-}
-
-.video-main {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.video-main .thumb {
-  position: relative;
-  aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #bfe3f1, #ead7a8);
-}
-
-.play {
-  position: absolute;
-  inset: auto auto 18px 18px;
-  width: 68px;
-  height: 68px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.88);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  color: #102430;
-  box-shadow: var(--shadow);
-}
-
-.video-side {
-  display: grid;
-  gap: 14px;
-}
-
-.mini-video {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.mini-video .thumb {
-  aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #bfe3f1, #ead7a8);
-}
-
-.contact {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  box-shadow: var(--shadow);
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 1fr .95fr;
-  gap: 24px;
-}
-
-.contact h3 {
-  margin: 10px 0 0;
-  font-size: 44px;
-  line-height: 1;
-  letter-spacing: -.05em;
-}
-
-.contact p {
-  margin: 14px 0 0;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.contact-points {
-  margin-top: 16px;
-  display: grid;
-  gap: 10px;
-}
-
-.contact-point {
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: #faf5ec;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.form {
-  display: grid;
-  gap: 12px;
-}
-
-.input,
-.textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: #faf5ec;
-  font-size: 14px;
-}
-
-.textarea {
-  min-height: 150px;
-  resize: vertical;
-}
-
-.footer {
-  max-width: 1420px;
-  margin: 0 auto;
-  padding: 0 24px 36px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.footer-box {
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.zoom-label {
-  background: rgba(255,250,243,.92);
-  border: 1px solid rgba(16,32,45,.10);
-  border-radius: 999px;
-  box-shadow: 0 8px 18px rgba(16,32,45,.10);
-  color: #102430;
-  font-weight: 700;
-  padding: 4px 10px;
-}
-
-@media (max-width: 1200px) {
-  .topbar-inner {
-    grid-template-columns: 1fr auto;
-  }
-
-  .nav,
-  .actions {
-    display: none;
-  }
-
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .panel-row,
-  .contact {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 820px) {
-  .brand .title {
-    font-size: 16px;
-  }
-
-  .brand .sub {
-    font-size: 9px;
-    letter-spacing: .16em;
-  }
-
-  .page {
-    padding: 12px 12px 30px;
-  }
-
-  .map-wrap {
-    padding: 12px;
-  }
-
-  #map {
-    height: 540px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .card-title {
-    font-size: 28px;
-  }
-
-  .panel h3,
-  .video-main h3,
-  .video-side h3,
-  .contact h3 {
-    font-size: 30px;
-  }
+@media (max-width:820px) {
+  .brand .title { font-size:16px; }
+  .brand .sub { font-size:9px; letter-spacing:.16em; }
+  .page { padding:12px 12px 30px; }
+  .map-wrap { padding:12px; }
+  #map { height:540px; }
+  .cards { grid-template-columns:1fr; }
+  .card-title { font-size:28px; }
+  .panel h3,.video-main h3,.video-side h3,.contact h3 { font-size:30px; }
 }
 </style>
 </head>
@@ -503,7 +155,6 @@ a { text-decoration:none; color:inherit; }
     </div>
   </div>
 </header>
-
 <main class="page">
   <section class="section map-wrap" id="mapBlock">
     <div id="map"></div>
@@ -528,17 +179,9 @@ a { text-decoration:none; color:inherit; }
         </div>
       </div>
       <div class="card-body">
-        <div class="pills">
-          <span class="pill">Крупный инвесторский участок</span>
-          <span class="pill">Побережье Черного моря</span>
-          <span class="pill">Евпатория / Витино</span>
-        </div>
+        <div class="pills"><span class="pill">Крупный инвесторский участок</span><span class="pill">Побережье Черного моря</span><span class="pill">Евпатория / Витино</span></div>
         <p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-320.html">Подробнее</a>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
+        <div class="card-actions"><a class="card-btn-link dark" href="plot-320.html">Подробнее</a><button class="card-btn js-show-on-map" data-plot="plot320" type="button">На карте</button></div>
       </div>
     </article>
 
@@ -553,24 +196,13 @@ a { text-decoration:none; color:inherit; }
             <h2 class="card-title">220 соток</h2>
             <div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
           </div>
-          <div class="card-stats">
-            <div class="card-stat">Инвесторский лот</div>
-            <div class="card-stat">Черное море</div>
-          </div>
+          <div class="card-stats"><div class="card-stat">Инвесторский лот</div><div class="card-stat">Черное море</div></div>
         </div>
       </div>
       <div class="card-body">
-        <div class="pills">
-          <span class="pill">Первая линия</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Курортный формат</span>
-        </div>
+        <div class="pills"><span class="pill">Первая линия</span><span class="pill">Евпатория / Витино</span><span class="pill">Курортный формат</span></div>
         <p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-220.html">Подробнее</a>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
+        <div class="card-actions"><a class="card-btn-link dark" href="plot-220.html">Подробнее</a><button class="card-btn js-show-on-map" data-plot="plot220" type="button">На карте</button></div>
       </div>
     </article>
 
@@ -585,24 +217,13 @@ a { text-decoration:none; color:inherit; }
             <h2 class="card-title">140 соток</h2>
             <div class="card-sub">первая линия • участок у моря • под гостиницу / турбазу / дом отдыха</div>
           </div>
-          <div class="card-stats">
-            <div class="card-stat">Черное море</div>
-            <div class="card-stat">Инвесторский участок</div>
-          </div>
+          <div class="card-stats"><div class="card-stat">Черное море</div><div class="card-stat">Инвесторский участок</div></div>
         </div>
       </div>
       <div class="card-body">
-        <div class="pills">
-          <span class="pill">Первая линия</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Под гостиницу</span>
-        </div>
+        <div class="pills"><span class="pill">Первая линия</span><span class="pill">Евпатория / Витино</span><span class="pill">Под гостиницу</span></div>
         <p class="card-desc">Для главной страницы этот участок подается так же, как и крупные лоты: одно сильное дрон-фото с контуром, крупная площадь, короткая польза и одна главная кнопка перехода на страницу участка.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-140.html">Подробнее</a>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
+        <div class="card-actions"><a class="card-btn-link dark" href="plot-140.html">Подробнее</a><button class="card-btn js-show-on-map" data-plot="plot140" type="button">На карте</button></div>
       </div>
     </article>
 
@@ -617,24 +238,13 @@ a { text-decoration:none; color:inherit; }
             <h2 class="card-title">6–7 соток</h2>
             <div class="card-sub">850 метров до моря • участки под дачу, домики отдыха, садовый дом</div>
           </div>
-          <div class="card-stats">
-            <div class="card-stat">Массив участков</div>
-            <div class="card-stat">Дорога есть</div>
-          </div>
+          <div class="card-stats"><div class="card-stat">Массив участков</div><div class="card-stat">Дорога есть</div></div>
         </div>
       </div>
       <div class="card-body">
-        <div class="pills">
-          <span class="pill">Частный формат</span>
-          <span class="pill">Побережье Черного моря</span>
-          <span class="pill">Евпатория / Витино</span>
-        </div>
+        <div class="pills"><span class="pill">Частный формат</span><span class="pill">Побережье Черного моря</span><span class="pill">Евпатория / Витино</span></div>
         <p class="card-desc">Единый массив небольших участков с нанесенной разбивкой. Подходит для дачи, садового дома или домиков отдыха. Такой формат понятнее частному покупателю, чем сухая схема.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plots-6-7.html">Подробнее</a>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
+        <div class="card-actions"><a class="card-btn-link dark" href="plots-6-7.html">Подробнее</a><button class="card-btn js-show-on-map" data-plot="plot67" type="button">На карте</button></div>
       </div>
     </article>
 
@@ -649,24 +259,13 @@ a { text-decoration:none; color:inherit; }
             <h2 class="card-title">9 соток</h2>
             <div class="card-sub">800 метров до пляжа • участок под индивидуальный жилой дом</div>
           </div>
-          <div class="card-stats">
-            <div class="card-stat">Газ по улице</div>
-            <div class="card-stat">Дорога есть</div>
-          </div>
+          <div class="card-stats"><div class="card-stat">Газ по улице</div><div class="card-stat">Дорога есть</div></div>
         </div>
       </div>
       <div class="card-body">
-        <div class="pills">
-          <span class="pill">ИЖС</span>
-          <span class="pill">Витино / Айрчинская</span>
-          <span class="pill">Частный формат</span>
-        </div>
+        <div class="pills"><span class="pill">ИЖС</span><span class="pill">Витино / Айрчинская</span><span class="pill">Частный формат</span></div>
         <p class="card-desc">Частный жилой лот у моря. Для карточки важен акцент на ИЖС, расстоянии до пляжа и преимуществах для строительства жилого дома, а не туристическая подача как у крупных участков.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-9.html">Подробнее</a>
-          <span class="card-btn">Видео с дрона</span>
-          <span class="card-btn">На карте</span>
-        </div>
+        <div class="card-actions"><a class="card-btn-link dark" href="plot-9.html">Подробнее</a><button class="card-btn js-show-on-map" data-plot="plot9" type="button">На карте</button></div>
       </div>
     </article>
 
@@ -676,96 +275,60 @@ a { text-decoration:none; color:inherit; }
         <div class="card-grad"></div>
         <div class="card-badge">Сравнение участков</div>
         <div class="card-badge right">Все лоты</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">Все участки</h2>
-            <div class="card-sub">Подборка всех лотов проекта в одной витрине</div>
-          </div>
-        </div>
+        <div class="card-caption"><div><h2 class="card-title">Все участки</h2><div class="card-sub">Подборка всех лотов проекта в одной витрине</div></div></div>
       </div>
       <div class="card-body">
-        <div class="pills">
-          <span class="pill">Инвестиции</span>
-          <span class="pill">Море</span>
-          <span class="pill">Курорт</span>
-        </div>
+        <div class="pills"><span class="pill">Инвестиции</span><span class="pill">Море</span><span class="pill">Курорт</span></div>
         <p class="card-desc">Общий вход в витрину участка с более крупной логикой, сравнением форматов и входом на карту всех лотов.</p>
-        <div class="card-actions">
-          <span class="card-btn dark">На карту</span>
-        </div>
+        <div class="card-actions"><button class="card-btn dark js-scroll-map" type="button">На карту</button></div>
       </div>
     </article>
   </section>
 
   <section class="section panel-row" id="concept">
-    <article class="panel dark">
-      <div class="inner">
-        <div class="kicker">план для девелопера</div>
-        <h3>3D-концепция освоения территории</h3>
-        <p>Для презентации инвесторам сюда позже можно встроить схему мастер-плана, карту очередей, модели корпусов и общий сценарий развития территории. Этот блок важен для крупных лотов: он помогает продавать не просто землю, а проект.</p>
-        <div class="card-actions"><span class="btn dark">Смотреть</span></div>
-      </div>
-    </article>
-    <article class="panel">
-      <div class="inner">
-        <div class="video-main">
-          <div class="thumb"></div>
-          <div class="inner">
-            <div class="kicker">видео и визуализация</div>
-            <p>В эту зону позже можно добавить рендеры, пролёт дрона и презентационное видео.</p>
-          </div>
-        </div>
-      </div>
-    </article>
+    <article class="panel dark"><div class="inner"><div class="kicker">план для девелопера</div><h3>3D-концепция освоения территории</h3><p>Для презентации инвесторам сюда позже можно встроить схему мастер-плана, карту очередей, модели корпусов и общий сценарий развития территории. Этот блок важен для крупных лотов: он помогает продавать не просто землю, а проект.</p><div class="card-actions"><span class="btn dark">Смотреть</span></div></div></article>
+    <article class="panel"><div class="inner"><div class="video-main"><div class="thumb"></div><div class="inner"><div class="kicker">видео и визуализация</div><p>В эту зону позже можно добавить рендеры, пролёт дрона и презентационное видео.</p></div></div></div></article>
   </section>
 
   <section class="section panel-row" id="video">
-    <article class="video-main">
-      <div class="thumb"><div class="play">▶</div></div>
-      <div class="inner">
-        <div class="kicker">материалы</div>
-        <h3>Побережье, пляж, подъезды и сами участки</h3>
-        <p>Сюда позже можно вывести видеообзоры по направлениям: общий берег, подъезды, массив 6–7 соток, ИЖС и крупные лоты.</p>
-      </div>
-    </article>
-    <aside class="video-side">
-      <article class="mini-video"><div class="thumb"></div></article>
-      <article class="mini-video"><div class="thumb"></div></article>
-      <article class="mini-video"><div class="thumb"></div></article>
-    </aside>
+    <article class="video-main"><div class="thumb"><div class="play">▶</div></div><div class="inner"><div class="kicker">материалы</div><h3>Побережье, пляж, подъезды и сами участки</h3><p>Сюда позже можно вывести видеообзоры по направлениям: общий берег, подъезды, массив 6–7 соток, ИЖС и крупные лоты.</p></div></article>
+    <aside class="video-side"><article class="mini-video"><div class="thumb"></div></article><article class="mini-video"><div class="thumb"></div></article><article class="mini-video"><div class="thumb"></div></article></aside>
   </section>
 
   <section class="section contact" id="contact">
-    <div>
-      <div class="kicker">обратная связь</div>
-      <h3>Запросить цену и материалы</h3>
-      <p>Здесь позже можно подключить контакты из общего файла сайта и сделать единый блок связи для всех страниц проекта.</p>
-      <div class="contact-points">
-        <div class="contact-point">Телефон, Telegram, E-mail будут подключены централизованно.</div>
-        <div class="contact-point">На этом этапе главный приоритет — сохранить работающий макет главной страницы и облегчить HTML.</div>
-      </div>
-    </div>
-    <form class="form">
-      <input class="input" placeholder="Имя" type="text"/>
-      <input class="input" placeholder="Телефон" type="text"/>
-      <input class="input" placeholder="Telegram" type="text"/>
-      <textarea class="textarea" placeholder="Комментарий"></textarea>
-      <div class="card-actions"><span class="btn dark">Отправить</span></div>
-    </form>
+    <div><div class="kicker">обратная связь</div><h3>Запросить цену и материалы</h3><p>Здесь позже можно подключить контакты из общего файла сайта и сделать единый блок связи для всех страниц проекта.</p><div class="contact-points"><div class="contact-point">Телефон, Telegram, E-mail будут подключены централизованно.</div><div class="contact-point">На этом этапе главный приоритет — сохранить работающий макет главной страницы и облегчить HTML.</div></div></div>
+    <form class="form"><input class="input" placeholder="Имя" type="text"/><input class="input" placeholder="Телефон" type="text"/><input class="input" placeholder="Telegram" type="text"/><textarea class="textarea" placeholder="Комментарий"></textarea><div class="card-actions"><span class="btn dark">Отправить</span></div></form>
   </section>
 </main>
-
-<footer class="footer">
-  <div class="footer-box">
-    <div>Участки у моря — район Евпатории, Крым</div>
-    <div>Главная страница проекта</div>
-  </div>
-</footer>
-
+<footer class="footer"><div class="footer-box"><div>Участки у моря — район Евпатории, Крым</div><div>Главная страница проекта</div></div></footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/map.js?v=2"></script>
 <script>
-  window.initSeaPlotsMap();
+window.initSeaPlotsMap();
+
+document.querySelectorAll('.js-show-on-map').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const mapBlock = document.getElementById('mapBlock');
+    const plotKey = btn.dataset.plot;
+    if (mapBlock) {
+      mapBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setTimeout(function() {
+      if (window.focusPlotOnMap) {
+        window.focusPlotOnMap(plotKey);
+      }
+    }, 450);
+  });
+});
+
+document.querySelectorAll('.js-scroll-map').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const mapBlock = document.getElementById('mapBlock');
+    if (mapBlock) {
+      mapBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
 </body>
 </html>
