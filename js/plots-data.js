@@ -25,12 +25,6 @@ window.PLOTS_DATA = {
       "Кадастровый № 90:11:240801:1990"
     ],
     docs: {
-      },
-    schemeImage: {
-      src: "img/plots/220/4.jpg",
-      alt: "Схема участка 220 соток"
-    },
-    docs: {
       cadastralOpen: "docs/plot-320/kadastr/index.html",
       presentationOpen: "docs/plot-320/presentation/index.html",
       videoFile: "video/320/drone320.mp4"
@@ -43,7 +37,7 @@ window.PLOTS_DATA = {
         captionRight: "Открыть фото"
       },
       {
-        src: "img/plots/320/1990-2.jpg",
+        src: "img/plots/320/1990-1.jpg",
         alt: "Границы участка 320 соток на схеме",
         captionLeft: "Фото 1",
         captionRight: "Границы участка"
@@ -99,12 +93,34 @@ window.PLOTS_DATA = {
       presentationOpen: "docs/plot-220/presentation/index.html",
       videoFile: "video/220/drone220.mp4"
     },
+    schemeImage: {
+      src: "img/plots/220/4.jpg",
+      alt: "Фото участка 220 соток рядом с интерактивной картой"
+    },
     gallery: [
       {
         src: "img/plots/220/1.jpg",
-        alt: "Участок 220 соток, вид с дрона",
-        captionLeft: "Участок 220 соток",
+        alt: "Участок 220 соток, фото 1",
+        captionLeft: "Участок 220 соток — фото 1",
         captionRight: "Основной вид"
+      },
+      {
+        src: "img/plots/220/2.jpg",
+        alt: "Участок 220 соток, фото 2",
+        captionLeft: "Фото 1",
+        captionRight: "Вид участка сверху"
+      },
+      {
+        src: "img/plots/220/3.jpg",
+        alt: "Участок 220 соток, фото 3",
+        captionLeft: "Фото 2",
+        captionRight: "Контур и побережье"
+      },
+      {
+        src: "img/plots/220/4.jpg",
+        alt: "Участок 220 соток, фото 4",
+        captionLeft: "Фото 3",
+        captionRight: "Схема контура"
       }
     ]
   },
