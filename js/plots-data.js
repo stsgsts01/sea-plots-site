@@ -9,7 +9,7 @@ window.PLOTS_DATA = {
     status: "available", // available | reserve | sold | hidden
     statusText: "В продаже",
 
-    price: "100 000 000 ₽",
+    price: "350 000 000 ₽",
     priceNote: "Актуальная стоимость участка. Подробные материалы предоставляются по запросу.",
 
     cadastralNumber: "90:11:240801:1990",
