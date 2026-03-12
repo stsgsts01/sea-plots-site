@@ -3,9 +3,9 @@ window.initSeaPlotsMap = function () {
   if (!mapEl) return;
 
   const map = L.map("map", {
-  zoomControl: true,
-  scrollWheelZoom: false
-});
+    zoomControl: true,
+    scrollWheelZoom: false
+  });
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -70,6 +70,14 @@ window.initSeaPlotsMap = function () {
     [45.21951667,33.14992778],[45.21948056,33.15043611],[45.21965833,33.15045000],[45.21969722,33.14993889]
   ], "9 соток ИЖС", "plot-9.html");
 
+  const plots = {
+    plot320: p320,
+    plot220: p220,
+    plot140: p140,
+    plot67: p67,
+    plot9: p9
+  };
+
   const allPolys = [p320, p220, p140, p67, p9];
 
   function updateLabels() {
@@ -80,7 +88,7 @@ window.initSeaPlotsMap = function () {
     });
   }
 
-   const group = L.featureGroup([p320, p220, p140, p67, p9]);
+  const group = L.featureGroup([p320, p220, p140, p67, p9]);
 
   map.fitBounds(group.getBounds(), {
     padding: [35, 35]
@@ -88,4 +96,29 @@ window.initSeaPlotsMap = function () {
 
   map.on("zoomend", updateLabels);
   map.whenReady(updateLabels);
+
+  window.focusPlotOnMap = function (plotKey) {
+    const poly = plots[plotKey];
+    if (!poly) return;
+
+    map.fitBounds(poly.getBounds(), {
+      padding: [60, 60],
+      maxZoom: 16
+    });
+
+    poly.setStyle({
+      weight: 5,
+      fillOpacity: 0.75
+    });
+
+    poly.openTooltip();
+
+    setTimeout(() => {
+      poly.setStyle({
+        weight: 3,
+        fillOpacity: 0.45
+      });
+      updateLabels();
+    }, 2200);
+  };
 };
