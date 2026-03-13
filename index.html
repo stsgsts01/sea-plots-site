@@ -1,475 +1,373 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Земельные участки у моря — Евпатория</title>
-<meta name="description" content="Инвестиционные и частные земельные участки у моря в районе Евпатории: первая линия, туристические лоты, массив 6–7 соток и участок ИЖС."/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<style>
-:root {
-  --bg:#f3ede3;
-  --paper:#fffaf3;
-  --ink:#10202d;
-  --muted:#68757f;
-  --line:rgba(16,32,45,.10);
-  --shadow:0 20px 44px rgba(16,32,45,.10);
-  --dark:#102430;
-}
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-html,body {
-  margin:0; padding:0; background:var(--bg); color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-}
-a { text-decoration:none; color:inherit; }
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Земельные участки у моря — Евпатория</title>
+  <meta name="description" content="Подборка земельных участков у моря в районе Евпатории: инвестиционные лоты первой линии, массив 6–7 соток и участок ИЖС."/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    :root{
+      --bg:#f3ede3;
+      --paper:#fffaf3;
+      --ink:#10202d;
+      --muted:#68757f;
+      --line:rgba(16,32,45,.10);
+      --shadow:0 20px 44px rgba(16,32,45,.10);
+      --dark:#102430;
+      --max:1420px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{
+      margin:0;padding:0;background:var(--bg);color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
 
-.topbar {
-  position:sticky; top:0; z-index:60;
-  background:rgba(243,237,227,.92);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.topbar-inner {
-  max-width:1420px; margin:0 auto; padding:14px 24px;
-  display:grid; grid-template-columns:1.2fr 1fr auto; gap:18px; align-items:center;
-}
-.brand .title {
-  font-size:24px; font-weight:700; letter-spacing:-.03em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.brand .sub {
-  margin-top:4px; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted);
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.nav {
-  display:flex; justify-content:center; gap:18px; flex-wrap:wrap; font-size:14px; color:var(--muted);
-}
-.actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
-.btn {
-  display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px;
-  border-radius:999px; border:1px solid var(--line); background:#fff;
-  box-shadow:0 6px 18px rgba(16,32,45,.06); font-size:14px; font-weight:700; cursor:pointer;
-}
-.btn.dark { background:var(--dark); color:#fff; border-color:transparent; }
+    .topbar{
+      position:sticky;top:0;z-index:60;
+      background:rgba(243,237,227,.92);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);margin:0 auto;padding:14px 24px;
+      display:grid;grid-template-columns:1.2fr 1fr auto;gap:18px;align-items:center;
+    }
+    .brand .title{
+      font-size:24px;font-weight:700;letter-spacing:-.03em;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .brand .sub{
+      margin-top:4px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .nav{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;
+      border-radius:999px;border:1px solid var(--line);background:#fff;
+      box-shadow:0 6px 18px rgba(16,32,45,.06);font-size:14px;font-weight:700;cursor:pointer;
+    }
+    .btn.dark{background:var(--dark);color:#fff;border-color:transparent}
 
-.page { max-width:1420px; margin:0 auto; padding:18px 24px 48px; }
-.section { margin-top:18px; }
+    .page{max-width:var(--max);margin:0 auto;padding:18px 24px 48px}
+    .section{margin-top:18px}
 
-.map-wrap {
-  position: relative;
-  z-index: 1;
-  isolation: isolate;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 30px;
-  box-shadow: var(--shadow);
-  padding: 16px;
-  overflow: hidden;
-}
+    .hero{
+      position:relative;overflow:hidden;border-radius:32px;border:1px solid var(--line);
+      box-shadow:var(--shadow);min-height:560px;
+      background:
+        linear-gradient(180deg,rgba(16,36,48,.12) 0%,rgba(16,36,48,.16) 32%,rgba(16,36,48,.80) 100%),
+        url("img/plots/320/1.jpg") center center/cover no-repeat;
+    }
+    .hero-inner{
+      min-height:560px;padding:34px;display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .hero-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .hero-badges{display:flex;gap:10px;flex-wrap:wrap}
+    .badge{
+      display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border-radius:999px;
+      background:rgba(255,250,243,.94);border:1px solid rgba(255,255,255,.75);
+      font-size:13px;font-weight:700;color:var(--ink);box-shadow:0 8px 20px rgba(16,32,45,.10);
+    }
+    .hero-bottom{max-width:920px}
+    .eyebrow{color:rgba(255,255,255,.92);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+    .hero h1{
+      margin:14px 0 0;font-size:76px;line-height:.95;letter-spacing:-.06em;color:#fff;
+    }
+    .hero-lead{
+      margin:18px 0 0;max-width:760px;color:rgba(255,255,255,.92);
+      font-size:18px;line-height:1.75;
+    }
+    .hero-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    .hero-actions .btn{background:rgba(255,250,243,.92)}
+    .hero-actions .btn.dark{background:var(--dark);color:#fff}
+    .hero-pills{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+    .hero-pill{
+      display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:999px;
+      background:rgba(255,250,243,.14);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:13px;
+      backdrop-filter:blur(10px);
+    }
 
-#map {
-  position: relative;
-  z-index: 1;
-  height: 620px;
-  width: 100%;
-  border-radius: 26px;
-  overflow: hidden;
-}
+    .map-wrap{
+      position:relative;z-index:1;isolation:isolate;background:#fff;border:1px solid var(--line);
+      border-radius:30px;box-shadow:var(--shadow);padding:16px;overflow:hidden;
+    }
+    .map-head,.section-head{
+      display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;
+      padding:6px 8px 14px;
+    }
+    .section-kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+    .section-title{margin:8px 0 0;font-size:44px;line-height:1;letter-spacing:-.05em}
+    .section-lead{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.8;max-width:760px}
 
-.leaflet-container { z-index: 1; }
-.leaflet-pane, .leaflet-top, .leaflet-bottom { z-index: 1 !important; }
+    #map{position:relative;z-index:1;height:620px;width:100%;border-radius:26px;overflow:hidden}
+    .leaflet-container{z-index:1}
+    .leaflet-pane,.leaflet-top,.leaflet-bottom{z-index:1!important}
 
-.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-.card {
-  background:#fff; border:1px solid var(--line); border-radius:24px; overflow:hidden; box-shadow:var(--shadow);
-}
-.card-media { position:relative; }
-.card-media img { display:block; width:100%; height:auto; }
-.card-grad {
-  position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.58) 100%);
-}
-.card-badge {
-  position:absolute; top:12px; left:12px; background:rgba(255,250,243,.94); color:var(--ink);
-  border:1px solid rgba(255,255,255,.72); border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700;
-}
-.card-badge.right { left:auto; right:12px; }
-.card-caption {
-  position:absolute; left:18px; right:18px; bottom:18px; display:flex; justify-content:space-between; gap:16px; align-items:end;
-}
-.card-title { margin:0; color:#fff; font-size:34px; line-height:1; letter-spacing:-.05em; }
-.card-sub { margin-top:8px; color:rgba(255,255,255,.90); font-size:14px; line-height:1.6; max-width:460px; }
-.card-stats { display:grid; gap:8px; justify-items:end; }
-.card-stat {
-  background:rgba(255,250,243,.92); color:var(--ink); border:1px solid rgba(255,255,255,.72);
-  border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700;
-}
-.card-body { padding:18px; }
-.pills { display:flex; flex-wrap:wrap; gap:8px; }
-.pill {
-  display:inline-flex; align-items:center; min-height:34px; padding:0 12px; border-radius:999px;
-  background:#faf5ec; border:1px solid var(--line); font-size:12px; color:var(--muted);
-}
-.card-desc { margin:14px 0 0; font-size:14px; line-height:1.75; color:var(--muted); min-height:74px; }
-.card-actions { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
-.card-btn {
-  display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:0 14px;
-  border-radius:999px; background:#fff; border:1px solid var(--line); font-size:12px; font-weight:700; cursor:pointer;
-}
-.card-btn.dark { background:#102430; color:#fff; border-color:transparent; }
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{
+      background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);
+      transform:translateY(0);transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover{transform:translateY(-4px);box-shadow:0 24px 48px rgba(16,32,45,.14)}
+    .card-media{position:relative}
+    .card-media img{display:block;width:100%;height:300px;object-fit:cover}
+    .card-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.58) 100%)}
+    .card-badge{
+      position:absolute;top:12px;left:12px;background:rgba(255,250,243,.94);color:var(--ink);
+      border:1px solid rgba(255,255,255,.72);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;
+    }
+    .card-badge.right{left:auto;right:12px}
+    .card-caption{position:absolute;left:18px;right:18px;bottom:18px;display:flex;justify-content:space-between;gap:16px;align-items:end}
+    .card-title{margin:0;color:#fff;font-size:34px;line-height:1;letter-spacing:-.05em}
+    .card-sub{margin-top:8px;color:rgba(255,255,255,.90);font-size:14px;line-height:1.6;max-width:460px}
+    .card-body{padding:18px}
+    .pills{display:flex;flex-wrap:wrap;gap:8px}
+    .pill{
+      display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;
+      background:#faf5ec;border:1px solid var(--line);font-size:12px;color:var(--muted);
+    }
+    .card-desc{margin:14px 0 0;font-size:14px;line-height:1.75;color:var(--muted);min-height:74px}
+    .card-actions{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+    .card-btn{
+      display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 14px;
+      border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:700;cursor:pointer;
+    }
+    .card-btn.dark{background:#102430;color:#fff;border-color:transparent}
 
-.panel-row { display:grid; grid-template-columns:1.15fr .85fr; gap:18px; }
-.panel {
-  background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden;
-}
-.panel.dark { background:linear-gradient(180deg,#102430 0%,#12384d 100%); color:#fff; border-color:transparent; }
-.panel .inner { padding:24px; }
-.kicker { font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
-.panel.dark .kicker { color:rgba(255,255,255,.72); }
-.panel h3 { margin:10px 0 0; font-size:46px; line-height:1; letter-spacing:-.05em; }
-.panel p { margin:14px 0 0; font-size:15px; line-height:1.8; color:var(--muted); }
-.panel.dark p { color:rgba(255,255,255,.90); }
+    .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .feature{
+      background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px;
+    }
+    .feature h3{margin:12px 0 0;font-size:24px;line-height:1.05;letter-spacing:-.04em}
+    .feature p{margin:10px 0 0;font-size:14px;line-height:1.75;color:var(--muted)}
+    .feature-num{
+      width:36px;height:36px;border-radius:999px;background:var(--dark);color:#fff;
+      display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+    }
 
-.video-main {
-  background:#fff; border:1px solid var(--line); border-radius:26px; box-shadow:var(--shadow); overflow:hidden;
-}
-.video-main .thumb {
-  position:relative; aspect-ratio:16/9; background:linear-gradient(135deg,#bfe3f1,#ead7a8);
-}
-.play {
-  position:absolute; inset:auto auto 18px 18px; width:68px; height:68px; border-radius:999px; background:rgba(255,255,255,.88);
-  display:flex; align-items:center; justify-content:center; font-size:28px; color:#102430; box-shadow:var(--shadow);
-}
-.video-side { display:grid; gap:14px; }
-.mini-video {
-  background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow); overflow:hidden;
-}
-.mini-video .thumb { aspect-ratio:16/9; background:linear-gradient(135deg,#bfe3f1,#ead7a8); }
+    .media-block{
+      background:#fff;border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);overflow:hidden;
+    }
+    .media-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:0}
+    .media-main{
+      min-height:420px;
+      background:
+        linear-gradient(180deg,rgba(16,36,48,.10) 0%,rgba(16,36,48,.14) 28%,rgba(16,36,48,.70) 100%),
+        url("img/plots/320/1.jpg") center center/cover no-repeat;
+      display:flex;align-items:end;padding:24px;color:#fff;
+    }
+    .media-side{
+      min-height:420px;background:#f8f1e8;padding:24px;display:flex;flex-direction:column;justify-content:center;
+      border-left:1px solid var(--line);
+    }
+    .media-side h3,.media-main h3{margin:0;font-size:34px;line-height:1.02;letter-spacing:-.04em}
+    .media-side p,.media-main p{margin:12px 0 0;font-size:15px;line-height:1.8;max-width:560px}
+    .contact{
+      background:#fff;border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);
+      padding:24px;display:grid;grid-template-columns:1fr .95fr;gap:26px;
+    }
+    .contact-points{margin-top:18px;display:grid;gap:10px}
+    .contact-point{
+      display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--paper);
+      border:1px solid var(--line);border-radius:18px;font-size:14px;line-height:1.7;
+    }
+    .form{display:grid;gap:12px}
+    .input,.textarea{
+      width:100%;border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:14px 16px;
+      font-size:14px;color:var(--ink);outline:none;
+    }
+    .textarea{min-height:140px;resize:vertical}
+    .reveal-box{margin-top:18px;padding:16px;border:1px dashed rgba(16,32,45,.18);border-radius:18px;background:var(--paper)}
+    .reveal-note{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.7}
+    .footer{max-width:var(--max);margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:13px}
+    .footer-box{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-.contact {
-  background:#fff; border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); padding:24px;
-  display:grid; grid-template-columns:1fr .95fr; gap:24px;
-}
-.contact h3 { margin:10px 0 0; font-size:44px; line-height:1; letter-spacing:-.05em; }
-.contact p { margin:14px 0 0; color:var(--muted); font-size:15px; line-height:1.8; }
-.contact-points { margin-top:16px; display:grid; gap:10px; }
-.contact-point { padding:14px 16px; border:1px solid var(--line); border-radius:18px; background:#faf5ec; font-size:14px; line-height:1.7; }
-.form { display:grid; gap:12px; }
-.input,.textarea {
-  width:100%; padding:14px 16px; border-radius:16px; border:1px solid var(--line); background:#faf5ec; font-size:14px;
-}
-.textarea { min-height:150px; resize:vertical; }
-
-.reveal-box {
-  margin-top:18px;
-  padding:16px;
-  border:1px dashed rgba(16,32,45,.18);
-  border-radius:18px;
-  background:#faf5ec;
-}
-.reveal-note {
-  margin-top:10px;
-  font-size:13px;
-  color:var(--muted);
-  line-height:1.7;
-}
-
-.footer { max-width:1420px; margin:0 auto; padding:0 24px 36px; color:var(--muted); font-size:13px; }
-.footer-box { border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-
-.zoom-label {
-  background:rgba(255,250,243,.92); border:1px solid rgba(16,32,45,.10); border-radius:999px; box-shadow:0 8px 18px rgba(16,32,45,.10);
-  color:#102430; font-weight:700; padding:4px 10px;
-}
-
-@media (max-width:1200px) {
-  .topbar-inner { grid-template-columns:1fr auto; }
-  .nav,.actions { display:none; }
-  .cards { grid-template-columns:repeat(2,1fr); }
-  .panel-row,.contact { grid-template-columns:1fr; }
-}
-@media (max-width:820px) {
-  .brand .title { font-size:16px; }
-  .brand .sub { font-size:9px; letter-spacing:.16em; }
-  .page { padding:12px 12px 30px; }
-  .map-wrap { padding:12px; }
-  #map { height:540px; }
-  .cards { grid-template-columns:1fr; }
-  .card-title { font-size:28px; }
-  .panel h3,.video-main h3,.video-side h3,.contact h3 { font-size:30px; }
-}
-</style>
+    @media (max-width:1200px){
+      .topbar-inner{grid-template-columns:1fr auto}
+      .nav,.actions{display:none}
+      .cards{grid-template-columns:1fr 1fr}
+      .feature-grid{grid-template-columns:1fr 1fr}
+      .media-grid,.contact{grid-template-columns:1fr}
+      .media-side{border-left:none;border-top:1px solid var(--line)}
+    }
+    @media (max-width:820px){
+      .page{padding:12px 12px 30px}
+      .topbar-inner{padding:12px 16px}
+      .brand .title{font-size:16px}
+      .brand .sub{font-size:9px;letter-spacing:.16em}
+      .hero-inner{padding:18px;min-height:460px}
+      .hero h1{font-size:44px}
+      .hero-lead{font-size:16px;line-height:1.65}
+      .cards,.feature-grid{grid-template-columns:1fr}
+      #map{height:420px}
+      .section-title{font-size:34px}
+      .hero-actions{flex-direction:column}
+      .hero-actions .btn{width:100%}
+    }
+  </style>
 </head>
 <body>
 <header class="topbar">
   <div class="topbar-inner">
-
     <div class="brand">
-      <div class="title">Земельные участки у моря в районе Евпатории</div>
-      <div class="sub">КРЫМ • ЧЕРНОЕ МОРЕ • ИНВЕСТИЦИОННЫЕ ЛОТЫ</div>
+      <div class="title" id="brandTitle">Земельные участки у моря</div>
+      <div class="sub" id="brandSub">Крым • Черное море</div>
     </div>
 
     <nav class="nav">
-      <a href="#mapBlock">Карта участков</a>
+      <a href="#mapBlock">Карта</a>
       <a href="#plots">Участки</a>
-      <a href="#concept">3D-концепция</a>
-      <a href="#video">Видео</a>
-      <a href="#contacts">Контакты</a>
+      <a href="#benefits">Преимущества</a>
+      <a href="#concept">Концепция</a>
+      <a href="#contact">Контакты</a>
     </nav>
 
     <div class="actions">
-
-      <a
-        class="btn"
-        id="btnTelegram"
-        href="https://t.me/stsgsts01"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Telegram
-      </a>
-
-      <a
-        class="btn"
-        id="btnEmail"
-        href="mailto:stasgrechanik@gmail.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        E-mail
-      </a>
-
-      <a
-        class="btn dark"
-        id="btnPhone"
-        href="tel:+79260863141"
-      >
-        Позвонить
-      </a>
-
+      <a class="btn" id="topTelegramBtn" href="#" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a class="btn" id="topEmailBtn" href="#" target="_blank" rel="noopener noreferrer">E-mail</a>
+      <a class="btn dark" id="topPhoneBtn" href="#">Позвонить</a>
     </div>
-
   </div>
 </header>
 
 <main class="page">
+  <section class="section hero">
+    <div class="hero-inner">
+      <div class="hero-top">
+        <div class="hero-badges">
+          <div class="badge">Евпатория • Штормовое • Витино</div>
+          <div class="badge">5 лотов у моря</div>
+          <div class="badge">От 6 до 320 соток</div>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <div class="eyebrow">земельные участки у побережья</div>
+        <h1>Подборка участков у моря<br/>для инвестиций и частного строительства</h1>
+        <p class="hero-lead">
+          На сайте собраны инвестиционные участки первой линии, массив частных лотов 6–7 соток
+          и участок ИЖС в районе Евпатории. У каждого объекта есть отдельная страница с фото,
+          картой, документами и видеоматериалами.
+        </p>
+        <div class="hero-pills">
+          <span class="hero-pill">Инвестиционные лоты</span>
+          <span class="hero-pill">Частные участки</span>
+          <span class="hero-pill">Черное море</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn dark" href="#plots">Смотреть участки</a>
+          <a class="btn" href="#mapBlock">Открыть карту</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section map-wrap" id="mapBlock">
+    <div class="map-head">
+      <div>
+        <div class="section-kicker">расположение участков</div>
+        <h2 class="section-title">Карта всех лотов</h2>
+      </div>
+      <p class="section-lead">
+        На карте показаны все участки проекта. По клику на полигон открывается страница конкретного лота,
+        а из карточек ниже можно быстро перейти к описанию или подсветить участок на карте.
+      </p>
+    </div>
     <div id="map"></div>
   </section>
 
-  <section class="section cards" id="plots">
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 320 соток" src="img/plots/320/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge right">Первая линия</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">320 соток</h2>
-            <div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
-          </div>
-        </div>
+  <section class="section" id="plots">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">каталог участков</div>
+        <h2 class="section-title">Все предложения</h2>
       </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Крупный инвесторский участок</span>
-          <span class="pill">Побережье Черного моря</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Коммуникации рядом</span>
-          <span class="pill">Дорога есть</span>
-        </div>
-        <p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-320.html">Подробнее</a>
-          <button class="card-btn js-show-on-map" data-plot="plot320" type="button">На карте</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 220 соток" src="img/plots/220/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge right">Первая линия</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">220 соток</h2>
-            <div class="card-sub">100 метров до моря • участок под гостиницу / турбазу / дом отдыха</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Первая линия</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Курортный формат</span>
-          <span class="pill">Инвесторский лот</span>
-          <span class="pill">Черное море</span>
-        </div>
-        <p class="card-desc">Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-220.html">Подробнее</a>
-          <button class="card-btn js-show-on-map" data-plot="plot220" type="button">На карте</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 140 соток" src="img/plots/140/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge right">Первая линия</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">140 соток</h2>
-            <div class="card-sub">первая линия • участок у моря • под гостиницу / турбазу / дом отдыха</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Первая линия</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Под гостиницу</span>
-          <span class="pill">Черное море</span>
-          <span class="pill">Инвесторский участок</span>
-        </div>
-        <p class="card-desc">Для главной страницы этот участок подается так же, как и крупные лоты: одно сильное дрон-фото с контуром, крупная площадь, короткая польза и одна главная кнопка перехода на страницу участка.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-140.html">Подробнее</a>
-          <button class="card-btn js-show-on-map" data-plot="plot140" type="button">На карте</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участки 6–7 соток" src="img/plots/6-7/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge right">Частные участки</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">6–7 соток</h2>
-            <div class="card-sub">850 метров до моря • участки под дачу, домики отдыха, садовый дом</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Частный формат</span>
-          <span class="pill">Побережье Черного моря</span>
-          <span class="pill">Евпатория / Витино</span>
-          <span class="pill">Массив участков</span>
-          <span class="pill">Дорога есть</span>
-        </div>
-        <p class="card-desc">Единый массив небольших участков с нанесенной разбивкой. Подходит для дачи, садового дома или домиков отдыха. Такой формат понятнее частному покупателю, чем сухая схема.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plots-6-7.html">Подробнее</a>
-          <button class="card-btn js-show-on-map" data-plot="plot67" type="button">На карте</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Участок 9 соток ИЖС" src="img/plots/9/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge right">ИЖС</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">9 соток</h2>
-            <div class="card-sub">800 метров до пляжа • участок под индивидуальный жилой дом</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">ИЖС</span>
-          <span class="pill">Витино / Айрчинская</span>
-          <span class="pill">Частный формат</span>
-          <span class="pill">Газ по улице</span>
-          <span class="pill">Дорога есть</span>
-        </div>
-        <p class="card-desc">Частный жилой лот у моря. Для карточки важен акцент на ИЖС, расстоянии до пляжа и преимуществах для строительства жилого дома, а не туристическая подача как у крупных участков.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="plot-9.html">Подробнее</a>
-          <button class="card-btn js-show-on-map" data-plot="plot9" type="button">На карте</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media">
-        <img alt="Все участки проекта" src="img/plots/320/1.jpg"/>
-        <div class="card-grad"></div>
-        <div class="card-badge">Сравнение участков</div>
-        <div class="card-badge right">Все лоты</div>
-        <div class="card-caption">
-          <div>
-            <h2 class="card-title">Все участки</h2>
-            <div class="card-sub">Подборка всех лотов проекта в одной витрине</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="pills">
-          <span class="pill">Инвестиции</span>
-          <span class="pill">Море</span>
-          <span class="pill">Курорт</span>
-        </div>
-        <p class="card-desc">Общий вход в витрину участка с более крупной логикой, сравнением форматов и входом на карту всех лотов.</p>
-        <div class="card-actions">
-          <a class="card-btn dark" href="#mapBlock">На карту</a>
-        </div>
-      </div>
-    </article>
+      <p class="section-lead">
+        Крупные инвестиционные лоты, массив участков частного формата и участок ИЖС.
+        Каждый объект вынесен на отдельную страницу с фотографиями, картой, документами и видео.
+      </p>
+    </div>
+    <div class="cards" id="cardsGrid"></div>
   </section>
 
-  <section class="section panel-row" id="concept">
-    <article class="panel dark">
-      <div class="inner">
-        <div class="kicker">план для девелопера</div>
-        <h3>3D-концепция освоения территории</h3>
-        <p>Для презентации инвесторам сюда позже можно встроить схему мастер-плана, карту очередей, модели корпусов и общий сценарий развития территории. Этот блок важен для крупных лотов: он помогает продавать не просто землю, а проект.</p>
-        <div class="card-actions"><span class="btn dark">Смотреть</span></div>
+  <section class="section" id="benefits">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">почему это направление</div>
+        <h2 class="section-title">Чем интересен этот район</h2>
       </div>
-    </article>
-    <article class="panel">
-      <div class="inner">
-        <div class="video-main">
-          <div class="thumb"></div>
-          <div class="inner">
-            <div class="kicker">видео и визуализация</div>
-            <p>В эту зону позже можно добавить рендеры, пролёт дрона и презентационное видео.</p>
-          </div>
-        </div>
-      </div>
-    </article>
+      <p class="section-lead">
+        Главная задача этой страницы — быстро показать не только сами участки, но и общий смысл проекта:
+        море, транспортную доступность, инвестиционный потенциал и частный формат покупки.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature">
+        <div class="feature-num">01</div>
+        <h3>Черное море</h3>
+        <p>Все участки находятся в районе побережья Евпатории, Штормового и Витино — рядом с морем и пляжной зоной.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-num">02</div>
+        <h3>Разные форматы</h3>
+        <p>На сайте собраны как крупные лоты под гостиницы и базы отдыха, так и частные участки под дом или дачу.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-num">03</div>
+        <h3>Понятная структура</h3>
+        <p>Каждый участок вынесен на отдельную страницу — без перегруза главной, с документами, картой и фото в одном месте.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-num">04</div>
+        <h3>Инвестиционный потенциал</h3>
+        <p>Западный Крым интересен как для курортного проекта, так и для долгосрочного владения земельными активами у моря.</p>
+      </article>
+    </div>
   </section>
 
-  <section class="section panel-row" id="video">
-    <article class="video-main">
-      <div class="thumb"><div class="play">▶</div></div>
-      <div class="inner">
-        <div class="kicker">материалы</div>
-        <h3>Побережье, пляж, подъезды и сами участки</h3>
-        <p>Сюда позже можно вывести видеообзоры по направлениям: общий берег, подъезды, массив 6–7 соток, ИЖС и крупные лоты.</p>
+  <section class="section media-block" id="concept">
+    <div class="media-grid">
+      <div class="media-main">
+        <div>
+          <div class="section-kicker" style="color:rgba(255,255,255,.86)">концепция развития</div>
+          <h3>Проект можно продавать как территорию возможностей</h3>
+          <p>
+            Для крупных участков здесь в будущем можно разместить мастер-план, схему очередей,
+            девелоперскую концепцию или визуализацию возможной застройки.
+          </p>
+        </div>
       </div>
-    </article>
-    <aside class="video-side">
-      <article class="mini-video"><div class="thumb"></div></article>
-      <article class="mini-video"><div class="thumb"></div></article>
-      <article class="mini-video"><div class="thumb"></div></article>
-    </aside>
+      <div class="media-side">
+        <div class="section-kicker">что здесь важно</div>
+        <h3>Не перегружать главную</h3>
+        <p>
+          Главная страница должна быть витриной проекта: карта, участки, преимущества и контакт.
+          Детали каждого лота уже раскрыты на отдельных страницах.
+        </p>
+      </div>
+    </div>
   </section>
 
   <section class="section contact" id="contact">
     <div>
-      <div class="kicker">обратная связь</div>
-      <h3>Задайте вопрос по участкам</h3>
-      <p>Через этот блок удобно уточнить стоимость, условия сделки, возможность торга, документы, подъезд, коммуникации и любые другие детали по интересующему участку.</p>
+      <div class="section-kicker">обратная связь</div>
+      <h2 class="section-title">Задайте вопрос по участкам</h2>
+      <p class="section-lead">
+        Через этот блок удобно уточнить стоимость, условия сделки, возможность торга,
+        документы, подъезд, коммуникации и любые другие детали по интересующему участку.
+      </p>
 
       <div class="contact-points">
-        <div class="contact-point">Если вы рассматриваете покупку участка, через форму ниже можно направить вопрос по конкретному лоту или запросить дополнительные материалы.</div>
+        <div class="contact-point">
+          Вы можете задать вопрос по конкретному лоту, запросить документы, видео или уточнить,
+          какой формат участка лучше подходит под ваш сценарий.
+        </div>
       </div>
 
       <div class="reveal-box">
@@ -484,7 +382,7 @@ a { text-decoration:none; color:inherit; }
       <input class="input" placeholder="Телефон" type="text"/>
       <input class="input" placeholder="Telegram" type="text"/>
       <textarea class="textarea" placeholder="Ваш вопрос по участкам, условиям сделки или дополнительным материалам"></textarea>
-      <div class="card-actions"><span class="btn dark">Отправить</span></div>
+      <div><button class="btn dark" type="button">Отправить</button></div>
     </form>
   </section>
 </main>
@@ -497,27 +395,95 @@ a { text-decoration:none; color:inherit; }
 </footer>
 
 <script src="js/site-data.js"></script>
+<script src="js/index-data.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/map.js?v=2"></script>
 <script>
   window.initSeaPlotsMap();
 
-  document.querySelectorAll('.js-show-on-map').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      const mapBlock = document.getElementById('mapBlock');
-      const plotKey = btn.dataset.plot;
+  const cardMeta = {
+    "320 соток": {
+      pills:["Крупный инвесторский участок","Побережье Черного моря","Евпатория / Витино","Коммуникации рядом","Дорога есть"],
+      desc:"Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.",
+      badge:"Первая линия",
+      mapKey:"plot320"
+    },
+    "220 соток": {
+      pills:["Первая линия","Евпатория / Витино","Курортный формат","Инвесторский лот","Черное море"],
+      desc:"Крупный земельный участок на первой линии Черного моря. Подходит для строительства гостиницы, базы отдыха, апартаментов или туристического комплекса.",
+      badge:"Первая линия",
+      mapKey:"plot220"
+    },
+    "140 соток": {
+      pills:["Вторая линия","Штормовое","Под гостиницу","Черное море","Инвесторский участок"],
+      desc:"Участок у моря для туристической застройки, гостиницы или базы отдыха. Формат удобно воспринимается как самостоятельный лот с понятной страницей объекта.",
+      badge:"У моря",
+      mapKey:"plot140"
+    },
+    "6–7 соток": {
+      pills:["Частный формат","Побережье Черного моря","Штормовое / Хуторок","Массив участков","Дорога есть"],
+      desc:"Единый массив небольших участков с нанесенной разбивкой. Подходит для дачи, садового дома или летнего дома в частном формате.",
+      badge:"Частные участки",
+      mapKey:"plot67"
+    },
+    "9 соток": {
+      pills:["ИЖС","Витино / Айрчинская","Частный формат","Газ по улице","Дорога есть"],
+      desc:"Частный жилой участок у моря. Акцент на ИЖС, расстоянии до пляжа и возможностях строительства жилого дома.",
+      badge:"ИЖС",
+      mapKey:"plot9"
+    }
+  };
 
-      if (mapBlock) {
-        mapBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+  (function renderCards() {
+    const data = window.INDEX_DATA || { plots: [] };
+    const grid = document.getElementById('cardsGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
-      setTimeout(function() {
-        if (window.focusPlotOnMap) {
-          window.focusPlotOnMap(plotKey);
-        }
-      }, 450);
+    (data.plots || []).forEach(function(plot) {
+      const meta = cardMeta[plot.title] || { pills: [], desc:'', badge:'Участок', mapKey:'' };
+      const pills = meta.pills.map(function(p) { return '<span class="pill">' + p + '</span>'; }).join('');
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-media">
+          <img alt="${plot.title}" src="${plot.image}"/>
+          <div class="card-grad"></div>
+          <div class="card-badge right">${meta.badge}</div>
+          <div class="card-caption">
+            <div>
+              <h2 class="card-title">${plot.title}</h2>
+              <div class="card-sub">${plot.subtitle}</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="pills">${pills}</div>
+          <p class="card-desc">${meta.desc}</p>
+          <div class="card-actions">
+            <a class="card-btn dark" href="${plot.link}">Подробнее</a>
+            <button class="card-btn js-show-on-map" data-plot="${meta.mapKey}" type="button">На карте</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
     });
-  });
+
+    document.querySelectorAll('.js-show-on-map').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const mapBlock = document.getElementById('mapBlock');
+        const plotKey = btn.dataset.plot;
+        if (mapBlock) {
+          mapBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        setTimeout(function() {
+          if (window.focusPlotOnMap) {
+            window.focusPlotOnMap(plotKey);
+          }
+        }, 450);
+      });
+    });
+  })();
 
   (function () {
     const site = window.SITE_DATA || null;
@@ -544,21 +510,14 @@ a { text-decoration:none; color:inherit; }
     const revealedContacts = document.getElementById('revealedContacts');
 
     if (topTelegramBtn) {
-      topTelegramBtn.addEventListener('click', function () {
-        window.location.href = 'https://t.me/' + site.contacts.telegramHandle;
-      });
+      topTelegramBtn.href = 'https://t.me/' + site.contacts.telegramHandle;
+      topTelegramBtn.target = '_blank';
     }
-
     if (topEmailBtn) {
-      topEmailBtn.addEventListener('click', function () {
-        window.location.href = 'mailto:' + buildEmail();
-      });
+      topEmailBtn.href = 'mailto:' + buildEmail();
     }
-
     if (topPhoneBtn) {
-      topPhoneBtn.addEventListener('click', function () {
-        window.location.href = 'tel:' + site.contacts.phone1.link;
-      });
+      topPhoneBtn.href = 'tel:' + site.contacts.phone1.link;
     }
 
     if (revealContactsBtn && revealedContacts) {
@@ -567,10 +526,8 @@ a { text-decoration:none; color:inherit; }
           revealedContacts.style.display = 'grid';
           return;
         }
-
         const email = buildEmail();
         const telegramUrl = 'https://t.me/' + site.contacts.telegramHandle;
-
         revealedContacts.innerHTML = `
           <div class="contact-point"><strong>Telegram:</strong> <a href="${telegramUrl}" target="_blank" rel="noopener">@${site.contacts.telegramHandle}</a></div>
           <div class="contact-point"><strong>E-mail:</strong> <a href="mailto:${email}">${email}</a></div>
