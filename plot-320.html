@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Участок 320 соток у моря — Евпатория, Крым | Первая линия</title>
-  <meta name="description" content="Инвестиционный участок 320 соток у моря в районе Евпатории, Крым. Первая линия, около 100 метров до пляжа, под гостиницу, апарт-отель, турбазу или курортный комплекс."/>
+  <title>Участок 220 соток у моря — Евпатория, Крым | Первая линия</title>
+  <meta name="description" content="Инвестиционный участок 220 соток у моря в районе Евпатории, Крым. Первая линия, около 100 метров до пляжа, под гостиницу, апарт-отель, турбазу или туристический проект."/>
   <meta name="theme-color" content="#f3ede3"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Участок 320 соток у моря — Евпатория, Крым"/>
+  <meta property="og:title" content="Участок 220 соток у моря — Евпатория, Крым"/>
   <meta property="og:description" content="Первая линия моря, около 100 метров до пляжа. Крупный инвестиционный участок под гостиницу, апарт-отель или курортный проект."/>
-  <meta property="og:image" content="img/plots/320/1990-6.jpg"/>
+  <meta property="og:image" content="img/plots/220/1.jpg"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
   <style>
@@ -123,7 +123,7 @@
       box-shadow:var(--shadow);
       background-image:
         linear-gradient(180deg,rgba(16,36,48,.10) 0%,rgba(16,36,48,.14) 28%,rgba(16,36,48,.75) 100%),
-        url("img/plots/320/1990-6.jpg");
+        url("img/plots/220/1.jpg");
       background-position:center center, center center;
       background-size:100% 100%, 100% auto;
       background-repeat:no-repeat, no-repeat;
@@ -247,6 +247,67 @@
     .lightbox-prev{left:16px;top:50%;transform:translateY(-50%)}
     .lightbox-next{right:16px;top:50%;transform:translateY(-50%)}
 
+
+    .video-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .video-head{
+      padding:24px 24px 0;
+    }
+    .video-body{
+      padding:24px;
+    }
+    .video-player{
+      width:100%;
+      aspect-ratio:16/9;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:#0f1f2b;
+      overflow:hidden;
+    }
+    .video-player video{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      background:#000;
+    }
+    .video-placeholder{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:12px;
+      width:100%;
+      height:100%;
+      min-height:320px;
+      background:linear-gradient(135deg,#bfe3f1,#ead7a8);
+      color:#102430;
+      text-align:center;
+      padding:24px;
+    }
+    .video-icon{
+      width:82px;
+      height:82px;
+      border-radius:999px;
+      background:rgba(255,255,255,.88);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:34px;
+      box-shadow:var(--shadow);
+    }
+    .video-note{
+      margin-top:14px;
+      font-size:14px;
+      line-height:1.75;
+      color:var(--muted);
+    }
+
     @media (max-width:1200px){
       .topbar-inner{grid-template-columns:1fr auto}
       .nav,.actions{display:none}
@@ -306,7 +367,7 @@
         </div>
         <div class="hero-bottom">
           <div class="eyebrow" id="heroEyebrow">инвестиционный земельный участок у моря</div>
-          <h1 id="heroTitle">320 соток</h1>
+          <h1 id="heroTitle">220 соток</h1>
           <p class="hero-lead" id="heroLead"></p>
           <div class="hero-price">
             <div class="hero-price-label">Цена участка</div>
@@ -371,42 +432,41 @@
           <div class="panel-cap">расположение и схема</div>
           <h2>Карта участка</h2>
         </div>
-        <p>Слева — обзорная карта с реальным полигоном участка 320 соток. Справа — кадастровая схема участка.</p>
+        <p>Слева — обзорная карта с реальным полигоном участка 220 соток. Справа — схема участка.</p>
       </div>
       <div class="map-grid">
         <div class="plot-map"><div id="plotMap"></div></div>
         <div class="scheme-card">
-          <img id="schemeImage" src="img/plots/320/1990-1.jpg" alt="Кадастровая схема участка 320 соток"/>
+          <img id="schemeImage" src="img/plots/220/2.jpg" alt="Схема участка 220 соток"/>
           <div class="scheme-note">Кадастровая схема и расположение относительно береговой линии.</div>
         </div>
       </div>
     </section>
 
-    <section class="section video-block">
-  <div class="gallery-head" style="padding:0; margin-bottom:0;">
-    <div>
-      <div class="panel-cap">видео участка</div>
-      <h2>Видео с дрона</h2>
-    </div>
-    <p>Видео участка и побережья позволяет увидеть реальное расположение территории и близость моря.</p>
-  </div>
 
-  <div style="
-      margin-top:18px;
-      border-radius:28px;
-      overflow:hidden;
-      background:#0f2a36;
-      box-shadow:var(--shadow);
-  ">
+    <section class="section video-card" id="video">
+      <div class="video-head">
+        <div class="panel-cap">видео участка</div>
+        <h2>Видео с дрона</h2>
+        <p>
+          Если видеофайл уже загружен в папку <strong>video/220/</strong>, он откроется прямо на этой странице.
+          Если файла пока нет — показывается аккуратная заглушка.
+        </p>
+      </div>
+      <div class="video-body">
+        <div class="video-player" id="videoContainer">
+          <div class="video-placeholder">
+            <div class="video-icon">▶</div>
+            <div><strong>Видео участка будет добавлено</strong></div>
+            <div>Ожидаемый файл: <strong>video/220/drone220.mp4</strong><br/>Допустимый временный вариант: <strong>video/220/drone220.mov</strong></div>
+          </div>
+        </div>
+        <div class="video-note">
+          Для сайта лучше использовать облегчённый файл MP4, а не тяжёлый исходник с дрона.
+        </div>
+      </div>
+    </section>
 
-    <video controls preload="metadata" style="width:100%; display:block;">
-      <source src="video/320/drone320.mp4" type="video/mp4">
-      <source src="video/320/drone320.mov" type="video/quicktime">
-      Ваш браузер не поддерживает встроенное видео.
-    </video>
-
-  </div>
-</section>
     <section class="section docs" id="docs">
       <div class="gallery-head" style="padding:0; margin-bottom:0;">
         <div>
@@ -426,13 +486,13 @@
           <div class="doc-type">презентация</div>
           <h3>Презентация лота</h3>
           <p>Материалы для инвестора: фото, параметры, сценарии застройки и ключевые преимущества участка.</p>
-          <div class="doc-actions"><a class="btn dark" href="docs/plot-320/presentation/index.html">Открыть</a></div>
+          <div class="doc-actions"><a class="btn dark" href="docs/plot-220/presentation/index.html">Открыть</a></div>
         </article>
         <article class="doc-card">
           <div class="doc-type">видео</div>
           <h3>Видео с дрона</h3>
           <p>Видеообзор участка и побережья для удалённых клиентов и инвесторов.</p>
-          <div class="doc-actions"><a class="btn dark" href="video/drone320.mp4" target="_blank" rel="noopener noreferrer">Смотреть</a></div>
+          <div class="doc-actions"><a class="btn dark" href="video/220/drone220.mp4" target="_blank" rel="noopener noreferrer">Смотреть</a></div>
         </article>
       </div>
     </section>
@@ -441,7 +501,7 @@
       <div>
         <div class="panel-cap">обратная связь</div>
         <h2>Задайте вопрос по участку</h2>
-        <p>Уточните детали по стоимости, документам, условиям сделки, торгу, возможностям застройки или запросите дополнительные материалы по участку 320 соток.</p>
+        <p>Уточните детали по стоимости, документам, условиям сделки, торгу, возможностям застройки или запросите дополнительные материалы по участку 220 соток.</p>
         <div class="contact-points">
           <div class="contact-point"><strong>Участок:</strong>&nbsp;<span id="contactPlotInfo"></span></div>
           <div class="contact-point"><strong>Статус:</strong>&nbsp;<span id="contactStatus"></span></div>
@@ -456,7 +516,7 @@
         <input class="input" type="text" name="name" placeholder="Ваше имя"/>
         <input class="input" type="text" name="phone" placeholder="Телефон"/>
         <input class="input" type="text" name="telegram" placeholder="Telegram"/>
-        <textarea class="textarea" name="message" placeholder="Комментарий или вопрос по участку 320 соток"></textarea>
+        <textarea class="textarea" name="message" placeholder="Комментарий или вопрос по участку 220 соток"></textarea>
         <div class="form-actions">
           <button class="btn" type="submit">Отправить запрос</button>
         </div>
@@ -482,10 +542,10 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/site-data.js"></script>
-  <script src="js/plots-data.js"></script>
+  <script src="js/plot320-data.js"></script>
   <script>
     const site = window.SITE_DATA || {};
-    const plot = window.PLOTS_DATA && window.PLOTS_DATA.plot320 ? window.PLOTS_DATA.plot320 : null;
+    const plot = window.PLOT_DATA;
 
     function buildEmail() {
       return site.contacts.emailUser + '@' + site.contacts.emailDomain;
@@ -619,8 +679,7 @@
       }).addTo(map);
 
       const coords = [
-        [45.23085278,33.11580556],[45.23195278,33.11410556],[45.23161944,33.11373611],[45.23188056,33.11332500],
-        [45.23220278,33.11366944],[45.23260556,33.11303056],[45.23335556,33.11382778],[45.23151389,33.11666111]
+        [45.22615556,33.13086111],[45.22684444,33.12986944],[45.22571667,33.12814722],[45.22506389,33.12930000]
       ];
       const polygon = L.polygon(coords, {
         color:'#102430',
@@ -628,7 +687,7 @@
         fillColor:'#d8c39b',
         fillOpacity:0.30
       }).addTo(map);
-      polygon.bindPopup('Участок 320 соток<br>Первая линия моря');
+      polygon.bindPopup('Участок 220 соток<br>Первая линия моря');
       map.fitBounds(polygon.getBounds(), { padding:[35,35], maxZoom:16 });
     }
 
