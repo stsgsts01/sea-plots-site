@@ -14,10 +14,10 @@ window.SITE_DATA = {
       link: "+79785116398"
     },
 
-    emailUser: "info",
-    emailDomain: "example.com",
+    emailUser: "stsgsts01",
+    emailDomain: "gmail.com",
 
-    telegramHandle: "username"
+    telegramHandle: "stsgsts01"
   },
 
   footer: {
