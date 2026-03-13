@@ -247,6 +247,16 @@
     .lightbox-prev{left:16px;top:50%;transform:translateY(-50%)}
     .lightbox-next{right:16px;top:50%;transform:translateY(-50%)}
 
+
+    .video-card{background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;}
+    .video-head{padding:24px 24px 0;}
+    .video-body{padding:24px;}
+    .video-player{width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:22px;background:#0f1f2b;overflow:hidden;}
+    .video-player video{width:100%;height:100%;display:block;object-fit:cover;background:#000;}
+    .video-placeholder{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;width:100%;height:100%;min-height:320px;background:linear-gradient(135deg,#bfe3f1,#ead7a8);color:#102430;text-align:center;padding:24px;}
+    .video-icon{width:82px;height:82px;border-radius:999px;background:rgba(255,255,255,.88);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:var(--shadow);}
+    .video-note{margin-top:14px;font-size:14px;line-height:1.75;color:var(--muted);}
+
     @media (max-width:1200px){
       .topbar-inner{grid-template-columns:1fr auto}
       .nav,.actions{display:none}
@@ -382,13 +392,32 @@
       </div>
     </section>
 
+
+    <section class="section video-card" id="video">
+      <div class="video-head">
+        <div class="panel-cap">видео участка</div>
+        <h2>Видео с дрона</h2>
+        <p>Если видеофайл уже загружен в папку <strong>video/9/</strong>, он откроется прямо на этой странице. Если файла пока нет — показывается аккуратная заглушка.</p>
+      </div>
+      <div class="video-body">
+        <div class="video-player" id="videoContainer">
+          <div class="video-placeholder">
+            <div class="video-icon">▶</div>
+            <div><strong>Видео участка будет добавлено</strong></div>
+            <div>Ожидаемый файл: <strong>video/9/drone9.mp4</strong><br/>Допустимый временный вариант: <strong>video/9/drone9.mov</strong></div>
+          </div>
+        </div>
+        <div class="video-note">Для сайта лучше использовать облегчённый файл MP4, а не тяжёлый исходник с дрона.</div>
+      </div>
+    </section>
+
     <section class="section docs" id="docs">
       <div class="gallery-head" style="padding:0; margin-bottom:0;">
         <div>
           <div class="panel-cap">материалы по участку</div>
           <h2>Документы и презентация</h2>
         </div>
-        <p>Здесь размещаются кадастровые материалы, презентация проекта и видео с дрона.</p>
+        <p>Здесь размещаются кадастровые материалы и презентация проекта.</p>
       </div>
       <div class="docs-grid">
         <article class="doc-card">
@@ -403,13 +432,7 @@
           <p>Материалы для инвестора: фото, параметры, сценарии застройки и ключевые преимущества участка.</p>
           <div class="doc-actions"><a class="btn dark" href="docs/plot-9/presentation/index.html">Открыть</a></div>
         </article>
-        <article class="doc-card">
-          <div class="doc-type">видео</div>
-          <h3>Видео с дрона</h3>
-          <p>Видеообзор участка и побережья для удалённых клиентов и инвесторов.</p>
-          <div class="doc-actions"><a class="btn dark" href="video/9/drone9.mp4" target="_blank" rel="noopener noreferrer">Смотреть</a></div>
-        </article>
-      </div>
+</div>
     </section>
 
     <section class="section contact" id="contact">
@@ -457,7 +480,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/site-data.js"></script>
-  <script src="js/plots-data.js"></script>
+  <script src="js/plot9-data.js"></script>
   <script>
     const site = window.SITE_DATA || {};
     const plot = window.PLOT_DATA;
