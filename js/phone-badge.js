@@ -4,20 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const phone2 = site.contacts?.phone2?.display || "+7 978 511-63-98";
 
   function findPhoneButton() {
-    // 1. Прямой id
-    let btn = document.getElementById("topPhoneBtn");
-    if (btn) return btn;
-
-    // 2. Кнопка/ссылка с текстом "Позвонить"
-    const candidates = Array.from(document.querySelectorAll("a, button"));
-    btn = candidates.find(el => (el.textContent || "").trim() === "Позвонить");
-    if (btn) return btn;
-
-    // 3. Запасной поиск по href tel:
-    btn = document.querySelector('a[href^="tel:"]');
-    if (btn) return btn;
-
-    return null;
+    return document.getElementById("topPhoneBtn");
   }
 
   const phoneBtn = findPhoneButton();
@@ -59,8 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   phoneBtn.addEventListener("click", function (e) {
     e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     showBadge();
-  });
+  }, true);
 
   phoneBtn.addEventListener("mouseenter", function () {
     overButton = true;
