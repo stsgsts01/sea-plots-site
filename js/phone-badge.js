@@ -1,13 +1,9 @@
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("load", function () {
   const site = window.SITE_DATA || {};
   const phone1 = site.contacts?.phone1?.display || "+7 926 086-31-41";
   const phone2 = site.contacts?.phone2?.display || "+7 978 511-63-98";
 
-  function findPhoneButton() {
-    return document.getElementById("topPhoneBtn");
-  }
-
-  const phoneBtn = findPhoneButton();
+  const phoneBtn = document.getElementById("topPhoneBtn");
   if (!phoneBtn) return;
 
   const badge = document.createElement("div");
@@ -41,21 +37,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!overButton && !overBadge) {
         badge.classList.remove("show");
       }
-    }, 700);
+    }, 900);
   }
+
+  // Убираем переход по tel: у верхней кнопки
+  phoneBtn.setAttribute("href", "#");
+  phoneBtn.onclick = null;
 
   phoneBtn.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    e.stopImmediatePropagation();
     showBadge();
-  }, true);
+  });
 
   phoneBtn.addEventListener("mouseenter", function () {
     overButton = true;
-    if (badge.classList.contains("show")) {
-      showBadge();
-    }
+    if (badge.classList.contains("show")) showBadge();
   });
 
   phoneBtn.addEventListener("mouseleave", function () {
@@ -82,14 +79,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   window.addEventListener("resize", function () {
-    if (badge.classList.contains("show")) {
-      positionBadge();
-    }
+    if (badge.classList.contains("show")) positionBadge();
   });
 
   window.addEventListener("scroll", function () {
-    if (badge.classList.contains("show")) {
-      positionBadge();
-    }
+    if (badge.classList.contains("show")) positionBadge();
   });
 });
