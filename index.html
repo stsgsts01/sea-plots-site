@@ -223,22 +223,23 @@
      transform:translateY(-10px);
      transition:all .25s ease;
      z-index:9999;
-     }
+     pointer-events:none;
+     min-width:220px; 
+     border:1px solid rgba(16,36,48,.10);
+    }
 
      .phone-badge.show{
      opacity:1;
      transform:translateY(0);
+     pointer-events:auto;
      }
 
-     .phone-badge a{
-     text-decoration:none;
-     color:#102430;
-     font-weight:600;
-     font-size:15px;
+     .phone-badge-title{
+     font-size:13px;
+     font-weight:700;
+     color:#68757f;
+     margin-bottom:2px;
      }
-
-     .phone-badge a:hover{
-     color:#d28c2c;
      }
   </style>
 </head>
