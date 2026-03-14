@@ -37,6 +37,14 @@ image: "img/plots/9/2.jpg",
 subtitle: "ИЖС • участок под жилой дом"
 }
 
+,
+{
+title: "Участки у Хуторка",
+link: "plot-X.html",
+image: "img/plots/X/1.jpg",
+subtitle: "6–7 соток • пешая доступность до пляжа"
+}
+
 ]
 
 };
