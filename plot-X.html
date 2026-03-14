@@ -566,7 +566,7 @@
       const side = document.getElementById('gallerySide');
       const gallery = plot.gallery;
       main.innerHTML = `
-        <img src="${gallery[0].src}" alt="${gallery[0].alt}">
+        <img src="${gallery[0].src}" alt="${gallery[0].alt}" loading="lazy" decoding="async">
         <div class="main-caption">
           <span>${gallery[0].captionLeft}</span>
           <span>${gallery[0].captionRight}</span>
@@ -578,7 +578,7 @@
         div.className = 'thumb';
         div.dataset.index = String(idx + 1);
         div.innerHTML = `
-          <img src="${item.src}" alt="${item.alt}">
+          <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
           <div class="thumb-caption">
             <span>${item.captionLeft}</span>
             <span>${item.captionRight}</span>
