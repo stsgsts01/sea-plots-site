@@ -66,6 +66,14 @@ window.initSeaPlotsMap = function () {
     [45.24486667,33.12538333],[45.24665833,33.12366111],[45.24623333,33.12284722],[45.24445000,33.12457778]
   ], "6–7 соток", "plots-6-7.html");
 
+
+  const pX = makePlot([
+    [45.24702222,33.12612500],
+    [45.24683611,33.12576667],
+    [45.24563056,33.12699444],
+    [45.24581944,33.12735556]
+  ], "Участки у Хуторка", "plot-X.html");
+
   const p9 = makePlot([
     [45.21951667,33.14992778],[45.21948056,33.15043611],[45.21965833,33.15045000],[45.21969722,33.14993889]
   ], "9 соток ИЖС", "plot-9.html");
@@ -78,7 +86,7 @@ window.initSeaPlotsMap = function () {
     plot9: p9
   };
 
-  const allPolys = [p320, p220, p140, p67, p9];
+  const allPolys = [p320, p220, p140, p67, pX, p9];
 
   function updateLabels() {
     const z = map.getZoom();
@@ -88,7 +96,7 @@ window.initSeaPlotsMap = function () {
     });
   }
 
-  const group = L.featureGroup([p320, p220, p140, p67, p9]);
+  const group = L.featureGroup([p320, p220, p140, p67, pX, p9]);
 
   map.fitBounds(group.getBounds(), {
     padding: [35, 35]
