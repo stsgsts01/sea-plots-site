@@ -210,6 +210,36 @@
       .hero-actions{flex-direction:column}
       .hero-actions .btn{width:100%}
     }
+     .phone-badge{
+     position:fixed;
+     background:white;
+     border-radius:12px;
+     box-shadow:0 10px 25px rgba(0,0,0,.15);
+     padding:12px 16px;
+     display:flex;
+     flex-direction:column;
+     gap:6px;
+     opacity:0;
+     transform:translateY(-10px);
+     transition:all .25s ease;
+     z-index:9999;
+     }
+
+     .phone-badge.show{
+     opacity:1;
+     transform:translateY(0);
+     }
+
+     .phone-badge a{
+     text-decoration:none;
+     color:#102430;
+     font-weight:600;
+     font-size:15px;
+     }
+
+     .phone-badge a:hover{
+     color:#d28c2c;
+     }
   </style>
 </head>
 <body>
@@ -547,5 +577,6 @@
     }
   })();
 </script>
+<script src="js/phone-badge.js"></script>
 </body>
 </html>
