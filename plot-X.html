@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Участки у Хуторка — Евпатория, Крым | Частные участки</title>
+  <meta name="description" content="Единый массив небольших участков у Хуторка. Подходят для дачи, летнего домика и домика в пешей доступности до пляжа."/>
+  <meta name="theme-color" content="#f3ede3"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Участки у Хуторка — Евпатория, Крым"/>
+  <meta property="og:description" content="Первая линия моря, около 100 метров до пляжа. Крупный инвестиционный участок под гостиницу, апарт-отель или курортный проект."/>
+  <meta property="og:image" content="img/plots/X/1.jpg"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <style>
+    :root{
+      --bg:#f3ede3;
+      --paper:#fffaf3;
+      --paper-2:#f8f1e6;
+      --ink:#10202d;
+      --muted:#68757f;
+      --line:rgba(16,32,45,.10);
+      --shadow:0 20px 44px rgba(16,32,45,.10);
+      --dark:#102430;
+      --radius-pill:999px;
+      --max:1420px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(243,237,227,.94);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 24px;
+      display:grid;
+      grid-template-columns:1.15fr 1fr auto;
+      gap:18px;
+      align-items:center;
+    }
+    .brand-title{
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:-.03em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brand-sub{
+      margin-top:4px;
+      font-size:11px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .nav{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 16px;
+      border-radius:var(--radius-pill);
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:0 6px 18px rgba(16,32,45,.06);
+      font-size:14px;
+      font-weight:700;
+      transition:.2s ease;
+      cursor:pointer;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn.dark{
+      background:var(--dark);
+      color:#fff;
+      border-color:transparent;
+    }
+
+    .page{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 24px 48px;
+    }
+    .section{margin-top:18px}
+
+    .hero{
+      position:relative;
+      min-height:720px;
+      border-radius:34px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      background-image:
+        linear-gradient(180deg,rgba(16,36,48,.10) 0%,rgba(16,36,48,.14) 28%,rgba(16,36,48,.75) 100%),
+        url("img/plots/X/1.jpg");
+      background-position:center center, center center;
+      background-size:100% 100%, 100% auto;
+      background-repeat:no-repeat, no-repeat;
+      animation:heroZoom 36s ease-out forwards;
+      animation-delay:.4s;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+      opacity:.04;
+    }
+    @keyframes heroZoom {
+      from { background-size:100% 100%, 100% auto; }
+      to { background-size:100% 100%, 108% auto; }
+    }
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      min-height:720px;
+      padding:32px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    .hero-badges{display:flex;gap:10px;flex-wrap:wrap}
+    .badge{
+      display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 14px;border-radius:var(--radius-pill);
+      background:rgba(255,250,243,.94);border:1px solid rgba(255,255,255,.75);color:var(--ink);font-size:13px;font-weight:700;
+      box-shadow:0 8px 20px rgba(16,32,45,.10);
+    }
+    .badge.status{background:rgba(47,107,95,.94);color:#fff;border-color:transparent}
+    .hero-bottom{max-width:980px}
+    .eyebrow{color:rgba(255,255,255,.92);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+    .hero h1{margin:14px 0 0;font-size:82px;line-height:.95;letter-spacing:-.06em;color:#fff}
+    .hero-lead{margin:18px 0 0;max-width:760px;color:rgba(255,255,255,.92);font-size:18px;line-height:1.75}
+    .hero-price{margin-top:22px;display:inline-flex;flex-direction:column;gap:6px;padding:0;background:transparent;border:none;box-shadow:none}
+    .hero-price-label{font-size:16px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#E7C98B}
+    .hero-price-value{font-size:48px;line-height:1;letter-spacing:-.05em;font-weight:700;color:#E7C98B;text-shadow:0 2px 12px rgba(0,0,0,.20)}
+    .hero-price-note{font-size:14px;line-height:1.7;color:rgba(255,255,255,.84);max-width:540px}
+    .hero-pills{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+    .hero-pill{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 12px;border-radius:var(--radius-pill);background:rgba(255,250,243,.14);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:13px;backdrop-filter:blur(10px)}
+    .hero-actions{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+
+    .box,.gallery-wrap,.map-box{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      position:relative;
+      z-index:1;
+      isolation:isolate;
+      overflow:hidden;
+    }
+    .gallery-head,.map-top{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:16px;padding:6px 8px 0}
+    .gallery-head h2,.map-top h2,.spec-card h2,.contact h2{margin:8px 0 0;font-size:44px;letter-spacing:-.05em;line-height:1}
+    .gallery-head p,.map-top p,.contact p{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.8;max-width:760px}
+    .panel-cap{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+
+    .gallery-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:14px}
+    .gallery-main{position:relative;min-height:540px;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#ddd;cursor:pointer}
+    .gallery-main img{width:100%;height:100%;object-fit:cover}
+    .gallery-side{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .thumb{position:relative;min-height:262px;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#ddd;cursor:pointer}
+    .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+    .thumb:hover img,.gallery-main:hover img{transform:scale(1.03)}
+    .thumb-caption,.main-caption{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(255,250,243,.92);border:1px solid rgba(255,255,255,.74);border-radius:14px;padding:8px 10px;color:var(--ink);font-size:12px;font-weight:700}
+
+    .specs{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .spec-card{background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:24px}
+    .spec-table{width:100%;border-collapse:collapse;margin-top:18px}
+    .spec-table tr{border-bottom:1px solid var(--line)}
+    .spec-table th,.spec-table td{text-align:left;padding:14px 0;vertical-align:top;font-size:15px;line-height:1.65}
+    .spec-table th{width:42%;color:var(--muted);font-weight:500}
+    .spec-table td{font-weight:700;color:var(--ink)}
+
+    .project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+    .project-card{background:var(--paper-2);border:1px solid var(--line);border-radius:22px;padding:18px;min-height:170px}
+    .project-card-num{width:34px;height:34px;border-radius:999px;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+    .project-card h3{margin:16px 0 0;font-size:22px;line-height:1.05;letter-spacing:-.04em}
+    .project-card p{margin:10px 0 0;font-size:14px;line-height:1.75;color:var(--muted)}
+
+    .map-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    .plot-map,.scheme-card{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--paper)}
+    #plotMap{position:relative;z-index:1;height:520px;width:100%;border-radius:24px;overflow:hidden}
+    .scheme-card img{width:100%;height:100%;object-fit:cover;min-height:520px}
+    .scheme-note{padding:16px 18px 20px;font-size:14px;line-height:1.75;color:var(--muted);border-top:1px solid var(--line);background:#fff}
+    .leaflet-container{z-index:1}
+    .leaflet-pane,.leaflet-top,.leaflet-bottom{z-index:1 !important}
+
+    .docs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .doc-card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;min-height:220px}
+    .doc-type{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+    .doc-card h3{margin:12px 0 0;font-size:28px;line-height:1.02;letter-spacing:-.04em}
+    .doc-card p{margin:12px 0 0;font-size:14px;line-height:1.75;color:var(--muted);flex:1}
+    .doc-actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+
+    .contact{background:#fff;border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:24px;display:grid;grid-template-columns:1fr .95fr;gap:26px}
+    .contact-points{margin-top:18px;display:grid;gap:10px}
+    .contact-point{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--paper);border:1px solid var(--line);border-radius:18px;font-size:14px;line-height:1.7}
+    .form{display:grid;gap:12px}
+    .input,.textarea{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:14px 16px;font-size:14px;color:var(--ink);outline:none}
+    .textarea{min-height:140px;resize:vertical}
+    .form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .reveal-box{margin-top:18px;padding:16px;border:1px dashed rgba(16,32,45,.18);border-radius:18px;background:var(--paper)}
+    .reveal-note{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.7}
+
+    .footer{max-width:var(--max);margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:13px}
+    .footer-box{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+    .lightbox{position:fixed;inset:0;background:rgba(7,14,18,.78);backdrop-filter:blur(8px);z-index:1200;display:none;align-items:center;justify-content:center;padding:24px}
+    .lightbox.open{display:flex}
+    .lightbox-inner{position:relative;width:min(1200px,100%);max-height:90vh;border-radius:24px;overflow:hidden;background:#000;box-shadow:0 30px 60px rgba(0,0,0,.32)}
+    .lightbox img{width:100%;max-height:90vh;object-fit:contain;background:#000}
+    .lightbox-close,.lightbox-prev,.lightbox-next{position:absolute;z-index:2;width:48px;height:48px;border:none;border-radius:999px;cursor:pointer;background:rgba(255,255,255,.9);color:var(--dark);font-size:22px;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    .lightbox-close{top:16px;right:16px}
+    .lightbox-prev{left:16px;top:50%;transform:translateY(-50%)}
+    .lightbox-next{right:16px;top:50%;transform:translateY(-50%)}
+
+
+    .video-card{background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;}
+    .video-head{padding:24px 24px 0;}
+    .video-body{padding:24px;}
+    .video-player{width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:22px;background:#0f1f2b;overflow:hidden;}
+    .video-player video{width:100%;height:100%;display:block;object-fit:cover;background:#000;}
+    .video-placeholder{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;width:100%;height:100%;min-height:320px;background:linear-gradient(135deg,#bfe3f1,#ead7a8);color:#102430;text-align:center;padding:24px;}
+    .video-icon{width:82px;height:82px;border-radius:999px;background:rgba(255,255,255,.88);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:var(--shadow);}
+    .video-note{margin-top:14px;font-size:14px;line-height:1.75;color:var(--muted);}
+
+    @media (max-width:1200px){
+      .topbar-inner{grid-template-columns:1fr auto}
+      .nav,.actions{display:none}
+      .gallery-grid,.specs,.map-grid,.contact{grid-template-columns:1fr}
+      .docs-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:820px){
+      .page{padding:0 12px 30px}
+      .topbar-inner{padding:12px 16px}
+      .brand-title{font-size:16px}
+      .brand-sub{font-size:9px;letter-spacing:.16em}
+      .hero,.hero-inner{min-height:auto}
+      .hero-inner{padding:18px}
+      .hero h1{font-size:46px}
+      .hero-lead{font-size:16px;line-height:1.65}
+      .hero-price-value{font-size:34px}
+      .gallery-head h2,.map-top h2,.spec-card h2,.contact h2{font-size:34px}
+      .gallery-main{min-height:320px}
+      .gallery-side{grid-template-columns:1fr}
+      .thumb{min-height:220px}
+      .project-grid,.docs-grid{grid-template-columns:1fr}
+      #plotMap,.scheme-card img{min-height:360px;height:360px}
+      .hero-actions,.form-actions{flex-direction:column}
+      .hero-actions .btn,.form-actions .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <div class="brand-title" id="brandTitle">Земельные участки у моря</div>
+        <div class="brand-sub" id="brandSub">Крым • Черное море</div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#specs">Характеристики</a>
+        <a href="#location">Карта участка</a>
+        <a href="#docs">Документы</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <div class="actions">
+        <a class="btn" id="topTelegramBtn" href="#" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="btn" id="topEmailBtn" href="#" target="_blank" rel="noopener noreferrer">E-mail</a>
+        <a class="btn dark" id="topPhoneBtn" href="#">Позвонить</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="section hero" id="heroSection">
+      <div class="hero-inner">
+        <div class="hero-top">
+          <div class="hero-badges" id="heroBadges"></div>
+          <div class="badge status" id="statusBadge">В продаже</div>
+        </div>
+        <div class="hero-bottom">
+          <div class="eyebrow" id="heroEyebrow">инвестиционный земельный участок у моря</div>
+          <h1 id="heroTitle">220 соток</h1>
+          <p class="hero-lead" id="heroLead"></p>
+          <div class="hero-price">
+            <div class="hero-price-label">Цена участка</div>
+            <div class="hero-price-value" id="heroPrice"></div>
+            <div class="hero-price-note" id="heroPriceNote"></div>
+          </div>
+          <div class="hero-pills" id="heroPills"></div>
+          <div class="hero-actions">
+            <a class="btn dark" href="#contact">Связаться по участку</a>
+            <a class="btn" href="#docs">Смотреть материалы</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-wrap" id="gallery">
+      <div class="gallery-head">
+        <div>
+          <div class="panel-cap">фотогалерея участка</div>
+          <h2>Фото с дрона и схема границ</h2>
+        </div>
+        <p>Для этого участка используются фотографии с дрона, показывающие фактическое расположение, близость моря, конфигурацию контура и окружающую застройку.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-main" data-index="0" id="galleryMain"></div>
+        <div class="gallery-side" id="gallerySide"></div>
+      </div>
+    </section>
+
+    <section class="section specs" id="specs">
+      <article class="spec-card">
+        <div class="panel-cap">карточка характеристик</div>
+        <h2>Характеристики участка</h2>
+        <table class="spec-table">
+          <tr><th>Площадь</th><td id="specArea"></td></tr>
+          <tr><th>Кадастровый номер</th><td id="specCad"></td></tr>
+          <tr><th>Линия моря</th><td id="specSeaLine"></td></tr>
+          <tr><th>Расстояние до моря</th><td id="specSea"></td></tr>
+          <tr><th>Расстояние до пляжа</th><td id="specBeach"></td></tr>
+          <tr><th>Локация</th><td id="specLocation"></td></tr>
+          <tr><th>Подходит для</th><td id="specSuitable"></td></tr>
+          <tr><th>Подъезд</th><td id="specAccess"></td></tr>
+          <tr><th>Статус</th><td id="specStatus"></td></tr>
+        </table>
+      </article>
+
+      <article class="spec-card">
+        <div class="panel-cap">варианты развития</div>
+        <h2>Потенциал проекта</h2>
+        <div class="project-grid">
+          <div class="project-card"><div class="project-card-num">01</div><h3>Летний домик</h3><p>Небольшие участки хорошо подходят для летнего домика и сезонного отдыха у моря.</p></div>
+          <div class="project-card"><div class="project-card-num">02</div><h3>Дача у моря</h3><p>Формат удобен для дачи и частного отдыха в пешей доступности до пляжа.</p></div>
+          <div class="project-card"><div class="project-card-num">03</div><h3>Частный формат</h3><p>Массив удобен для выбора конкретного участка под себя без крупного инвестиционного бюджета.</p></div>
+          <div class="project-card"><div class="project-card-num">04</div><h3>Запас на будущее</h3><p>Покупка участка у моря может быть удобным вариантом для будущего строительства или долгосрочного владения.</p></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section map-box" id="location">
+      <div class="map-top">
+        <div>
+          <div class="panel-cap">расположение и схема</div>
+          <h2>Карта участка</h2>
+        </div>
+        <p>Слева — обзорная карта с реальным полигоном участков у Хуторка. Справа — схема участка.</p>
+      </div>
+      <div class="map-grid">
+        <div class="plot-map"><div id="plotMap"></div></div>
+        <div class="scheme-card">
+          <img id="schemeImage" src="img/plots/X/5.jpg" alt="Схема участков у Хуторка"/>
+          <div class="scheme-note">Кадастровая схема и расположение относительно береговой линии.</div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section video-card" id="video">
+      <div class="video-head">
+        <div class="panel-cap">видео участка</div>
+        <h2>Видео с дрона</h2>
+        <p>Если видеофайл уже загружен в папку <strong>video/X/</strong>, он откроется прямо на этой странице. Если файла пока нет — показывается аккуратная заглушка.</p>
+      </div>
+      <div class="video-body">
+        <div class="video-player" id="videoContainer">
+          <div class="video-placeholder">
+            <div class="video-icon">▶</div>
+            <div><strong>Видео участка будет добавлено</strong></div>
+            <div>Ожидаемый файл: <strong>video/X/droneX.mp4</strong><br/>Допустимый временный вариант: <strong>video/X/droneX.mov</strong></div>
+          </div>
+        </div>
+        <div class="video-note">Для сайта лучше использовать облегчённый файл MP4, а не тяжёлый исходник с дрона.</div>
+      </div>
+    </section>
+
+    <section class="section docs" id="docs">
+      <div class="gallery-head" style="padding:0; margin-bottom:0;">
+        <div>
+          <div class="panel-cap">материалы по участку</div>
+          <h2>Документы и презентация</h2>
+        </div>
+        <p>Здесь размещаются кадастровые материалы и презентация проекта.</p>
+      </div>
+      <div class="docs-grid">
+        <article class="doc-card">
+          <div class="doc-type">кадастровые данные</div>
+          <h3>Документы по участку</h3>
+          <p>Кадастровая информация, схема участка, выписка из реестра и другие материалы для проверки.</p>
+          <div class="doc-actions"><a class="btn dark" href="docs/plot-X/kadastr/index.html">Открыть</a></div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-type">презентация</div>
+          <h3>Презентация лота</h3>
+          <p>Материалы для инвестора: фото, параметры, сценарии застройки и ключевые преимущества участка.</p>
+          <div class="doc-actions"><a class="btn dark" href="docs/plot-X/presentation/index.html">Открыть</a></div>
+        </article>
+</div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div>
+        <div class="panel-cap">обратная связь</div>
+        <h2>Задайте вопрос по участку</h2>
+        <p>Уточните детали по стоимости, документам, условиям сделки, торгу, возможностям застройки или запросите дополнительные материалы по участкам у Хуторка.</p>
+        <div class="contact-points">
+          <div class="contact-point"><strong>Участок:</strong>&nbsp;<span id="contactPlotInfo"></span></div>
+          <div class="contact-point"><strong>Статус:</strong>&nbsp;<span id="contactStatus"></span></div>
+        </div>
+        <div class="reveal-box">
+          <button class="btn" type="button" id="revealContactsBtn">Показать контакты</button>
+          <div class="reveal-note">Контактные данные скрыты от обычного автоматического сбора. Нажмите кнопку, чтобы показать способы связи.</div>
+          <div class="contact-points" id="revealedContacts" style="display:none;"></div>
+        </div>
+      </div>
+      <form class="form" action="#" method="post" onsubmit="return false;">
+        <input class="input" type="text" name="name" placeholder="Ваше имя"/>
+        <input class="input" type="text" name="phone" placeholder="Телефон"/>
+        <input class="input" type="text" name="telegram" placeholder="Telegram"/>
+        <textarea class="textarea" name="message" placeholder="Комментарий или вопрос по участкам у Хуторка"></textarea>
+        <div class="form-actions">
+          <button class="btn" type="submit">Отправить запрос</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-box">
+      <div id="footerLine1">Участки у моря — район Евпатории, Крым</div>
+      <div><a href="index.html">Вернуться на главную</a></div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Закрыть">×</button>
+      <button class="lightbox-prev" type="button" aria-label="Предыдущее фото">‹</button>
+      <img id="lightboxImage" src="" alt=""/>
+      <button class="lightbox-next" type="button" aria-label="Следующее фото">›</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/site-data.js"></script>
+  <script src="js/plotX-data.js"></script>
+  <script>
+    const site = window.SITE_DATA || {};
+    const plot = window.PLOT_DATA;
+
+    function buildEmail() {
+      return site.contacts.emailUser + '@' + site.contacts.emailDomain;
+    }
+
+    function statusClass(status) {
+      if (status === 'sold') return 'badge status sold';
+      if (status === 'reserve') return 'badge status reserve';
+      return 'badge status';
+    }
+
+    function fillSiteData() {
+      if (!site.contacts) return;
+      const email = buildEmail();
+      const telegramUrl = 'https://t.me/' + site.contacts.telegramHandle;
+      document.getElementById('brandTitle').textContent = site.projectName || 'Земельные участки у моря';
+      document.getElementById('brandSub').textContent = site.projectTagline || '';
+      document.getElementById('topTelegramBtn').href = telegramUrl;
+      document.getElementById('topEmailBtn').href = 'mailto:' + email;
+      document.getElementById('topPhoneBtn').href = 'tel:' + site.contacts.phone1.link;
+      if (site.footer && site.footer.line1) document.getElementById('footerLine1').textContent = site.footer.line1;
+    }
+
+    function fillPlotData() {
+      if (!plot) return;
+      document.title = plot.title + ' у моря — Евпатория, Крым | Первая линия';
+      const heroSection = document.getElementById('heroSection');
+      if (plot.gallery && plot.gallery[0]) {
+        heroSection.style.backgroundImage =
+          'linear-gradient(180deg,rgba(16,36,48,.10) 0%,rgba(16,36,48,.14) 28%,rgba(16,36,48,.75) 100%), url("' +
+          plot.gallery[0].src +
+          '")';
+      }
+      document.getElementById('heroEyebrow').textContent = plot.heroEyebrow || 'инвестиционный земельный участок у моря';
+      document.getElementById('heroTitle').textContent = plot.heroTitle || plot.shortTitle || '';
+      document.getElementById('heroLead').textContent = plot.heroLead || '';
+      document.getElementById('heroPrice').textContent = plot.price || '';
+      document.getElementById('heroPriceNote').textContent = plot.priceNote || '';
+      const badges = document.getElementById('heroBadges');
+      badges.innerHTML = '';
+      [plot.title, plot.seaLine, 'Евпатория • Крым'].forEach(text => {
+        const div = document.createElement('div');
+        div.className = 'badge';
+        div.textContent = text;
+        badges.appendChild(div);
+      });
+      const statusBadge = document.getElementById('statusBadge');
+      statusBadge.className = statusClass(plot.status);
+      statusBadge.textContent = plot.statusText || '';
+      const pills = document.getElementById('heroPills');
+      pills.innerHTML = '';
+      (plot.pills || []).forEach(text => {
+        const span = document.createElement('span');
+        span.className = 'hero-pill';
+        span.textContent = text;
+        pills.appendChild(span);
+      });
+      document.getElementById('specArea').textContent = plot.area || '';
+      document.getElementById('specCad').textContent = plot.cadastralNumber || '';
+      document.getElementById('specSeaLine').textContent = plot.seaLine || '';
+      document.getElementById('specSea').textContent = plot.distanceToSea || '';
+      document.getElementById('specBeach').textContent = plot.distanceToBeach || '';
+      document.getElementById('specLocation').textContent = plot.location || '';
+      document.getElementById('specSuitable').textContent = plot.suitableFor || '';
+      document.getElementById('specAccess').textContent = plot.access || '';
+      document.getElementById('specStatus').textContent = plot.statusText || '';
+      document.getElementById('contactPlotInfo').textContent =
+        (plot.area || '') + ', ' + (plot.seaLine || '').toLowerCase() + ', кадастровый номер ' + (plot.cadastralNumber || '');
+      document.getElementById('contactStatus').textContent = plot.statusText || '';
+      if (plot.schemeImage) {
+        document.getElementById('schemeImage').src = plot.schemeImage.src;
+        document.getElementById('schemeImage').alt = plot.schemeImage.alt || '';
+      }
+    }
+
+    function buildGallery() {
+      if (!plot || !plot.gallery || !plot.gallery.length) return;
+      const main = document.getElementById('galleryMain');
+      const side = document.getElementById('gallerySide');
+      const gallery = plot.gallery;
+      main.innerHTML = `
+        <img src="${gallery[0].src}" alt="${gallery[0].alt}">
+        <div class="main-caption">
+          <span>${gallery[0].captionLeft}</span>
+          <span>${gallery[0].captionRight}</span>
+        </div>
+      `;
+      side.innerHTML = '';
+      gallery.slice(1, 4).forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'thumb';
+        div.dataset.index = String(idx + 1);
+        div.innerHTML = `
+          <img src="${item.src}" alt="${item.alt}">
+          <div class="thumb-caption">
+            <span>${item.captionLeft}</span>
+            <span>${item.captionRight}</span>
+          </div>
+        `;
+        side.appendChild(div);
+      });
+      main.dataset.index = '0';
+    }
+
+    function buildContacts() {
+      if (!site.contacts) return;
+      const container = document.getElementById('revealedContacts');
+      document.getElementById('revealContactsBtn').addEventListener('click', () => {
+        if (container.dataset.loaded === '1') {
+          container.style.display = 'grid';
+          return;
+        }
+        const email = buildEmail();
+        const telegramUrl = 'https://t.me/' + site.contacts.telegramHandle;
+        container.innerHTML = `
+          <div class="contact-point"><strong>Telegram:</strong>&nbsp;<a href="${telegramUrl}" target="_blank" rel="noopener noreferrer">@${site.contacts.telegramHandle}</a></div>
+          <div class="contact-point"><strong>E-mail:</strong>&nbsp;<a href="mailto:${email}" target="_blank" rel="noopener noreferrer">${email}</a></div>
+          <div class="contact-point"><strong>Телефон 1:</strong>&nbsp;<a href="tel:${site.contacts.phone1.link}">${site.contacts.phone1.display}</a></div>
+          <div class="contact-point"><strong>Телефон 2:</strong>&nbsp;<a href="tel:${site.contacts.phone2.link}">${site.contacts.phone2.display}</a></div>
+        `;
+        container.dataset.loaded = '1';
+        container.style.display = 'grid';
+      });
+    }
+
+    function buildMap() {
+      const map = L.map('plotMap', { scrollWheelZoom: false, zoomControl: true });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+
+      const coords = [
+        [45.24702222,33.12612500],
+        [45.24683611,33.12576667],
+        [45.24563056,33.12699444],
+        [45.24581944,33.12735556]
+      ];
+      const polygon = L.polygon(coords, {
+        color:'#102430',
+        weight:2,
+        fillColor:'#d8c39b',
+        fillOpacity:0.30
+      }).addTo(map);
+      polygon.bindPopup('Участки у Хуторка<br>Частный формат');
+      map.fitBounds(polygon.getBounds(), { padding:[35,35], maxZoom:16 });
+    }
+
+    function buildLightbox() {
+      if (!plot || !plot.gallery || !plot.gallery.length) return;
+      const images = plot.gallery;
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const closeBtn = document.querySelector('.lightbox-close');
+      const prevBtn = document.querySelector('.lightbox-prev');
+      const nextBtn = document.querySelector('.lightbox-next');
+      let currentIndex = 0;
+      function openLightbox(index){
+        currentIndex = index;
+        lightboxImage.src = images[currentIndex].src;
+        lightboxImage.alt = images[currentIndex].alt;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLightbox(){
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      function showPrev(){
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        lightboxImage.src = images[currentIndex].src;
+        lightboxImage.alt = images[currentIndex].alt;
+      }
+      function showNext(){
+        currentIndex = (currentIndex + 1) % images.length;
+        lightboxImage.src = images[currentIndex].src;
+        lightboxImage.alt = images[currentIndex].alt;
+      }
+      document.querySelectorAll('[data-index]').forEach(item => {
+        item.addEventListener('click', () => openLightbox(Number(item.dataset.index)));
+      });
+      closeBtn.addEventListener('click', closeLightbox);
+      prevBtn.addEventListener('click', showPrev);
+      nextBtn.addEventListener('click', showNext);
+      lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+      document.addEventListener('keydown', (e) => {
+        if(!lightbox.classList.contains('open')) return;
+        if(e.key === 'Escape') closeLightbox();
+        if(e.key === 'ArrowLeft') showPrev();
+        if(e.key === 'ArrowRight') showNext();
+      });
+    }
+
+    fillSiteData();
+    fillPlotData();
+    buildGallery();
+    buildContacts();
+    buildMap();
+    buildLightbox();
+  </script>
+</body>
+</html>
