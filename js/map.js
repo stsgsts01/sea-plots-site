@@ -79,12 +79,13 @@ window.initSeaPlotsMap = function () {
   ], "9 соток ИЖС", "plot-9.html");
 
   const plots = {
-    plot320: p320,
-    plot220: p220,
-    plot140: p140,
-    plot67: p67,
-    plot9: p9
-  };
+  plot320: p320,
+  plot220: p220,
+  plot140: p140,
+  plot67: p67,
+  plotX: pX,
+  plot9: p9
+};
 
   const allPolys = [p320, p220, p140, p67, pX, p9];
 
