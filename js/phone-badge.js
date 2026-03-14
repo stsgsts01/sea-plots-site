@@ -1,38 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-  const phoneBtn = document.querySelector(".header-phone");
+  const phoneBtn = document.getElementById("topPhoneBtn");
   if (!phoneBtn) return;
 
-  const phones = window.SITE_DATA?.phones || [
-    "+7 926 086-31-41",
-    "+7 978 511-63-98"
-  ];
+  const site = window.SITE_DATA || {};
+  const phone1 = site.contacts?.phone1?.display || "+7 926 086-31-41";
+  const phone2 = site.contacts?.phone2?.display || "+7 978 511-63-98";
 
   const badge = document.createElement("div");
   badge.className = "phone-badge";
-
-  phones.forEach(p => {
-    const link = document.createElement("a");
-    link.href = "tel:" + p.replace(/\D/g,"");
-    link.textContent = p;
-    badge.appendChild(link);
-  });
-
+  badge.innerHTML = `
+    <div class="phone-badge-title">Телефоны для связи</div>
+    <div>${phone1}</div>
+    <div>${phone2}</div>
+  `;
   document.body.appendChild(badge);
+
+  let hideTimer = null;
 
   phoneBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
     const rect = phoneBtn.getBoundingClientRect();
-
-    badge.style.left = rect.left + "px";
+    badge.style.left = Math.max(12, rect.left) + "px";
     badge.style.top = rect.bottom + 10 + "px";
 
     badge.classList.add("show");
 
-    setTimeout(() => {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function () {
       badge.classList.remove("show");
     }, 5000);
   });
 
+  document.addEventListener("click", function (e) {
+    if (!badge.contains(e.target) && e.target !== phoneBtn) {
+      badge.classList.remove("show");
+    }
+  });
 });
