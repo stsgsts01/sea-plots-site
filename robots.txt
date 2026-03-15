@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Host: domik-na-more.ru
+
+Sitemap: https://domik-na-more.ru/sitemap.xml
